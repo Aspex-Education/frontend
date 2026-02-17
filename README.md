@@ -4,7 +4,7 @@ Angular-based frontend monorepo for Aspex Education platform.
 
 ## Project Overview
 
-This is the frontend application for the Aspex Education platform, built with Angular 17. It provides a modern, responsive user interface for the authentication and education features.
+This is the frontend application for the Aspex Education platform, built with Angular 19. It provides a modern, responsive user interface for the authentication and education features.
 
 ## Features
 
@@ -96,9 +96,9 @@ Manages authentication state, API calls, and JWT token storage.
 
 ## Technology Stack
 
-- **Angular 17** - Frontend Framework
+- **Angular 19** - Frontend Framework
 - **RxJS** - Reactive Programming
-- **TypeScript** - Programming Language
+- **TypeScript 5.8** - Programming Language
 - **Angular Forms** - Form Handling
 - **HttpClient** - HTTP Communication
 
