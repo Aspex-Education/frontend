@@ -3,17 +3,29 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
   padding: 20px;
 }
 
-.auth-card {
-  background: white;
-  padding: 40px;
+.auth-side {
+  display: none;
+  flex: 1 1 40%;
+  max-width: 480px;
+  min-height: 420px;
+  background-image: url('/assets/company/side-image.png');
+  background-size: cover;
+  background-position: center;
   border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin-right: 24px;
+}
+
+.auth-card {
+  background: #ffffff;
+  padding: 36px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .auth-card h2 {
@@ -37,16 +49,23 @@
 .form-control {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  background: #f3f3f3;
+  border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
+}
+
+.company-logo {
+  width: 100px;
+  height: 100px;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #bdbdbd;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
 }
 
 .form-control.is-invalid {
@@ -89,12 +108,13 @@
 }
 
 .btn-primary {
-  background-color: #667eea;
-  color: white;
+  background-color: #ffffff;
+  color: #222;
+  border: 1px solid #d0d0d0;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #5568d3;
+  background-color: #f6f6f6;
 }
 
 .btn:disabled {
@@ -117,4 +137,35 @@
 
 .auth-link a:hover {
   text-decoration: underline;
+}
+
+/* Responsive: show side image on tablets and up */
+@media (min-width: 768px) {
+  .auth-side {
+    display: block;
+  }
+
+  .auth-card {
+    flex: 0 0 420px;
+  }
+}
+
+.company-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.company-logo {
+  width: 400px;
+  height:400px;
+  object-fit: contain;
+}
+
+.company-name {
+  font-weight: 700;
+  font-size: 18px;
+  color: #222;
 }
