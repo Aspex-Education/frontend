@@ -1,26 +1,32 @@
 <div class="auth-container">
+  <div class="auth-side" aria-hidden="true"></div>
+
   <div class="auth-card">
-    <h2>Register</h2>
-    
+    <div class="company-header">
+      <img src="/assets/company/logo.png" alt="Company logo" class="company-logo" />
+    </div>
+
+    <h2>Registrarse</h2>
+
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="name">Nombre</label>
         <input 
           type="text" 
-          id="username" 
-          formControlName="username" 
+          id="name" 
+          formControlName="name" 
           class="form-control"
-          [class.is-invalid]="f['username'].invalid && f['username'].touched"
+          [class.is-invalid]="f['name'].invalid && f['name'].touched"
         />
-        <div *ngIf="f['username'].invalid && f['username'].touched" class="error-message">
-          <small *ngIf="f['username'].errors?.['required']">Username is required</small>
-          <small *ngIf="f['username'].errors?.['minlength']">Username must be at least 3 characters</small>
-          <small *ngIf="f['username'].errors?.['maxlength']">Username must not exceed 50 characters</small>
+        <div *ngIf="f['name'].invalid && f['name'].touched" class="error-message">
+          <small *ngIf="f['name'].errors?.['required']">El nombre es obligatorio</small>
+          <small *ngIf="f['name'].errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
+          <small *ngIf="f['name'].errors?.['maxlength']">El nombre no debe exceder 50 caracteres</small>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">Correo electrónico</label>
         <input 
           type="email" 
           id="email" 
@@ -29,13 +35,13 @@
           [class.is-invalid]="f['email'].invalid && f['email'].touched"
         />
         <div *ngIf="f['email'].invalid && f['email'].touched" class="error-message">
-          <small *ngIf="f['email'].errors?.['required']">Email is required</small>
-          <small *ngIf="f['email'].errors?.['email']">Please enter a valid email address</small>
+          <small *ngIf="f['email'].errors?.['required']">El correo es obligatorio</small>
+          <small *ngIf="f['email'].errors?.['email']">Por favor ingresa un correo válido</small>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">Contraseña</label>
         <input 
           type="password" 
           id="password" 
@@ -44,9 +50,9 @@
           [class.is-invalid]="f['password'].invalid && f['password'].touched"
         />
         <div *ngIf="f['password'].invalid && f['password'].touched" class="error-message">
-          <small *ngIf="f['password'].errors?.['required']">Password is required</small>
-          <small *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters</small>
-          <small *ngIf="f['password'].errors?.['maxlength']">Password must not exceed 100 characters</small>
+          <small *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria</small>
+          <small *ngIf="f['password'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
+          <small *ngIf="f['password'].errors?.['maxlength']">La contraseña no debe exceder 100 caracteres</small>
         </div>
       </div>
 
@@ -63,12 +69,12 @@
         class="btn btn-primary" 
         [disabled]="loading || registerForm.invalid"
       >
-        <span *ngIf="loading">Registering...</span>
-        <span *ngIf="!loading">Register</span>
+        <span *ngIf="loading">Registrando...</span>
+        <span *ngIf="!loading">Registrarse</span>
       </button>
 
       <div class="auth-link">
-        Already have an account? <a routerLink="/auth/login">Login here</a>
+        ¿Ya tienes cuenta? <a routerLink="/auth/login">Inicia sesión</a>
       </div>
     </form>
   </div>

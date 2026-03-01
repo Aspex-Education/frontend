@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -15,6 +15,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
+  companyName = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,9 +23,17 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    // Try to load a company name from assets (user can place a file at /assets/company/company-name.txt)
+    fetch('/assets/company/company-name.txt')
+      .then(r => r.ok ? r.text() : '')
+      .then(text => this.companyName = text ? text.trim() : '')
+      .catch(() => this.companyName = '');
   }
 
   get f() {
@@ -40,7 +49,7 @@ export class LoginComponent {
     this.errorMessage = '';
 
     const loginRequest: LoginRequest = {
-      username: this.loginForm.value.username,
+      name: this.loginForm.value.name,
       password: this.loginForm.value.password
     };
 
@@ -49,7 +58,7 @@ export class LoginComponent {
         this.router.navigate(['/']);
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+        this.errorMessage = error.error?.message || 'Error al iniciar sesión. Intenta nuevamente.';
         this.loading = false;
       },
       complete: () => {
