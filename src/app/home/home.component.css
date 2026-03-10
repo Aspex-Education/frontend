@@ -9,12 +9,12 @@
 /* Welcome Section (Centered) */
 .welcome-section {
   text-align: center;
-  padding: 60px 20px;
+  padding: 5px 20px;
   margin-bottom: 0px;
 }
 
 .logo-container {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 .logo {

@@ -56,18 +56,16 @@ export class RegisterComponent {
       password: this.registerForm.value.password
     };
 
-    this.authService.register(registerRequest).subscribe({
-      next: (response) => {
-        this.successMessage = response.message || 'Registro exitoso. Redirigiendo al inicio de sesión...';
-        setTimeout(() => {
-          this.router.navigate(['/auth/login']);
-        }, 2000);
+    this.authService.registerAndLogin(registerRequest).subscribe({
+      next: (loginResponse) => {
+        // Registration + login successful
+        this.successMessage = loginResponse.message || 'Registro exitoso. Redirigiendo...';
+        this.loading = false;
+        this.router.navigate(['/home']);
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Error en el registro. Intenta nuevamente.';
-        this.loading = false;
-      },
-      complete: () => {
+        // Either registration or automatic login failed
+        this.errorMessage = error.error?.message || 'Error en el registro o inicio de sesión automático. Intenta nuevamente.';
         this.loading = false;
       }
     });
