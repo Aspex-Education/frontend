@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.models';
+import { environment } from '../../../environments/environment';
+import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${environment.apiAuthUrl}/auth`;
   private currentUserSubject: BehaviorSubject<AuthResponse | null>;
   public currentUser: Observable<AuthResponse | null>;
 
-  constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem('currentUser');
+  constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
+    const storedUser = this.tokenStorage.getUser();
     this.currentUserSubject = new BehaviorSubject<AuthResponse | null>(
-      storedUser ? JSON.parse(storedUser) : null
+      storedUser
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -31,7 +33,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
       tap(response => {
         if (response.token) {
-          localStorage.setItem('currentUser', JSON.stringify(response));
+          this.tokenStorage.saveUser(response);
           this.currentUserSubject.next(response);
         }
       })
@@ -39,7 +41,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
+    this.tokenStorage.removeUser();
     this.currentUserSubject.next(null);
   }
 

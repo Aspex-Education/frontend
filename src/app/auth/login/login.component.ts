@@ -23,7 +23,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -49,7 +49,7 @@ export class LoginComponent {
     this.errorMessage = '';
 
     const loginRequest: LoginRequest = {
-      name: this.loginForm.value.name,
+      email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
 
