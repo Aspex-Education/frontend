@@ -55,7 +55,7 @@ export class LoginComponent {
 
     this.authService.login(loginRequest).subscribe({
       next: (response) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Error al iniciar sesión. Intenta nuevamente.';

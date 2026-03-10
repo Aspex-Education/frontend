@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, switchMap } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.models';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
@@ -26,7 +26,18 @@ export class AuthService {
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
+    // Register endpoint doesn't return a token, just user info and message
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request);
+  }
+
+  /**
+   * Register the user and then automatically login with the same credentials.
+   * Chains register() and login() using switchMap and returns the login response.
+   */
+  registerAndLogin(request: RegisterRequest): Observable<AuthResponse> {
+    return this.register(request).pipe(
+      switchMap(() => this.login({ email: request.email, password: request.password }))
+    );
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
