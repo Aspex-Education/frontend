@@ -10,17 +10,17 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="name">Nombre</label>
+        <label for="email">Correo electrónico</label>
         <input 
-          type="text" 
-          id="name" 
-          formControlName="name" 
+          type="email" 
+          id="email" 
+          formControlName="email" 
           class="form-control"
-          [class.is-invalid]="f['name'].invalid && f['name'].touched"
+          [class.is-invalid]="f['email'].invalid && f['email'].touched"
         />
-        <div *ngIf="f['name'].invalid && f['name'].touched" class="error-message">
-          <small *ngIf="f['name'].errors?.['required']">El nombre es obligatorio</small>
-          <small *ngIf="f['name'].errors?.['minlength']">El nombre debe tener al menos 3 caracteres</small>
+        <div *ngIf="f['email'].invalid && f['email'].touched" class="error-message">
+          <small *ngIf="f['email'].errors?.['required']">El correo es obligatorio</small>
+          <small *ngIf="f['email'].errors?.['email']">Ingresa un correo válido</small>
         </div>
       </div>
 
