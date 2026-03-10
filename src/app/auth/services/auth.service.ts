@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject, tap, switchMap } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.models';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<AuthResponse | null>;
   public currentUser: Observable<AuthResponse | null>;
 
-  constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
+  constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private router: Router) {
     const storedUser = this.tokenStorage.getUser();
     this.currentUserSubject = new BehaviorSubject<AuthResponse | null>(
       storedUser
@@ -54,6 +55,11 @@ export class AuthService {
   logout(): void {
     this.tokenStorage.removeUser();
     this.currentUserSubject.next(null);
+    try {
+      this.router.navigate(['/auth/login']);
+    } catch (e) {
+      console.warn('AuthService.logout: navigation failed', e);
+    }
   }
 
   isLoggedIn(): boolean {

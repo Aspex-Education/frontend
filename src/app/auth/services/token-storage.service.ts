@@ -7,7 +7,7 @@ const STORAGE_KEY = 'currentUser';
 export class TokenStorageService {
   saveUser(user: AuthResponse): void {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     } catch (e) {
       // fallback: keep in-memory could be added; for now fail silently
       console.error('TokenStorage: unable to save user', e);
@@ -15,12 +15,12 @@ export class TokenStorageService {
   }
 
   getUser(): AuthResponse | null {
-    const data = sessionStorage.getItem(STORAGE_KEY);
+    const data = localStorage.getItem(STORAGE_KEY);
     return data ? JSON.parse(data) as AuthResponse : null;
   }
 
   removeUser(): void {
-    sessionStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEY);
   }
 
   getToken(): string | null {
