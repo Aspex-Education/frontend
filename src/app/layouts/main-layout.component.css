@@ -1,0 +1,8 @@
+.layout-container {
+  padding-top: 0; /* navbar is sticky */
+}
+
+/* ensure main content isn't hidden under sticky navbar */
+@media (min-width:0) {
+  .layout-container { padding-top: 8px; }
+}

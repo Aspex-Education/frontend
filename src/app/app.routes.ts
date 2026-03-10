@@ -4,10 +4,20 @@ import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { GuestGuard } from './auth/guards/guest.guard';
+import { MainLayoutComponent } from './layouts/main-layout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent, canActivate: [GuestGuard] },
   { path: 'auth/register', component: RegisterComponent, canActivate: [GuestGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'about', component: HomeComponent },
+      { path: 'privacy', component: HomeComponent }
+    ]
+  }
 ];
