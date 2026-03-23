@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../auth/services/auth.service';
 import { TemplateDefinitionService } from '../core/services/template-definition.service';
 import { TemplateDefinition } from '../core/models/template-definition.model';
@@ -13,6 +14,8 @@ import { TemplateDefinitionCardComponent } from '../shared/components/template-d
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  
   // Placeholder for future template data
   userTemplates: any[] = [];
   availableTemplates: TemplateDefinition[] = [];
@@ -24,7 +27,9 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.templateDefinitionService.getAll().subscribe({
+    this.templateDefinitionService.getAll().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (templates) => {
         this.availableTemplates = templates;
       },

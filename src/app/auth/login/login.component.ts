@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest } from '../models/auth.models';
 
@@ -12,6 +13,8 @@ import { LoginRequest } from '../models/auth.models';
     styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  private destroyRef = inject(DestroyRef);
+  
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
@@ -53,7 +56,9 @@ export class LoginComponent {
       password: this.loginForm.value.password
     };
 
-    this.authService.login(loginRequest).subscribe({
+    this.authService.login(loginRequest).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         this.router.navigate(['/home']);
       },

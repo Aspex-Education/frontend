@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
 import { RegisterRequest } from '../models/auth.models';
 
@@ -12,6 +13,8 @@ import { RegisterRequest } from '../models/auth.models';
     styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  private destroyRef = inject(DestroyRef);
+  
   registerForm: FormGroup;
   loading = false;
   errorMessage = '';
@@ -56,7 +59,9 @@ export class RegisterComponent {
       password: this.registerForm.value.password
     };
 
-    this.authService.registerAndLogin(registerRequest).subscribe({
+    this.authService.registerAndLogin(registerRequest).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (loginResponse) => {
         // Registration + login successful
         this.successMessage = loginResponse.message || 'Registro exitoso. Redirigiendo...';
