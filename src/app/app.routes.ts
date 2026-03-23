@@ -9,6 +9,7 @@ import { TemplateDetailComponent } from './features/template-detail/template-det
 import { TemplateCreateComponent } from './features/template-create/template-create.component';
 import { TemplateViewComponent } from './features/template-view/template-view.component';
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
+import { PrivacyPolicyComponent } from './legal/privacy-policy.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -25,7 +26,7 @@ export const routes: Routes = [
       { path: 'templates/:type/guide', component: TemplateViewComponent },
       { path: 'templates/:id/view', component: TemplateViewComponent },
       { path: 'about', component: HomeComponent },
-      { path: 'privacy', component: HomeComponent }
+      { path: 'privacy', component: PrivacyPolicyComponent }
     ]
   }
 ];

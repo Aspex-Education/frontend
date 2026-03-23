@@ -72,7 +72,7 @@ export class TemplateDetailComponent implements OnInit {
 
   getVideoUrl(type: string): string {
     const videos: Record<string, string> = {
-      'LISTADO_OPERACIONES': 'https://www.youtube.com/embed/VIDEO_ID_1',
+      'LISTADO_OPERACIONES': 'https://www.youtube.com/embed/zKW_lfZjLFI',
       'EXCEL': 'https://www.youtube.com/embed/VIDEO_ID_2',
       'PDF': 'https://www.youtube.com/embed/VIDEO_ID_3',
       'SAM': ''
