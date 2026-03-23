@@ -86,7 +86,7 @@ export class TemplateDetailComponent implements OnInit {
     if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
       window.open(this.template.resourceUrl!, '_blank');
     } else {
-      this.router.navigate(['/plantillas', this.template.id, 'crear']);
+      this.router.navigate(['/templates/create']);
     }
   }
 
