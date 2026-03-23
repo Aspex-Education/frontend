@@ -40,11 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   onTemplateAction(template: TemplateDefinition): void {
-    if (template.type === 'EXCEL' || template.type === 'PDF') {
-      window.open(template.resourceUrl!, '_blank');
-    } else {
-      this.router.navigate(['/plantillas', template.id]);
-    }
+    this.router.navigate(['/plantillas', template.id]);
   }
 
   logout(): void {

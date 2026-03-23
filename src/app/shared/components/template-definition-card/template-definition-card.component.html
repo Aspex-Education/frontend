@@ -28,7 +28,6 @@
     class="card-button" 
     [style.background-color]="getAccentColor(template.type)"
     (click)="onButtonClick()">
-    <span class="button-icon" *ngIf="template.type === 'EXCEL' || template.type === 'PDF'">⬇</span>
-    {{ getButtonText() }}
+    Ver más
   </button>
 </div>

@@ -33,13 +33,6 @@ export class TemplateDefinitionCardComponent {
     return colors[type] || '#2563EB';
   }
 
-  getButtonText(): string {
-    if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
-      return 'Descargar';
-    }
-    return 'Explorar';
-  }
-
   onButtonClick(): void {
     this.cardAction.emit(this.template);
   }
