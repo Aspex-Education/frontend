@@ -34,7 +34,7 @@
     <h1 class="template-name">{{ template.name }}</h1>
     <div class="badge-container">
       <span class="badge" [class.badge-free]="template.accessLevel === 'FREE'" [class.badge-premium]="template.accessLevel === 'PREMIUM'">
-        {{ template.accessLevel }}
+        {{ template.accessLevel==='FREE' ? 'Gratis' : 'Premium' }}
       </span>
     </div>
   </div>
