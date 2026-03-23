@@ -90,6 +90,10 @@ export class TemplateDetailComponent implements OnInit {
     }
   }
 
+  onViewGuides(): void {
+    this.router.navigate(['/templates', this.template!.type.toLowerCase(), 'guide']);
+  }
+
   goBack(): void {
     this.router.navigate(['/home']);
   }

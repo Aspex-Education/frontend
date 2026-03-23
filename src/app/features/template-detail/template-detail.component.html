@@ -44,19 +44,6 @@
     <p class="template-description">{{ template.description }}</p>
   </div>
 
-  <!-- Video Section (only if video exists) -->
-  <div class="video-section" *ngIf="getVideoUrl(template.type)">
-    <h3>Video explicativo</h3>
-    <div class="video-wrapper">
-      <iframe 
-        [src]="getVideoUrl(template.type) | sanitizeUrl" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-    </div>
-  </div>
-
   <!-- Action Button or Premium Message -->
   <div class="action-section">
     <!-- Premium message for EXCEL/PDF Premium templates -->
@@ -73,5 +60,26 @@
       <span *ngIf="template.type === 'EXCEL' || template.type === 'PDF'">⬇ Descargar</span>
       <span *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'">Crear mi plantilla</span>
     </button>
+
+    <!-- Secondary button for LISTADO_OPERACIONES and SAM -->
+    <button
+      class="secondary-button"
+      *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'"
+      (click)="onViewGuides()">
+      Ver plantillas de guía
+    </button>
+  </div>
+
+  <!-- Video Section (only if video exists) -->
+  <div class="video-section" *ngIf="getVideoUrl(template.type)">
+    <h3>Video explicativo</h3>
+    <div class="video-wrapper">
+      <iframe 
+        [src]="getVideoUrl(template.type) | sanitizeUrl" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
 </div>

@@ -224,6 +224,24 @@
   margin: 0;
 }
 
+.secondary-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: 2px solid #2563EB;
+  border-radius: 8px;
+  background: transparent;
+  color: #2563EB;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  background: #eff6ff;
+}
+
 /* Responsive - Tablet and Desktop */
 @media (min-width: 768px) {
   .detail-container {
