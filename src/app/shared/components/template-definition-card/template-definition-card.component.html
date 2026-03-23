@@ -1,0 +1,33 @@
+<div class="card" [style.border-top-color]="getAccentColor(template.type)">
+  <!-- Premium Badge -->
+  <div class="premium-badge" *ngIf="template.accessLevel === 'PREMIUM'">
+    PREMIUM
+  </div>
+
+  <!-- Icon Section -->
+  <div class="card-icon">
+    <div class="icon-wrapper" *ngIf="template.type === 'EXCEL'" [style.background-color]="getAccentColor(template.type)">
+      <span class="excel-logo">X</span>
+    </div>
+    <div class="icon-wrapper" *ngIf="template.type === 'PDF'" [style.background-color]="getAccentColor(template.type)">
+      <span class="pdf-logo">PDF</span>
+    </div>
+    <div class="icon-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF'">
+      {{ getIconForType(template.type) }}
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="card-content">
+    <h3 class="card-title">{{ template.name }}</h3>
+    <p class="card-description">{{ template.description }}</p>
+  </div>
+
+  <!-- Action Button -->
+  <button 
+    class="card-button" 
+    [style.background-color]="getAccentColor(template.type)"
+    (click)="onButtonClick()">
+    Ver más
+  </button>
+</div>

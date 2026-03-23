@@ -38,9 +38,13 @@
         Aún no hay plantillas disponibles.
       </p>
       
-      <!-- Placeholder for future template cards grid -->
+      <!-- Template cards grid -->
       <div class="templates-grid" *ngIf="availableTemplates.length > 0">
-        <!-- Template cards will be added here -->
+        <app-template-definition-card
+          *ngFor="let template of availableTemplates"
+          [template]="template"
+          (cardAction)="onTemplateAction($event)">
+        </app-template-definition-card>
       </div>
     </div>
   </section>
