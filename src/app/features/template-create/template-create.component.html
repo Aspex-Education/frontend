@@ -1,0 +1,14 @@
+<!-- Orquestador: renderiza el componente específico según el tipo -->
+@switch (templateType) {
+  @case ('listado_operaciones') {
+    <app-template-create-listado />
+  }
+  @case ('sam') {
+    <app-template-create-sam />
+  }
+  @default {
+    <div class="error-container">
+      <p>Tipo de plantilla no válido</p>
+    </div>
+  }
+}

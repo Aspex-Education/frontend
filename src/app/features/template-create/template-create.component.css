@@ -1,0 +1,13 @@
+/* Orquestador - estilos mínimos */
+.error-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.error-container p {
+  font-size: 1.125rem;
+  color: #666;
+}
+
