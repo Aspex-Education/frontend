@@ -1,1 +1,77 @@
-<p>cargando...</p>
+<!-- Loading State -->
+<div class="loading-state" *ngIf="isLoading">
+  <p>Cargando...</p>
+</div>
+
+<!-- Not Found State -->
+<div class="not-found-state" *ngIf="!isLoading && notFound">
+  <p>Plantilla no encontrada.</p>
+  <button class="back-button-primary" (click)="goBack()">Volver al inicio</button>
+</div>
+
+<!-- Detail State -->
+<div class="detail-container" *ngIf="!isLoading && !notFound && template">
+  <!-- Back Button -->
+  <button class="back-button" (click)="goBack()">
+    ← Volver
+  </button>
+
+  <!-- Icon Section -->
+  <div class="icon-section">
+    <div class="icon-wrapper" *ngIf="template.type === 'EXCEL'" [style.background-color]="getAccentColor(template.type)">
+      <span class="excel-logo">X</span>
+    </div>
+    <div class="icon-wrapper" *ngIf="template.type === 'PDF'" [style.background-color]="getAccentColor(template.type)">
+      <span class="pdf-logo">PDF</span>
+    </div>
+    <div class="icon-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF'">
+      {{ getIconForType(template.type) }}
+    </div>
+  </div>
+
+  <!-- Template Name and Badge -->
+  <div class="header-section">
+    <h1 class="template-name">{{ template.name }}</h1>
+    <div class="badge-container">
+      <span class="badge" [class.badge-free]="template.accessLevel === 'FREE'" [class.badge-premium]="template.accessLevel === 'PREMIUM'">
+        {{ template.accessLevel }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="description-section">
+    <p class="template-description">{{ template.description }}</p>
+  </div>
+
+  <!-- Video Section (only if video exists) -->
+  <div class="video-section" *ngIf="getVideoUrl(template.type)">
+    <h3>Video explicativo</h3>
+    <div class="video-wrapper">
+      <iframe 
+        [src]="getVideoUrl(template.type) | sanitizeUrl" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Action Button or Premium Message -->
+  <div class="action-section">
+    <!-- Premium message for EXCEL/PDF Premium templates -->
+    <p class="premium-message" *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
+      Disponible para usuarios Premium — próximamente
+    </p>
+
+    <!-- Action button for FREE templates or interactive templates -->
+    <button 
+      class="action-button" 
+      *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))"
+      [style.background-color]="getAccentColor(template.type)"
+      (click)="onAction()">
+      <span *ngIf="template.type === 'EXCEL' || template.type === 'PDF'">⬇ Descargar</span>
+      <span *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'">Crear mi plantilla</span>
+    </button>
+  </div>
+</div>
