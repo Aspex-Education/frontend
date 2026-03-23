@@ -21,7 +21,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'templatesDefinition/:id', component: TemplateDetailComponent },
-      { path: 'templates/create', component: TemplateCreateComponent, canDeactivate: [unsavedChangesGuard] },
+      { path: 'templates/:type/create', component: TemplateCreateComponent, canDeactivate: [unsavedChangesGuard] },
       { path: 'templates/:type/guide', component: TemplateViewComponent },
       { path: 'templates/:id/view', component: TemplateViewComponent },
       { path: 'about', component: HomeComponent },
