@@ -8,10 +8,11 @@ import { TemplateService } from '../core/services/template.service';
 import { TemplateDefinition } from '../core/models/template-definition.model';
 import { Template } from '../core/models/template.model';
 import { TemplateDefinitionCardComponent } from '../shared/components/template-definition-card/template-definition-card.component';
+import { UserTemplateCardComponent, UserTemplateAction } from '../shared/components/user-template-card';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TemplateDefinitionCardComponent],
+  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -57,6 +58,16 @@ export class HomeComponent implements OnInit {
 
   onTemplateAction(template: TemplateDefinition): void {
     this.router.navigate(['/templatesDefinition', template.id]);
+  }
+
+  onUserTemplateAction(event: UserTemplateAction): void {
+    const { action, template } = event;
+    if (action === 'view' || action === 'edit') {
+      this.router.navigate(['/templates', template.id]);
+    }
+    if (action === 'delete') {
+      console.warn('Delete not yet implemented for:', template.id);
+    }
   }
 
   logout(): void {
