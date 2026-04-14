@@ -1,171 +1,273 @@
-.auth-container {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
+
+.register-layout {
   display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: #ffffff;
-  padding: 20px;
 }
 
-.auth-side {
+.register-image-panel {
   display: none;
-  flex: 1 1 40%;
-  max-width: 480px;
-  min-height: 420px;
-  background-image: url('/assets/company/side-image.png');
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  margin-right: 24px;
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+  flex: 0 0 55%;
 }
 
-.auth-card {
-  background: #ffffff;
-  padding: 36px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+.register-bg-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 420px;
+  height: 100%;
+  object-fit: cover;
 }
 
-.auth-card h2 {
-  margin-bottom: 30px;
-  color: #333;
-  text-align: center;
-  font-size: 28px;
+.register-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.30) 40%,
+    rgba(0, 15, 50, 0.78) 100%
+  );
 }
 
-.form-group {
-  margin-bottom: 20px;
+.register-brand-top {
+  position: relative;
+  z-index: 10;
+  padding: 5rem 4rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
+.register-brand-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #003f87 0%, #0056b3 100%);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-brand-logo .pi {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.register-brand-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.register-image-content {
+  position: relative;
+  z-index: 10;
+  margin-top: auto;
+  padding: 0 4rem 4rem;
+  max-width: 36rem;
+}
+
+.register-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  background: #ffdad6;
+  color: #930010;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.register-image-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.25rem 0;
+}
+
+.register-image-title-accent {
+  color: #acc7ff;
+}
+
+.register-image-desc {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 300;
+  margin: 0;
+}
+
+.register-image-divider {
+  width: 6rem;
+  height: 3px;
+  background: #725400;
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.register-stats {
+  display: flex;
+  gap: 3rem;
+}
+
+.register-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.register-stat-value {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.register-stat-label {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 500;
 }
 
-.form-control {
+.register-form-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: #f9f9fb;
+  overflow-y: auto;
+}
+
+.register-form-container {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  background: #f3f3f3;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
+  max-width: 26rem;
 }
 
-.company-logo {
-  width: 100px;
-  height: 100px;
+.register-mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #003f87;
+  letter-spacing: -0.02em;
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: #bdbdbd;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
+.register-mobile-brand .pi {
+  font-size: 1.75rem;
+  color: #003f87;
 }
 
-.form-control.is-invalid {
-  border-color: #dc3545;
+.register-header {
+  margin-bottom: 2rem;
 }
 
-.error-message {
-  color: #dc3545;
-  font-size: 12px;
-  margin-top: 5px;
+.register-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1c1d;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.5rem 0;
+}
+
+.register-subtitle {
+  color: #424752;
+  font-size: 0.9375rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.register-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.register-btn-wrap {
+  padding-top: 1.25rem;
 }
 
 .alert {
-  padding: 12px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
 }
 
 .alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
 }
 
-.btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.alert-danger {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
 }
 
-.btn-primary {
-  background-color: #ffffff;
-  color: #222;
-  border: 1px solid #d0d0d0;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #f6f6f6;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.auth-link {
-  margin-top: 20px;
+.register-footer-link {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(194, 198, 212, 0.3);
   text-align: center;
-  color: #666;
-  font-size: 14px;
+  margin-top: 1.5rem;
 }
 
-.auth-link a {
-  color: #667eea;
+.register-footer-link p {
+  color: #424752;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.register-footer-link a {
+  color: #003f87;
+  font-weight: 700;
   text-decoration: none;
-  font-weight: 500;
+  margin-left: 0.25rem;
 }
 
-.auth-link a:hover {
+.register-footer-link a:hover {
   text-decoration: underline;
 }
 
-/* Responsive: show side image on tablets and up */
-@media (min-width: 768px) {
-  .auth-side {
-    display: block;
-  }
-
-  .auth-card {
-    flex: 0 0 420px;
-  }
+.register-brand-footer {
+  margin-top: 3rem;
+  text-align: center;
 }
 
-.company-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.company-logo {
-  width: 100px;
-  height:100px;
-  object-fit: contain;
-}
-
-.company-name {
+.register-brand-footer p {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #727784;
   font-weight: 700;
-  font-size: 18px;
-  color: #222;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .register-image-panel {
+    display: flex;
+  }
+
+  .register-mobile-brand {
+    display: none;
+  }
 }
