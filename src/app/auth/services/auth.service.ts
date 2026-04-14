@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, switchMap } from 'rxjs';
+import { Injectable, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap, switchMap, catchError, of } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.models';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
@@ -11,30 +11,24 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = `${environment.apiAuthUrl}/auth`;
-  private currentUserSubject: BehaviorSubject<AuthResponse | null>;
-  public currentUser: Observable<AuthResponse | null>;
+  private currentUserSignal = signal<AuthResponse | null>(null);
+  public currentUser = computed(() => this.currentUserSignal());
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private router: Router) {
     const storedUser = this.tokenStorage.getUser();
-    this.currentUserSubject = new BehaviorSubject<AuthResponse | null>(
-      storedUser
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
+    if (storedUser) {
+      this.currentUserSignal.set(storedUser);
+    }
   }
 
   public get currentUserValue(): AuthResponse | null {
-    return this.currentUserSubject.value;
+    return this.currentUserSignal();
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
-    // Register endpoint doesn't return a token, just user info and message
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request);
   }
 
-  /**
-   * Register the user and then automatically login with the same credentials.
-   * Chains register() and login() using switchMap and returns the login response.
-   */
   registerAndLogin(request: RegisterRequest): Observable<AuthResponse> {
     return this.register(request).pipe(
       switchMap(() => this.login({ email: request.email, password: request.password }))
@@ -42,31 +36,52 @@ export class AuthService {
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request, { withCredentials: true }).pipe(
       tap(response => {
         if (response.token) {
           this.tokenStorage.saveUser(response);
-          this.currentUserSubject.next(response);
+          this.currentUserSignal.set(response);
+        }
+      })
+    );
+  }
+
+  refresh(): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, {}, { withCredentials: true }).pipe(
+      tap(response => {
+        if (response.token) {
+          const current = this.tokenStorage.getUser();
+          const updated = { ...current, ...response };
+          this.tokenStorage.saveUser(updated);
+          this.currentUserSignal.set(updated);
         }
       })
     );
   }
 
   logout(): void {
+    this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
+      catchError(() => of(true))
+    ).subscribe(() => {
+      this.clearSession();
+    });
+  }
+
+  clearSession(): void {
     this.tokenStorage.removeUser();
-    this.currentUserSubject.next(null);
+    this.currentUserSignal.set(null);
     try {
       this.router.navigate(['/auth/login']);
     } catch (e) {
-      console.warn('AuthService.logout: navigation failed', e);
+      console.warn('AuthService.clearSession: navigation failed', e);
     }
   }
 
   isLoggedIn(): boolean {
-    return !!this.currentUserValue?.token;
+    return !!this.currentUserSignal()?.token;
   }
 
   getToken(): string | null {
-    return this.currentUserValue?.token || null;
+    return this.currentUserSignal()?.token || null;
   }
 }

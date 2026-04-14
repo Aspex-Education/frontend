@@ -39,7 +39,7 @@ export interface CreateTemplateRequest {
   name: string;
   description?: string;
   type: string;
-  userId: string;
+  userId?: string;
   jsonPayload: string;
 }
 
