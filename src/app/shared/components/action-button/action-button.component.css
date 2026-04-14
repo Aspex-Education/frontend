@@ -1,0 +1,151 @@
+/* ============================================================
+   ActionButtonComponent — Estilos
+   Variantes: primary | secondary | danger | ghost
+   Tamaños:   sm | md | lg
+   ============================================================ */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease,
+    opacity 0.2s ease;
+  white-space: nowrap;
+  outline: none;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+
+.action-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.action-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+}
+
+/* --- Tamaños --- */
+
+.action-btn--sm {
+  padding: 7px 16px;
+  font-size: 0.8125rem;
+}
+
+.action-btn--md {
+  padding: 11px 24px;
+  font-size: 0.9375rem;
+}
+
+.action-btn--lg {
+  padding: 14px 32px;
+  font-size: 1rem;
+}
+
+/* --- Full width --- */
+
+.action-btn--full {
+  width: 100%;
+}
+
+/* --- Variante: primary (azul sólido — el de la imagen) --- */
+
+.action-btn--primary {
+  background-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.action-btn--primary:hover:not(:disabled) {
+  background-color: #1e40af;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
+}
+
+.action-btn--primary:focus-visible {
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.35);
+}
+
+/* --- Variante: secondary --- */
+
+.action-btn--secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+}
+
+.action-btn--secondary:hover:not(:disabled) {
+  background-color: #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Variante: danger --- */
+
+.action-btn--danger {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.action-btn--danger:hover:not(:disabled) {
+  background-color: #dc2626;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.action-btn--danger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35);
+}
+
+/* --- Variante: ghost --- */
+
+.action-btn--ghost {
+  background-color: transparent;
+  color: #1d4ed8;
+  border: 1.5px solid #1d4ed8;
+}
+
+.action-btn--ghost:hover:not(:disabled) {
+  background-color: rgba(29, 78, 216, 0.06);
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.12);
+}
+
+/* --- Estado deshabilitado / loading --- */
+
+.action-btn:disabled,
+.action-btn--loading {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Ícono --- */
+
+.btn-icon--left {
+  font-size: 0.9em;
+}
+
+.btn-icon--right {
+  font-size: 0.9em;
+}
+
+/* --- Spinner de carga --- */
+
+.btn-spinner {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-spinner .pi-spin {
+  font-size: 0.95em;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

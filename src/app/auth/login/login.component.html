@@ -1,61 +1,56 @@
-<div class="auth-container">
-  <div class="auth-side" aria-hidden="true"></div>
-
+<div id="login-page" class="auth-container">
   <div class="auth-card">
     <div class="company-header">
-      <img src="/assets/company/logo.png" alt="Company logo" class="company-logo" />
+      <img id="login-logo" src="/assets/company/logo.png" alt="Company logo" class="company-logo" />
     </div>
 
-    <h2>Iniciar sesión</h2>
+    <h1 id="login-title" class="auth-title">Acceder al Portal</h1>
+    <p id="login-subtitle" class="auth-subtitle">Bienvenido de nuevo. Ingrese sus credenciales para continuar con su formación.</p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email" 
-          class="form-control"
-          [class.is-invalid]="f['email'].invalid && f['email'].touched"
-        />
-        <div *ngIf="f['email'].invalid && f['email'].touched" class="error-message">
-          <small *ngIf="f['email'].errors?.['required']">El correo es obligatorio</small>
-          <small *ngIf="f['email'].errors?.['email']">Ingresa un correo válido</small>
-        </div>
-      </div>
+    <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <app-input-text-field
+        id="login-email-field"
+        label="Correo Electrónico"
+        placeholder="ejemplo@academy.com"
+        type="email"
+        icon="pi pi-envelope"
+        inputId="login-email"
+        formControlName="email"
+        [control]="f['email']"
+      />
 
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input 
-          type="password" 
-          id="password" 
-          formControlName="password" 
-          class="form-control"
-          [class.is-invalid]="f['password'].invalid && f['password'].touched"
-        />
-        <div *ngIf="f['password'].invalid && f['password'].touched" class="error-message">
-          <small *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria</small>
-          <small *ngIf="f['password'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
-        </div>
-      </div>
+      <app-input-text-field
+        id="login-password-field"
+        label="Contraseña"
+        placeholder="••••••••"
+        type="password"
+        icon="pi pi-lock"
+        inputId="login-password"
+        formControlName="password"
+        [control]="f['password']"
+      />
 
-      <div *ngIf="errorMessage" class="alert alert-danger">
+      <div id="login-error" *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
       </div>
 
-      <button 
-        type="submit" 
-        class="btn btn-primary" 
-        [disabled]="loading || loginForm.invalid"
-      >
-        <span *ngIf="loading">Iniciando sesión...</span>
-        <span *ngIf="!loading">Iniciar sesión</span>
-      </button>
+      <app-action-button
+        id="login-submit-btn"
+        type="submit"
+        label="Iniciar Sesión"
+        variant="primary"
+        size="lg"
+        [loading]="loading"
+        [disabled]="loginForm.invalid"
+        [fullWidth]="true"
+      />
 
       <div class="auth-link">
-        ¿No tienes cuenta? <a routerLink="/auth/register">Regístrate aquí</a>
+        ¿No tiene una cuenta todavía?
+        <a id="login-register-link" routerLink="/auth/register">Solicitar Ingreso</a>
       </div>
     </form>
+
+    <p id="login-footer" class="auth-footer">© 2024 TEXTILE &amp; FASHION EDUCATIONAL EXCELLENCE</p>
   </div>
 </div>
-

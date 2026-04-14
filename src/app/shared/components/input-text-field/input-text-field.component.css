@@ -1,0 +1,121 @@
+/* ============================================================
+   InputTextFieldComponent — Estilos
+   Fiel al diseño: label gris, input con borde sutil, ícono izquierdo
+   ============================================================ */
+
+/* Wrapper del campo completo */
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Label */
+.field-label {
+  font-size: 0.875rem;   /* 14px */
+  font-weight: 500;
+  color: #374151;        /* gray-700 */
+  line-height: 1;
+}
+
+/* Contenedor del input (maneja ícono + input juntos) */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb;   /* gray-50 */
+  border: 1.5px solid #e5e7eb; /* gray-200 */
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.input-container:focus-within {
+  border-color: #2563eb;       /* blue-600 */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  background-color: #ffffff;
+}
+
+/* Estado error */
+.input-container.input-error {
+  border-color: #ef4444;       /* red-500 */
+  background-color: #fff5f5;
+}
+
+.input-container.input-error:focus-within {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* Estado deshabilitado */
+.input-container.input-disabled {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Ícono izquierdo */
+.input-icon {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #9ca3af;              /* gray-400 */
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.input-container:focus-within .input-icon {
+  color: #2563eb;
+}
+
+.input-container.input-error .input-icon {
+  color: #ef4444;
+}
+
+/* El input nativo / PrimeNG pInputText */
+.field-input {
+  flex: 1;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 10px 14px;
+  font-size: 0.9375rem;        /* 15px */
+  color: #111827;              /* gray-900 */
+  font-family: inherit;
+  width: 100%;
+  line-height: 1.5;
+}
+
+/* Quitar padding izquierdo cuando hay ícono (el ícono ya da el espacio) */
+.input-container.has-icon .field-input {
+  padding-left: 0;
+}
+
+.field-input::placeholder {
+  color: #9ca3af;              /* gray-400 */
+  font-size: 0.875rem;
+}
+
+.field-input:disabled {
+  cursor: not-allowed;
+  color: #6b7280;
+}
+
+/* Mensaje de error */
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;        /* 13px */
+  color: #ef4444;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.field-error .pi {
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
