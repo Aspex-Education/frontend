@@ -5,6 +5,7 @@ import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.mode
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,19 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = `${environment.apiAuthUrl}/auth`;
   private currentUserSignal = signal<AuthResponse | null>(null);
+  
   public currentUser = computed(() => this.currentUserSignal());
+  
+  public currentUserId = computed(() => {
+    const token = this.currentUserSignal()?.token;
+    if (!token) return null;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.userId || decoded.sub || null;
+    } catch {
+      return null;
+    }
+  });
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private router: Router) {
     const storedUser = this.tokenStorage.getUser();
