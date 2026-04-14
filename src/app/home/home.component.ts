@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   onTemplateAction(template: TemplateDefinition): void {
-    this.router.navigate(['/plantillas', template.id]);
+    this.router.navigate(['/templatesDefinition', template.id]);
   }
 
   logout(): void {

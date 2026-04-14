@@ -72,7 +72,7 @@ export class TemplateDetailComponent implements OnInit {
 
   getVideoUrl(type: string): string {
     const videos: Record<string, string> = {
-      'LISTADO_OPERACIONES': 'https://www.youtube.com/embed/VIDEO_ID_1',
+      'LISTADO_OPERACIONES': 'https://www.youtube.com/embed/zKW_lfZjLFI',
       'EXCEL': 'https://www.youtube.com/embed/VIDEO_ID_2',
       'PDF': 'https://www.youtube.com/embed/VIDEO_ID_3',
       'SAM': ''
@@ -86,8 +86,13 @@ export class TemplateDetailComponent implements OnInit {
     if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
       window.open(this.template.resourceUrl!, '_blank');
     } else {
-      this.router.navigate(['/plantillas', this.template.id, 'crear']);
+      const type = this.template.type.toLowerCase();
+      this.router.navigate(['/templates', type, 'create']);
     }
+  }
+
+  onViewGuides(): void {
+    this.router.navigate(['/templates', this.template!.type.toLowerCase(), 'guide']);
   }
 
   goBack(): void {
