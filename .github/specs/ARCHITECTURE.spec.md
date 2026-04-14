@@ -9,7 +9,7 @@
 
 ┌──────────────────────┐                  ┌──────────────────────┐
 │   Frontend Monorepo  │                  │   Backend Monorepo   │
-│     (Angular 17)     │◄────── HTTP ────►│   (Java/Spring)      │
+│     (Angular 19)     │◄────── HTTP ────►│   (Java/Spring)      │
 └──────────────────────┘   (REST/JSON)    └──────────────────────┘
          │                                          │
          │                                          │
