@@ -65,8 +65,10 @@ El login y el registro devuelven el access token en el body y setean `refreshTok
 
 ### 5. Crear templates
 
-- No enviar `userId` desde Angular
-- El backend ya lo obtiene desde el JWT
+- No enviar `userId` desde Angular.
+- **Limpieza de DTOs:** La propiedad `userId` fue eliminada por completo de la interfaz `CreateTemplateRequest` en `template.model.ts` para forzar que el payload vaya limpio en tiempo de compilación.
+- **Componentes:** El ensamblaje manual del request en componentes (como `template-create-listado.component.ts`) ya no envía placeholders ni ids mockeados.
+- El backend procesa todo esto de forma segura porque ya lo obtiene desde el claim `userId` del JWT de autenticación.
 
 ### 6. Listar templates
 
