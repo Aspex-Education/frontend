@@ -123,7 +123,6 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
       name: this.productName.trim(),
       description: finalDescription,
       type: 'LISTADO_OPERACIONES',
-      userId: '00000000-0000-0000-0000-000000000001', // placeholder
       jsonPayload: JSON.stringify(payload)
     };
 
