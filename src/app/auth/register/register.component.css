@@ -24,12 +24,8 @@
 .register-image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0.30) 40%,
-    rgba(0, 15, 50, 0.78) 100%
-  );
+  background: rgba(0, 63, 135, 0.08);
+  mix-blend-mode: multiply;
 }
 
 .register-brand-top {
@@ -60,7 +56,7 @@
   font-family: 'Manrope', sans-serif;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #1a1c1d;
   letter-spacing: -0.02em;
 }
 
@@ -72,36 +68,23 @@
   max-width: 36rem;
 }
 
-.register-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  margin-bottom: 1.5rem;
-  border-radius: 999px;
-  background: #ffdad6;
-  color: #930010;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
 
 .register-image-title {
   font-family: 'Manrope', sans-serif;
   font-size: 2.5rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #1a1c1d;
   line-height: 1.15;
   letter-spacing: -0.025em;
   margin: 0 0 1.25rem 0;
 }
 
 .register-image-title-accent {
-  color: #acc7ff;
+  color: #003f87;
 }
 
 .register-image-desc {
-  color: rgba(255, 255, 255, 0.8);
+  color: #424752;
   font-size: 1rem;
   line-height: 1.65;
   font-weight: 300;
@@ -131,13 +114,13 @@
   font-family: 'Manrope', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #003f87;
   line-height: 1;
 }
 
 .register-stat-label {
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: #727784;
   font-weight: 500;
 }
 
