@@ -27,8 +27,20 @@
       </div>
 
       <div class="home-templates-grid" *ngIf="userTemplates.length > 0">
-        <app-user-template-card *ngFor="let t of userTemplates" [template]="t"
+        <app-user-template-card *ngFor="let t of visibleUserTemplates" [template]="t"
           (cardAction)="onUserTemplateAction($event)" />
+      </div>
+
+      <div class="home-view-more-wrap" *ngIf="hasMoreUserTemplates">
+        <button
+          id="home-view-more-templates-btn"
+          class="home-view-more-btn"
+          (click)="onViewAllUserTemplates()"
+        >
+          <i class="pi pi-th-large"></i>
+          Ver todas mis plantillas
+          <span class="home-view-more-count">({{ userTemplates.length }})</span>
+        </button>
       </div>
     </section>
 

@@ -80,6 +80,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  onViewAllUserTemplates(): void {
+    // TODO: navigate to full user templates list when route is available
+    console.info('Ver todas las plantillas — ruta pendiente de implementación');
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
