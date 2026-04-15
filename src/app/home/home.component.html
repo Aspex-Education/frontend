@@ -82,3 +82,15 @@
   </section>
 
 </div>
+
+<!-- Modal global de eliminación de plantilla -->
+<app-confirm-modal
+  [(visible)]="isDeleteModalVisible"
+  header="Eliminar Plantilla"
+  [message]="'¿Estás seguro de que quieres eliminar la plantilla \'' + (templateToDelete?.name || '') + '\'? Esta acción no se puede deshacer.'"
+  confirmLabel="Eliminar"
+  confirmVariant="danger"
+  [loading]="isDeletingTemplate"
+  (confirmed)="confirmDeleteTemplate()"
+  (cancelled)="cancelDeleteTemplate()">
+</app-confirm-modal>

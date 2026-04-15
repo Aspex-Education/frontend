@@ -20,6 +20,10 @@ export class TemplateService {
     return this.http.put<Template>(`${this.apiUrl}/${id}`, request);
   }
 
+  softDelete(id: string): Observable<Template> {
+    return this.http.put<Template>(`${this.apiUrl}/${id}`, { isActive: false });
+  }
+
   getPublicByType(type: string): Observable<Template[]> {
     const params = new HttpParams()
       .set('type', type)

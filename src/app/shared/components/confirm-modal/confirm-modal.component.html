@@ -1,0 +1,30 @@
+<p-dialog
+  [header]="header"
+  [modal]="true"
+  [visible]="visible"
+  (visibleChange)="onDialogVisibleChange($event)"
+  [style]="{ width: width }"
+  [draggable]="false"
+  [resizable]="false"
+  appendTo="body"
+  styleClass="custom-confirm-modal"
+  maskStyleClass="custom-confirm-mask"
+>
+  <div class="confirm-modal-content">
+    <span class="message-text">{{ message }}</span>
+  </div>
+  
+  <div class="confirm-modal-actions">
+    <app-action-button 
+      label="Cancelar" 
+      variant="ghost" 
+      (clicked)="handleCancel()">
+    </app-action-button>
+    <app-action-button 
+      [label]="confirmLabel" 
+      [variant]="confirmVariant" 
+      (clicked)="handleConfirm()"
+      [loading]="loading">
+    </app-action-button>
+  </div>
+</p-dialog>
