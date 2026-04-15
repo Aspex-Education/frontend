@@ -5,7 +5,8 @@
       ← Volver
     </button>
     <button class="save-button" [disabled]="!isFormValid || isSaving || isLoading" (click)="save()">
-      {{ isSaving ? (isEditMode ? 'Actualizando...' : 'Guardando...') : (isEditMode ? 'Actualizar Cambios' : 'Guardar') }}
+      {{ isSaving ? (isEditMode ? 'Actualizando...' : 'Guardando...') : (isEditMode ? 'Actualizar Cambios' : 'Guardar')
+      }}
     </button>
   </div>
 
@@ -44,19 +45,19 @@
     <table class="operations-table">
       <thead>
         <tr>
-          <th style="width: 50px;">N°</th>
-          <th>Descripción</th>
-          <th style="width: 180px;">Máquina</th>
-          <th style="width: 80px;">Seg</th>
-          <th style="width: 50px;"></th>
+          <th style="width: 40px; text-align: center;">N°</th>
+          <th style="width: 35%;">Descripción</th>
+          <th>Máquina</th>
+          <th style="width: 50px;">Seg</th>
+          <th style="width: 40px; text-align: center;"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let op of operations; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>
-            <input type="text" [(ngModel)]="op.description" (ngModelChange)="markDirty()"
-              placeholder="Ej: Coser hombros">
+          <td style="text-align: center;">{{ i + 1 }}</td>
+          <td class="td-desc">
+            <textarea class="op-desc-textarea" [(ngModel)]="op.description" (ngModelChange)="markDirty()"
+              placeholder="Ej: Coser hombros" rows="1"></textarea>
           </td>
           <td>
             <select [(ngModel)]="op.machine" (ngModelChange)="markDirty()">
@@ -73,16 +74,6 @@
               title="Eliminar operación">
               🗑
             </button>
-          </td>
-        </tr>
-        <!-- Machine Other Input Row -->
-        <tr *ngFor="let op of operations; let i = index">
-          <td colspan="5" *ngIf="op.machine === 'other'">
-            <div class="machine-other-input">
-              <label>Especifica la máquina:</label>
-              <input type="text" [(ngModel)]="op.machine_other" (ngModelChange)="markDirty()"
-                placeholder="Nombre de la máquina">
-            </div>
           </td>
         </tr>
       </tbody>
