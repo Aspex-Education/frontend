@@ -42,6 +42,10 @@ export interface CreateTemplateRequest {
   jsonPayload: string;
 }
 
+export interface UpdateTemplateRequest extends CreateTemplateRequest {
+
+}
+
 export function parsePayload(jsonPayload: string): ListadoOperacionesPayload {
   return JSON.parse(jsonPayload) as ListadoOperacionesPayload;
 }

@@ -1,0 +1,22 @@
+<button
+  [type]="type"
+  [class]="hostClasses"
+  [disabled]="isDisabled"
+  (click)="onClick($event)"
+>
+  <span *ngIf="loading" class="btn-spinner">
+    <i class="pi pi-spinner pi-spin"></i>
+  </span>
+
+  <i
+    *ngIf="icon && iconPosition === 'left' && !loading"
+    [class]="icon + ' btn-icon btn-icon--left'"
+  ></i>
+
+  <span class="btn-label">{{ label }}</span>
+
+  <i
+    *ngIf="icon && iconPosition === 'right' && !loading"
+    [class]="icon + ' btn-icon btn-icon--right'"
+  ></i>
+</button>

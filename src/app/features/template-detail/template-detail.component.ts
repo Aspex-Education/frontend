@@ -1,21 +1,22 @@
 import { Component, OnInit, DestroyRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateDefinitionService } from '../../core/services/template-definition.service';
 import { TemplateDefinition } from '../../core/models/template-definition.model';
 import { SafeUrlPipe } from '../../shared/pipes/safe-url.pipe';
+import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
 
 @Component({
   selector: 'app-template-detail',
   standalone: true,
-  imports: [CommonModule, SafeUrlPipe],
+  imports: [CommonModule, SafeUrlPipe, ActionButtonComponent],
   templateUrl: './template-detail.component.html',
   styleUrl: './template-detail.component.css'
 })
 export class TemplateDetailComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  
+
   template: TemplateDefinition | null = null;
   isLoading = true;
   notFound = false;
@@ -24,11 +25,11 @@ export class TemplateDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private templateDefinitionService: TemplateDefinitionService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    
+
     if (!id) {
       this.notFound = true;
       this.isLoading = false;
@@ -70,14 +71,30 @@ export class TemplateDetailComponent implements OnInit {
     return colors[type] || '#2563EB';
   }
 
-  getVideoUrl(type: string): string {
-    const videos: Record<string, string> = {
-      'LISTADO_OPERACIONES': 'https://www.youtube.com/embed/zKW_lfZjLFI',
-      'EXCEL': 'https://www.youtube.com/embed/VIDEO_ID_2',
-      'PDF': 'https://www.youtube.com/embed/VIDEO_ID_3',
-      'SAM': ''
+  getAccentGradient(type: string): string {
+    const gradients: Record<string, string> = {
+      'LISTADO_OPERACIONES': 'linear-gradient(135deg, #003f87, #0056b3)',
+      'SAM': 'linear-gradient(135deg, #5b21b6, #7c3aed)',
+      'EXCEL': 'linear-gradient(135deg, #14532d, #166534)',
+      'PDF': 'linear-gradient(135deg, #991b1b, #dc2626)'
     };
-    return videos[type] || '';
+    return gradients[type] || 'linear-gradient(135deg, #003f87, #0056b3)';
+  }
+
+  getEmbedUrl(url: string | null): string {
+    if (!url) return '';
+    // Si ya es un embed, dejarlo como está
+    if (url.includes('/embed/')) return url;
+    
+    // Extraer ID de youtube (de v= o de youtu.be/)
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    if (match && match[2].length === 11) {
+      return `https://www.youtube.com/embed/${match[2]}`;
+    }
+    
+    return url; // Fallback si no es de youtube o no se pudo parsear
   }
 
   onAction(): void {

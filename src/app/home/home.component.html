@@ -1,54 +1,96 @@
-<div class="home-container">
-  <!-- Top Section: Logo and Welcome Message (Centered) -->
-  <section class="welcome-section">
-    <div class="logo-container">
-      <img src="/assets/company/logo.png" alt="Aspex Educación" class="logo" />
-    </div>
+<div id="home-page" class="home-container">
 
-    <h1 class="welcome-title">¡Bienvenido!</h1>
+  <section id="home-welcome" class="home-welcome">
+    <h1 id="home-title" class="home-title">¡Bienvenido!</h1>
 
-    <p class="welcome-description">
-      Somos Aspex Educación, una plataforma enfocada en apoyar la educación de los confeccionistas
+    <p id="home-subtitle" class="home-subtitle">
+      Somos Confex, una plataforma enfocada en apoyar la educación de los confeccionistas
       con herramientas para su negocio, su taller y su crecimiento profesional.
     </p>
   </section>
 
-  <!-- Section: Tus plantillas (Left Aligned) -->
-  <section class="templates-section">
-    <h2 class="section-title">Tus plantillas</h2>
+  <div class="home-bento">
 
-    <div class="templates-content">
-      <p *ngIf="userTemplates.length === 0" class="empty-message">
-        Aún no has creado tus plantillas.
-      </p>
-      <div class="templates-grid" *ngIf="userTemplates.length > 0">
-        <!-- Tarjeta simple temporal para visualizar plantillas del usuario -->
-        <div class="user-template-card" *ngFor="let t of userTemplates">
-          <div class="user-template-icon">📄</div>
-          <div class="user-template-info">
-            <h3>{{ t.name }}</h3>
-            <span class="user-template-type">{{ t.type }}</span>
-          </div>
+    <section id="home-user-templates" class="home-panel home-panel--main">
+      <div class="home-panel-header">
+        <h2 class="home-section-title">Tus plantillas</h2>
+      </div>
+
+      <div *ngIf="userTemplates.length === 0" id="home-empty-state" class="home-empty-state">
+        <div class="home-empty-icon">
+          <i class="pi pi-copy"></i>
         </div>
+        <h3 class="home-empty-title">Aún no has creado tus plantillas</h3>
+        <p class="home-empty-desc">
+          Comienza diseñando tu primer flujo de trabajo personalizado para tus proyectos textiles.
+        </p>
       </div>
+
+      <div class="home-templates-grid" *ngIf="userTemplates.length > 0">
+        <app-user-template-card *ngFor="let t of visibleUserTemplates" [template]="t"
+          (cardAction)="onUserTemplateAction($event)" />
+      </div>
+
+      <div class="home-view-more-wrap" *ngIf="hasMoreUserTemplates">
+        <button
+          id="home-view-more-templates-btn"
+          class="home-view-more-btn"
+          (click)="onViewAllUserTemplates()"
+        >
+          <i class="pi pi-th-large"></i>
+          Ver todas mis plantillas
+          <span class="home-view-more-count">({{ userTemplates.length }})</span>
+        </button>
+      </div>
+    </section>
+
+    <aside class="home-sidebar">
+      <div class="home-sidebar-card home-sidebar-card--light">
+        <span class="home-sidebar-tag">Createx 2026</span>
+        <h4 class="home-sidebar-title">Árticulo</h4>
+        <div class="home-sidebar-img-wrap">
+          <img
+            src="https://files.visitbogota.co/sites/default/files/styles/max_650x650/public/2025-07/horizontal%20CREATEX_1.jpg?itok=3XbT3YL5"
+            alt="Guía de tejidos" class="home-sidebar-img" />
+        </div>
+        <p class="home-sidebar-desc">
+          Createx 2026 muestra cómo opera hoy la cadena textil en Colombia </p>
+        <a href="https://www.saloncreatex.com/" class="home-sidebar-link" target="_blank" rel="noopener noreferrer">
+          Leer articulo <i class="pi pi-arrow-right"></i>
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <section id="home-available-templates" class="home-available">
+    <div class="home-available-header">
+      <h2 class="home-section-title">Plantillas para ti</h2>
+      <div class="home-section-divider"></div>
+    </div>
+
+    <div *ngIf="availableTemplates.length === 0" class="home-empty-state home-empty-state--sm">
+      <div class="home-empty-icon">
+        <i class="pi pi-inbox"></i>
+      </div>
+      <p class="home-empty-desc">Aún no hay plantillas disponibles.</p>
+    </div>
+
+    <div class="home-templates-grid" *ngIf="availableTemplates.length > 0">
+      <app-template-definition-card *ngFor="let template of availableTemplates" [template]="template"
+        (cardAction)="onTemplateAction($event)" />
     </div>
   </section>
 
-  <!-- Section: Plantillas para ti (Left Aligned) -->
-  <section class="templates-section">
-    <h2 class="section-title">Plantillas para ti</h2>
-
-    <div class="templates-content">
-      <p *ngIf="availableTemplates.length === 0" class="empty-message">
-        Aún no hay plantillas disponibles.
-      </p>
-
-      <!-- Template cards grid -->
-      <div class="templates-grid" *ngIf="availableTemplates.length > 0">
-        <app-template-definition-card *ngFor="let template of availableTemplates" [template]="template"
-          (cardAction)="onTemplateAction($event)">
-        </app-template-definition-card>
-      </div>
-    </div>
-  </section>
 </div>
+
+<!-- Modal global de eliminación de plantilla -->
+<app-confirm-modal
+  [(visible)]="isDeleteModalVisible"
+  header="Eliminar Plantilla"
+  [message]="'¿Estás seguro de que quieres eliminar la plantilla \'' + (templateToDelete?.name || '') + '\'? Esta acción no se puede deshacer.'"
+  confirmLabel="Eliminar"
+  confirmVariant="danger"
+  [loading]="isDeletingTemplate"
+  (confirmed)="confirmDeleteTemplate()"
+  (cancelled)="cancelDeleteTemplate()">
+</app-confirm-modal>

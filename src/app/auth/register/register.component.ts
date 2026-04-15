@@ -5,10 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
 import { RegisterRequest } from '../models/auth.models';
+import { InputTextFieldComponent } from '../../shared/components/input-text-field';
+import { ActionButtonComponent } from '../../shared/components/action-button';
 
 @Component({
     selector: 'app-register',
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, InputTextFieldComponent, ActionButtonComponent],
     templateUrl: './register.component.html',
     styleUrl: './register.component.css'
 })

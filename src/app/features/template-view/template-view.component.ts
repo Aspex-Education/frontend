@@ -21,6 +21,7 @@ export class TemplateViewComponent implements OnInit {
   parsedPayload: ListadoOperacionesPayload | null = null;
   isLoading = true;
   isEmpty = false;
+  isSingleViewMode = false; // Flag to hide dropdown when viewing a specific template
 
   constructor(
     private route: ActivatedRoute,
@@ -29,8 +30,30 @@ export class TemplateViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     const type = this.route.snapshot.paramMap.get('type');
     
+    // Case 1: We are loading a specific template by its ID (e.g. MY saved template)
+    if (id) {
+      this.isSingleViewMode = true;
+      this.templateService.getById(id).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+        next: (template) => {
+          this.onSelectTemplate(template);
+          this.isLoading = false;
+          this.isEmpty = false;
+        },
+        error: (error) => {
+          console.error('Error al cargar plantilla:', error);
+          this.isLoading = false;
+          this.isEmpty = true;
+        }
+      });
+      return;
+    }
+
+    // Case 2: We are loading a dropdown of guides by type
     if (!type) {
       this.isLoading = false;
       this.isEmpty = true;

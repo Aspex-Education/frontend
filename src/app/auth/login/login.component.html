@@ -1,61 +1,85 @@
-<div class="auth-container">
-  <div class="auth-side" aria-hidden="true"></div>
+<main id="login-page" class="login-layout">
 
-  <div class="auth-card">
-    <div class="company-header">
-      <img src="/assets/company/logo.png" alt="Company logo" class="company-logo" />
+  <section class="login-image-panel">
+    <img id="login-hero-image" class="login-bg-image"
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAglBXGmL88Km5ASvwt4dCIR8u7B8hkS4uYaLFWgr5yWTV9h3IL7nrZw5S-BWppBCh1tLayu3ryv9GaPmnLbYR3WOBlJ71O5fi0WDpXq8UAYMCJ9Mu2D4UMLob5xacKjjWbWD9fmfnTikg4ycydwQf2IX4kau2kBeTATKA1il3fHsuzOrD8vV47XbYyw_6RZ98tq7EzgiAkgjCJz4lxyOPKifdlDHg4Aat6iMkJHG1c9ZMtpa1FT-tUBDTkEUm9MNAAd2HIjupg14M"
+      alt="Tela de seda azul marino con iluminación cinematográfica" />
+
+    <div class="login-brand-overlay">
+      <div class="login-brand-logo">
+        <i class="pi pi-th-large"></i>
+      </div>
+      <span class="login-brand-name">Confex</span>
     </div>
 
-    <h2>Iniciar sesión</h2>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email" 
-          class="form-control"
-          [class.is-invalid]="f['email'].invalid && f['email'].touched"
-        />
-        <div *ngIf="f['email'].invalid && f['email'].touched" class="error-message">
-          <small *ngIf="f['email'].errors?.['required']">El correo es obligatorio</small>
-          <small *ngIf="f['email'].errors?.['email']">Ingresa un correo válido</small>
+    <div class="login-glass-panel">
+      <h2 class="login-glass-title">Plantillas y educación.</h2>
+      <p class="login-glass-desc">
+        Disfruta de la herramienta educativa y de productividad #1 que llevara tu negocio a otro nivel
+      </p>
+      <div class="login-social-proof">
+        <div class="login-avatars">
+          <img class="login-avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBewiluEALEG1o7f7KwkeHTBEDffLcojFE7GNUhvHsA_ntcZHd4qFwbaQqdvqwCNn4DEZaS_obl6K08PUXRkGWLjHObQwU0J53aIuUBrSVYkETIKzwF-T9qVW2ohlmTl2B3Vsm3vQq-nqMXwE4Qlu_3qlmNGJ-Onn8lTKVM4YU5UEl8ZR5TxmEGp4_n4taUrJxlF4Xh6oR2_9mBFX2hzEHuEJLBcPErFWj67loM_bnoRmePezK8YrSPipQ49errmyZ7tI7wtqEfzCY"
+            alt="Diseñadora de moda" />
+          <img class="login-avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXqPz-STYhLuqmDI2ZdMAluH6uXAbE0YA3Cpfr5BeOpRNZb73TXQTEggUMCIPUdMsswvkuWM-YSLuR9Q99xPPBa06uJWRvd-_gCyzFcdd6dRl8sAoLYNka10QkGrUThoY0lFqAPl-_CdwakOPDC1LgcgLUlsiT7dCEmD18Sc18sfMMGI6hMbNwybTl4IbqXTxF6ZAIQjfJ8ZEYK65zr2O1Bg65JWwQWKHJ3-tSM89TpeUtpl5lyTJazzeICQ8Jmq9_r6S9ERdpPSU"
+            alt="Experto textil" />
+          <img class="login-avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcIxIGRy2JRkHxo0sIZCaq42ZNTB-MD_GFiJE5Ohdqp7rfWK4re3xsY4G3kn6l_d8vFviduZiBG4Zz8P4Z3LA6LxaZWcVfFObuv4gHHL9Sscel53G9sJxr0Np3BjXEhQ1_-aHJr67t__Zp_yWFJQT-rjKhgZs09Y8hQOvjYAn962JvYMSL6IMrS3iTfb8k7i_T9Ydjt8Grz9OobtsWj4aU3S3iHcsZvfpEIXFOHwKCX7Garhw9mpnQk4_yA4KnduPyZCgA89z8YJw"
+            alt="Directora creativa" />
         </div>
+        <span class="login-social-text">+2k Talleres</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="login-form-panel">
+    <div class="login-form-container">
+
+      <div id="login-mobile-brand" class="login-mobile-brand">
+        <i class="pi pi-th-large"></i>
+        <span>Confex</span>
       </div>
 
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input 
-          type="password" 
-          id="password" 
-          formControlName="password" 
-          class="form-control"
-          [class.is-invalid]="f['password'].invalid && f['password'].touched"
-        />
-        <div *ngIf="f['password'].invalid && f['password'].touched" class="error-message">
-          <small *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria</small>
-          <small *ngIf="f['password'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
+      <header id="login-header" class="login-header">
+        <h1 id="login-title" class="login-title">Acceder al Portal</h1>
+        <p id="login-subtitle" class="login-subtitle">
+          Bienvenido de nuevoa a Confex. Ingrese sus credenciales para continuar con su formación.
+        </p>
+      </header>
+
+      <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="login-fields">
+          <app-input-text-field id="login-email-field" label="Correo Electrónico" placeholder="ejemplo@academy.com"
+            type="email" icon="pi pi-envelope" inputId="login-email" formControlName="email" [control]="f['email']" />
+
+          <app-input-text-field id="login-password-field" label="Contraseña" placeholder="••••••••" type="password"
+            icon="pi pi-lock" inputId="login-password" formControlName="password" [control]="f['password']" />
         </div>
+
+        <div id="login-error" *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+
+        <div class="login-btn-wrap">
+          <app-action-button id="login-submit-btn" type="submit" label="Iniciar Sesión" variant="primary" size="lg"
+            [loading]="loading" [disabled]="loginForm.invalid" [fullWidth]="true" />
+        </div>
+      </form>
+
+      <div id="login-footer-link" class="login-footer-link">
+        <p>
+          ¿No tiene una cuenta todavía?
+          <a id="login-register-link" routerLink="/auth/register">Regístrate</a>
+        </p>
       </div>
 
-      <div *ngIf="errorMessage" class="alert alert-danger">
-        {{ errorMessage }}
-      </div>
+      <footer id="login-brand-footer" class="login-brand-footer">
+        <p>© 2026 Sector Textil &amp; En alianza con Aspex</p>
+      </footer>
 
-      <button 
-        type="submit" 
-        class="btn btn-primary" 
-        [disabled]="loading || loginForm.invalid"
-      >
-        <span *ngIf="loading">Iniciando sesión...</span>
-        <span *ngIf="!loading">Iniciar sesión</span>
-      </button>
+    </div>
+  </section>
 
-      <div class="auth-link">
-        ¿No tienes cuenta? <a routerLink="/auth/register">Regístrate aquí</a>
-      </div>
-    </form>
-  </div>
-</div>
-
+</main>

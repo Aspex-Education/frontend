@@ -4,17 +4,19 @@
     <button class="back-button" (click)="goBack()">
       ← Volver
     </button>
-    <button 
-      class="save-button"
-      [disabled]="!isFormValid || isSaving"
-      (click)="save()">
-      {{ isSaving ? 'Guardando...' : 'Guardar' }}
+    <button class="save-button" [disabled]="!isFormValid || isSaving || isLoading" (click)="save()">
+      {{ isSaving ? (isEditMode ? 'Actualizando...' : 'Guardando...') : (isEditMode ? 'Actualizar Cambios' : 'Guardar') }}
     </button>
+  </div>
+
+  <!-- Loading Message -->
+  <div class="loading-state" *ngIf="isLoading" style="text-align: center; margin: 20px 0; color: #666;">
+    Cargando plantilla...
   </div>
 
   <!-- Success Message -->
   <div class="success-message" *ngIf="saveSuccess">
-    ✓ Plantilla guardada exitosamente
+    ✓ Plantilla {{ isEditMode ? 'actualizada' : 'guardada' }} exitosamente
   </div>
 
   <!-- Error Message -->
@@ -25,21 +27,13 @@
   <!-- Form Fields -->
   <div class="form-group">
     <label class="form-label">Nombre de la prenda *</label>
-    <input 
-      type="text" 
-      class="form-input"
-      [(ngModel)]="productName"
-      (ngModelChange)="markDirty()"
+    <input type="text" class="form-input" [(ngModel)]="productName" (ngModelChange)="markDirty()"
       placeholder="Ej: Camisa básica">
   </div>
 
   <div class="form-group">
     <label class="form-label">Descripción (opcional)</label>
-    <textarea 
-      class="form-textarea"
-      [(ngModel)]="description"
-      (ngModelChange)="markDirty()"
-      rows="3"
+    <textarea class="form-textarea" [(ngModel)]="description" (ngModelChange)="markDirty()" rows="3"
       placeholder="Descripción adicional de la plantilla"></textarea>
   </div>
 
@@ -61,34 +55,21 @@
         <tr *ngFor="let op of operations; let i = index">
           <td>{{ i + 1 }}</td>
           <td>
-            <input 
-              type="text"
-              [(ngModel)]="op.description"
-              (ngModelChange)="markDirty()"
+            <input type="text" [(ngModel)]="op.description" (ngModelChange)="markDirty()"
               placeholder="Ej: Coser hombros">
           </td>
           <td>
-            <select 
-              [(ngModel)]="op.machine"
-              (ngModelChange)="markDirty()">
+            <select [(ngModel)]="op.machine" (ngModelChange)="markDirty()">
               <option *ngFor="let m of machines" [value]="m.value">
                 {{ m.label }}
               </option>
             </select>
           </td>
           <td>
-            <input 
-              type="number"
-              [(ngModel)]="op.time_seconds"
-              (ngModelChange)="markDirty()"
-              min="0"
-              placeholder="0">
+            <input type="number" [(ngModel)]="op.time_seconds" (ngModelChange)="markDirty()" min="0" placeholder="0">
           </td>
           <td>
-            <button 
-              *ngIf="operations.length > 1"
-              class="delete-btn"
-              (click)="removeOperation(i)"
+            <button *ngIf="operations.length > 1" class="delete-btn" (click)="removeOperation(i)"
               title="Eliminar operación">
               🗑
             </button>
@@ -99,10 +80,7 @@
           <td colspan="5" *ngIf="op.machine === 'other'">
             <div class="machine-other-input">
               <label>Especifica la máquina:</label>
-              <input 
-                type="text"
-                [(ngModel)]="op.machine_other"
-                (ngModelChange)="markDirty()"
+              <input type="text" [(ngModel)]="op.machine_other" (ngModelChange)="markDirty()"
                 placeholder="Nombre de la máquina">
             </div>
           </td>
@@ -121,12 +99,12 @@
   </div>
 
   <!-- Export Button -->
-  <button class="export-btn" disabled title="Próximamente">
+  <button class="export-btn" (click)="exportToPdf()" [disabled]="operations.length === 0">
     Exportar a PDF
   </button>
 
   <!-- Video Section -->
-  <div class="video-section">
+  <!-- <div class="video-section">
     <h3 class="video-title">── Video explicativo ──</h3>
     <div class="video-wrapper">
       <iframe
@@ -136,5 +114,5 @@
         allowfullscreen>
       </iframe>
     </div>
-  </div>
+  </div> -->
 </div>
