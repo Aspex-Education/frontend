@@ -16,6 +16,10 @@ export class TemplateService {
     return this.http.post<Template>(this.apiUrl, request);
   }
 
+  update(id: string, request: Partial<CreateTemplateRequest>): Observable<Template> {
+    return this.http.put<Template>(`${this.apiUrl}/${id}`, request);
+  }
+
   getPublicByType(type: string): Observable<Template[]> {
     const params = new HttpParams()
       .set('type', type)

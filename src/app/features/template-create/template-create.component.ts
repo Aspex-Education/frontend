@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateCreateListadoComponent } from '../template-create-listado/template-create-listado.component';
 import { TemplateCreateSamComponent } from '../template-create-sam/template-create-sam.component';
+import { TemplateService } from '../../core/services/template.service';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
 
 @Component({
@@ -14,22 +16,50 @@ import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard'
 })
 export class TemplateCreateComponent implements OnInit, CanComponentDeactivate {
   templateType: string | null = null;
+  private destroyRef = inject(DestroyRef);
 
   @ViewChild(TemplateCreateListadoComponent) listadoComponent?: TemplateCreateListadoComponent;
   @ViewChild(TemplateCreateSamComponent) samComponent?: TemplateCreateSamComponent;
 
+  isLoading = false;
+
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private templateService: TemplateService
   ) {}
 
   ngOnInit(): void {
-    this.templateType = this.route.snapshot.paramMap.get('type');
+    const id = this.route.snapshot.paramMap.get('id');
+    const type = this.route.snapshot.paramMap.get('type');
     
-    // Validar que el tipo sea válido
     const validTypes = ['listado_operaciones', 'sam'];
-    if (!this.templateType || !validTypes.includes(this.templateType)) {
-      // Redirigir a home si el tipo no es válido
+
+    if (id) {
+      // Edit mode: fetch the template to determine its type
+      this.isLoading = true;
+      this.templateService.getById(id).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+        next: (t) => {
+          this.templateType = t.type.toLowerCase();
+          this.isLoading = false;
+          if (!validTypes.includes(this.templateType)) {
+            this.router.navigate(['/home']);
+          }
+        },
+        error: () => {
+          this.isLoading = false;
+          this.router.navigate(['/home']);
+        }
+      });
+    } else if (type) {
+      // Create mode
+      this.templateType = type.toLowerCase();
+      if (!validTypes.includes(this.templateType)) {
+        this.router.navigate(['/home']);
+      }
+    } else {
       this.router.navigate(['/home']);
     }
   }

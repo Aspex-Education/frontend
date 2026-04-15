@@ -1,11 +1,11 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateService } from '../../core/services/template.service';
 import { PdfExportFacadeService } from '../../core/services/pdf-export-facade.service';
-import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, MachineType } from '../../core/models/template.model';
+import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, MachineType, parsePayload, Template } from '../../core/models/template.model';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
 
 @Component({
@@ -15,12 +15,17 @@ import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard'
   templateUrl: './template-create-listado.component.html',
   styleUrl: './template-create-listado.component.css'
 })
-export class TemplateCreateListadoComponent implements CanComponentDeactivate {
+export class TemplateCreateListadoComponent implements OnInit, CanComponentDeactivate {
   private destroyRef = inject(DestroyRef);
 
   // Form fields
   productName = '';
   description = '';
+
+  // Edit Mode state
+  isEditMode = false;
+  templateId: string | null = null;
+  isLoading = false;
 
   // Operations table
   operations: OperationItem[] = [this.createEmptyOperation()];
@@ -58,10 +63,43 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
   ];
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private templateService: TemplateService,
     private pdfFacade: PdfExportFacadeService
   ) { }
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.templateId = id;
+      this.loadTemplateData(id);
+    }
+  }
+
+  loadTemplateData(id: string): void {
+    this.isLoading = true;
+    this.templateService.getById(id).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (template: Template) => {
+        this.productName = template.name;
+        this.description = template.description || '';
+        if (template.jsonPayload) {
+          const payload = parsePayload(template.jsonPayload);
+          if (payload && payload.operations) {
+            this.operations = payload.operations;
+          }
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar la plantilla para edición:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
   createEmptyOperation(): OperationItem {
     return {
@@ -131,7 +169,11 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
     this.isSaving = true;
     this.saveError = '';
 
-    this.templateService.create(request).pipe(
+    const requestObservable = this.isEditMode && this.templateId
+      ? this.templateService.update(this.templateId, request)
+      : this.templateService.create(request);
+
+    requestObservable.pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: () => {

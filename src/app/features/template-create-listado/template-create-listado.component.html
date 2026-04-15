@@ -4,14 +4,19 @@
     <button class="back-button" (click)="goBack()">
       ← Volver
     </button>
-    <button class="save-button" [disabled]="!isFormValid || isSaving" (click)="save()">
-      {{ isSaving ? 'Guardando...' : 'Guardar' }}
+    <button class="save-button" [disabled]="!isFormValid || isSaving || isLoading" (click)="save()">
+      {{ isSaving ? (isEditMode ? 'Actualizando...' : 'Guardando...') : (isEditMode ? 'Actualizar Cambios' : 'Guardar') }}
     </button>
+  </div>
+
+  <!-- Loading Message -->
+  <div class="loading-state" *ngIf="isLoading" style="text-align: center; margin: 20px 0; color: #666;">
+    Cargando plantilla...
   </div>
 
   <!-- Success Message -->
   <div class="success-message" *ngIf="saveSuccess">
-    ✓ Plantilla guardada exitosamente
+    ✓ Plantilla {{ isEditMode ? 'actualizada' : 'guardada' }} exitosamente
   </div>
 
   <!-- Error Message -->
