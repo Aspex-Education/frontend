@@ -61,7 +61,7 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
     private router: Router,
     private templateService: TemplateService,
     private pdfFacade: PdfExportFacadeService
-  ) {}
+  ) { }
 
   createEmptyOperation(): OperationItem {
     return {
@@ -130,7 +130,7 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
 
     this.isSaving = true;
     this.saveError = '';
-    
+
     this.templateService.create(request).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
@@ -138,8 +138,6 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
         this.isSaving = false;
         this.saveSuccess = true;
         this.isDirty = false;
-        
-        // Navigate immediately to home upon success
         this.router.navigate(['/home']);
       },
       error: (err) => {
