@@ -1,85 +1,151 @@
 <!-- Loading State -->
-<div class="loading-state" *ngIf="isLoading">
-  <p>Cargando...</p>
+<div class="state-overlay" *ngIf="isLoading">
+  <div class="state-spinner">
+    <div class="spinner-ring"></div>
+    <p>Cargando plantilla...</p>
+  </div>
 </div>
 
 <!-- Not Found State -->
-<div class="not-found-state" *ngIf="!isLoading && notFound">
-  <p>Plantilla no encontrada.</p>
-  <button class="back-button-primary" (click)="goBack()">Volver al inicio</button>
+<div class="state-overlay" *ngIf="!isLoading && notFound">
+  <div class="state-empty">
+    <span class="state-icon">📄</span>
+    <h2>Plantilla no encontrada</h2>
+    <p>No pudimos encontrar la plantilla que buscas.</p>
+    <app-action-button variant="primary" icon="pi pi-arrow-left" label="Volver al inicio" (clicked)="goBack()"></app-action-button>
+  </div>
 </div>
 
 <!-- Detail State -->
-<div class="detail-container" *ngIf="!isLoading && !notFound && template">
-  <!-- Back Button -->
-  <button class="back-button" (click)="goBack()">
-    ← Volver
-  </button>
+<div class="page-wrapper" *ngIf="!isLoading && !notFound && template">
 
-  <!-- Icon Section -->
-  <div class="icon-section">
-    <div class="icon-wrapper" *ngIf="template.type === 'EXCEL'" [style.background-color]="getAccentColor(template.type)">
-      <span class="excel-logo">X</span>
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="header-inner">
+      <div class="header-meta">
+        <button class="back-link" (click)="goBack()">
+          <span class="back-arrow">←</span> Volver
+        </button>
+        <div class="header-text">
+          <h1 class="page-title">{{ template.name }}</h1>
+          <p class="page-subtitle">{{ template.description }}</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <app-action-button 
+          variant="secondary" 
+          *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'"
+          icon="pi pi-book" 
+          label="Ver plantillas de guía"
+          (clicked)="onViewGuides()">
+        </app-action-button>
+        <app-action-button 
+          variant="primary"
+          *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))"
+          [icon]="template.type === 'EXCEL' || template.type === 'PDF' ? 'pi pi-download' : 'pi pi-plus'"
+          [label]="template.type === 'EXCEL' || template.type === 'PDF' ? 'Descargar' : 'Crear mi plantilla'"
+          (clicked)="onAction()">
+        </app-action-button>
+        <div class="premium-notice"
+          *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
+          ✨ Disponible para usuarios Premium — próximamente
+        </div>
+      </div>
     </div>
-    <div class="icon-wrapper" *ngIf="template.type === 'PDF'" [style.background-color]="getAccentColor(template.type)">
-      <span class="pdf-logo">PDF</span>
+  </header>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+
+    <!-- Left Column -->
+    <div class="col-main">
+
+      <!-- Video Section — solo si explainVideo no es null -->
+      <section class="video-card" *ngIf="template.explainVideo">
+        <div class="video-hero">
+          <div class="video-wrapper">
+            <iframe [src]="getEmbedUrl(template.explainVideo) | sanitizeUrl" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-overlay-text">
+            <h3 class="video-title">Video Explicativo</h3>
+            <p class="video-subtitle">Aprende a usar esta plantilla con nuestra guía en video.</p>
+          </div>
+        </div>
+      </section>
+
     </div>
-    <div class="icon-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF'">
-      {{ getIconForType(template.type) }}
-    </div>
+
+    <!-- Right Column: Sidebar -->
+    <aside class="col-sidebar">
+
+      <!-- Type Icon Card -->
+      <div class="sidebar-card type-card">
+        <div class="type-icon-wrap" [style.background]="getAccentColor(template.type) + '1A'">
+          <div class="type-icon" *ngIf="template.type === 'EXCEL'" [style.background]="getAccentColor(template.type)">
+            <span class="icon-text">X</span>
+          </div>
+          <div class="type-icon" *ngIf="template.type === 'PDF'" [style.background]="getAccentColor(template.type)">
+            <span class="icon-text icon-text--sm">PDF</span>
+          </div>
+          <div class="type-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF'">
+            {{ getIconForType(template.type) }}
+          </div>
+        </div>
+        <h3 class="type-name">{{ template.name }}</h3>
+        <span class="access-pill" [class.access-free]="template.accessLevel === 'FREE'"
+          [class.access-premium]="template.accessLevel === 'PREMIUM'">
+          {{ template.accessLevel === 'FREE' ? '✓ Gratuita' : '★ Premium' }}
+        </span>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="sidebar-card tips-card">
+        <h5 class="tips-heading">Consejos Rápidos</h5>
+        <ul class="tips-list">
+          <li class="tip-item">
+            <span class="tip-icon">💡</span>
+            Agrupa operaciones por tipo de máquina para reducir tiempos muertos.
+          </li>
+          <li class="tip-item">
+            <span class="tip-icon">🛡</span>
+            Añade márgenes de calidad cada 5 operaciones críticas.
+          </li>
+        </ul>
+      </div>
+
+      <!-- CTA Action Card (mobile-hidden, desktop-visible) -->
+      <div class="sidebar-card action-card"
+        *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))">
+        <p class="action-card-hint">¿Listo para comenzar?</p>
+        <app-action-button 
+          variant="primary" 
+          [fullWidth]="true"
+          [icon]="template.type === 'EXCEL' || template.type === 'PDF' ? 'pi pi-download' : 'pi pi-plus'"
+          [label]="template.type === 'EXCEL' || template.type === 'PDF' ? 'Descargar plantilla' : 'Crear mi plantilla'"
+          (clicked)="onAction()">
+        </app-action-button>
+        <app-action-button 
+          variant="ghost" 
+          [fullWidth]="true" 
+          *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'"
+          icon="pi pi-book" 
+          label="Ver guías de plantilla"
+          style="margin-top: 8px;"
+          (clicked)="onViewGuides()">
+        </app-action-button>
+      </div>
+
+      <!-- Premium Sidebar Notice -->
+      <div class="sidebar-card premium-card"
+        *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
+        <span class="premium-star">★</span>
+        <p class="premium-card-text">Disponible para usuarios <strong>Premium</strong> — próximamente.</p>
+      </div>
+
+    </aside>
   </div>
 
-  <!-- Template Name and Badge -->
-  <div class="header-section">
-    <h1 class="template-name">{{ template.name }}</h1>
-    <div class="badge-container">
-      <span class="badge" [class.badge-free]="template.accessLevel === 'FREE'" [class.badge-premium]="template.accessLevel === 'PREMIUM'">
-        {{ template.accessLevel==='FREE' ? 'Gratis' : 'Premium' }}
-      </span>
-    </div>
-  </div>
-
-  <!-- Description -->
-  <div class="description-section">
-    <p class="template-description">{{ template.description }}</p>
-  </div>
-
-  <!-- Action Button or Premium Message -->
-  <div class="action-section">
-    <!-- Premium message for EXCEL/PDF Premium templates -->
-    <p class="premium-message" *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
-      Disponible para usuarios Premium — próximamente
-    </p>
-
-    <!-- Action button for FREE templates or interactive templates -->
-    <button 
-      class="action-button" 
-      *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))"
-      [style.background-color]="getAccentColor(template.type)"
-      (click)="onAction()">
-      <span *ngIf="template.type === 'EXCEL' || template.type === 'PDF'">⬇ Descargar</span>
-      <span *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'">Crear mi plantilla</span>
-    </button>
-
-    <!-- Secondary button for LISTADO_OPERACIONES and SAM -->
-    <button
-      class="secondary-button"
-      *ngIf="template.type === 'LISTADO_OPERACIONES' || template.type === 'SAM'"
-      (click)="onViewGuides()">
-      Ver plantillas de guía
-    </button>
-  </div>
-
-  <!-- Video Section (only if video exists) -->
-  <div class="video-section" *ngIf="getVideoUrl(template.type)">
-    <h3>Video explicativo</h3>
-    <div class="video-wrapper">
-      <iframe 
-        [src]="getVideoUrl(template.type) | sanitizeUrl" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-    </div>
-  </div>
 </div>

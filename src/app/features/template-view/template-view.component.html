@@ -5,7 +5,7 @@
   </button>
 
   <!-- Title -->
-  <h1 class="page-title">Plantillas de guía</h1>
+  <h1 class="page-title">{{ isSingleViewMode ? 'Ver Plantilla' : 'Plantillas de guía' }}</h1>
 
   <!-- Loading State -->
   <div class="loading-state" *ngIf="isLoading">
@@ -19,8 +19,8 @@
 
   <!-- Content -->
   <div *ngIf="!isLoading && !isEmpty">
-    <!-- Template Select -->
-    <div class="form-group">
+    <!-- Template Select (Only for guides) -->
+    <div class="form-group" *ngIf="!isSingleViewMode">
       <select class="guide-select" [(ngModel)]="selectedTemplate" (ngModelChange)="onSelectTemplate($event)">
         <option [ngValue]="null">Selecciona una plantilla...</option>
         <option *ngFor="let template of templates" [ngValue]="template">
@@ -29,8 +29,8 @@
       </select>
     </div>
 
-    <!-- Alert Warning -->
-    <div class="alert-warning" *ngIf="selectedTemplate">
+    <!-- Alert Warning (Only for guides) -->
+    <div class="alert-warning" *ngIf="selectedTemplate && !isSingleViewMode">
       <span class="alert-icon">⚠️</span>
       <span>Esta plantilla es solo de guía. Úsala como referencia y ajústala a tu taller.</span>
     </div>

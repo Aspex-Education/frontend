@@ -1,0 +1,74 @@
+/* Mask/Background Overlay Styling */
+.custom-confirm-mask {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(2px);
+  z-index: 1000 !important;
+}
+
+/* Main Dialog Styling */
+.custom-confirm-modal {
+  background-color: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e5e7eb !important;
+  overflow: hidden;
+  font-family: inherit;
+  z-index: 1001 !important;
+}
+
+/* Header */
+.custom-confirm-modal .p-dialog-header {
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff !important;
+}
+
+.custom-confirm-modal .p-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Close Button */
+.custom-confirm-modal .p-dialog-header-close {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-confirm-modal .p-dialog-header-close:hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Content */
+.custom-confirm-modal .p-dialog-content {
+  padding: 1rem 1.5rem 0 1.5rem !important;
+  background-color: #ffffff !important;
+}
+
+.confirm-modal-content {
+  color: #4b5563;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Actions Footer */
+.confirm-modal-actions {
+  background-color: #ffffff !important;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid transparent; 
+}

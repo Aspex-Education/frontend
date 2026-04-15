@@ -1,0 +1,159 @@
+.utc-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border-top: 3px solid var(--accent, #003f87);
+  box-shadow: 0 2px 12px rgba(26, 28, 29, 0.06);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: default;
+}
+
+.utc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(26, 28, 29, 0.10);
+}
+
+.utc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.utc-icon-wrap {
+  width: 36px;
+  height: 36px;
+  background: color-mix(in srgb, var(--accent, #003f87) 12%, transparent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.utc-icon-wrap .pi {
+  color: var(--accent, #003f87);
+  font-size: 1rem;
+}
+
+.utc-type-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent, #003f87);
+  background: color-mix(in srgb, var(--accent, #003f87) 10%, transparent);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.utc-body {
+  flex: 1;
+}
+
+.utc-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1c1d;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.utc-desc {
+  font-size: 0.8125rem;
+  color: #424752;
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.utc-desc--empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.utc-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.utc-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #727784;
+}
+
+.utc-date .pi {
+  font-size: 0.7rem;
+}
+
+.utc-actions {
+  display: flex;
+  gap: 6px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 12px;
+  margin-top: 2px;
+}
+
+.utc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  font-family: inherit;
+}
+
+.utc-btn:active {
+  transform: scale(0.97);
+}
+
+.utc-btn--view {
+  background: color-mix(in srgb, var(--accent, #003f87) 10%, transparent);
+  color: var(--accent, #003f87);
+  flex: 1;
+}
+
+.utc-btn--view:hover {
+  background: color-mix(in srgb, var(--accent, #003f87) 18%, transparent);
+}
+
+.utc-btn--edit {
+  background: #f3f4f6;
+  color: #374151;
+  flex: 1;
+}
+
+.utc-btn--edit:hover {
+  background: #e5e7eb;
+}
+
+.utc-btn--delete {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 6px 10px;
+  flex: 0;
+}
+
+.utc-btn--delete:hover {
+  background: #fee2e2;
+}
+
+.utc-btn .pi {
+  font-size: 0.8rem;
+}

@@ -1,0 +1,39 @@
+<div class="user-templates-page">
+  <div class="page-header">
+    <button class="back-button" (click)="goBack()">
+      ← Volver al Home
+    </button>
+    <h1 class="page-title">Mis Plantillas</h1>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <p>Cargando tus plantillas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && userTemplates.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <i class="pi pi-copy"></i>
+    </div>
+    <h3 class="empty-title">Aún no has creado plantillas</h3>
+    <p class="empty-desc">
+      Comienza diseñando tu primer flujo de trabajo personalizado.
+    </p>
+  </div>
+
+  <div class="templates-grid" *ngIf="!isLoading && userTemplates.length > 0">
+    <app-user-template-card *ngFor="let t of userTemplates" [template]="t"
+      (cardAction)="onUserTemplateAction($event)">
+    </app-user-template-card>
+  </div>
+</div>
+
+<app-confirm-modal
+  [(visible)]="isDeleteModalVisible"
+  header="Eliminar Plantilla"
+  [message]="'¿Estás seguro de que quieres eliminar la plantilla \'' + (templateToDelete?.name || '') + '\'? Esta acción no se puede deshacer.'"
+  confirmLabel="Eliminar"
+  confirmVariant="danger"
+  [loading]="isDeletingTemplate"
+  (confirmed)="confirmDeleteTemplate()"
+  (cancelled)="cancelDeleteTemplate()">
+</app-confirm-modal>

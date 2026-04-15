@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './layouts/main-layout.component';
 import { TemplateDetailComponent } from './features/template-detail/template-detail.component';
 import { TemplateCreateComponent } from './features/template-create/template-create.component';
 import { TemplateViewComponent } from './features/template-view/template-view.component';
+import { UserTemplatesComponent } from './features/user-templates/user-templates.component';
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 import { PrivacyPolicyComponent } from './legal/privacy-policy.component';
 
@@ -21,8 +22,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
+      { path: 'my-templates', component: UserTemplatesComponent },
       { path: 'templatesDefinition/:id', component: TemplateDetailComponent },
       { path: 'templates/:type/create', component: TemplateCreateComponent, canDeactivate: [unsavedChangesGuard] },
+      { path: 'templates/:id/edit', component: TemplateCreateComponent, canDeactivate: [unsavedChangesGuard] },
       { path: 'templates/:type/guide', component: TemplateViewComponent },
       { path: 'templates/:id/view', component: TemplateViewComponent },
       { path: 'about', component: HomeComponent },
