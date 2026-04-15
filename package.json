@@ -21,6 +21,7 @@
     "@angular/router": "^19.2.18",
     "@primeuix/themes": "^2.0.3",
     "jwt-decode": "^4.0.0",
+    "primeicons": "^7.0.0",
     "primeng": "^19.1.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

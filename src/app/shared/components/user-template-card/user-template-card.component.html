@@ -4,7 +4,7 @@
 >
   <div class="utc-header">
     <div class="utc-icon-wrap">
-      <i class="pi {{ getTypeIcon(template.type) }}"></i>
+      <i class="pi" [ngClass]="getTypeIcon(template.type)"></i>
     </div>
     <span class="utc-type-badge">{{ getTypeLabel(template.type) }}</span>
   </div>
@@ -27,7 +27,7 @@
       class="utc-btn utc-btn--view"
       (click)="emit('view')"
       title="Ver plantilla"
-      id="utc-btn-view-{{ template.id }}"
+      [id]="'utc-btn-view-' + template.id"
     >
       <i class="pi pi-eye"></i>
       Ver
@@ -37,7 +37,7 @@
       class="utc-btn utc-btn--edit"
       (click)="emit('edit')"
       title="Editar plantilla"
-      id="utc-btn-edit-{{ template.id }}"
+      [id]="'utc-btn-edit-' + template.id"
     >
       <i class="pi pi-pencil"></i>
       Editar
@@ -47,7 +47,7 @@
       class="utc-btn utc-btn--delete"
       (click)="emit('delete')"
       title="Eliminar plantilla"
-      id="utc-btn-delete-{{ template.id }}"
+      [id]="'utc-btn-delete-' + template.id"
     >
       <i class="pi pi-trash"></i>
     </button>
