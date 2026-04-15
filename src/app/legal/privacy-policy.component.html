@@ -7,21 +7,41 @@
     <p class="last-update">Última actualización: 23 de marzo de 2026</p>
   </header>
 
-  <nav class="table-of-contents">
-    <h3>Índice</h3>
-    <ul>
-      <li><a (click)="scrollToSection('intro')">1. Introducción</a></li>
-      <li><a (click)="scrollToSection('info')">2. Qué información recopilamos</a></li>
-      <li><a (click)="scrollToSection('uso')">3. Cómo usamos tu información</a></li>
-      <li><a (click)="scrollToSection('base-legal')">4. Base legal del tratamiento</a></li>
-      <li><a (click)="scrollToSection('compartir')">5. Con quién compartimos tus datos</a></li>
-      <li><a (click)="scrollToSection('seguridad')">6. Seguridad de los datos</a></li>
-      <li><a (click)="scrollToSection('retencion')">7. Retención de datos</a></li>
-      <li><a (click)="scrollToSection('derechos')">8. Tus derechos (Habeas Data)</a></li>
-      <li><a (click)="scrollToSection('cookies')">9. Uso de Cookies</a></li>
-      <li><a (click)="scrollToSection('cambios')">10. Cambios a esta política</a></li>
-      <li><a (click)="scrollToSection('contacto')">11. Información de Contacto</a></li>
-    </ul>
+  <button
+    id="privacy-toc-fab"
+    class="toc-fab"
+    (click)="toggleToc()"
+    [attr.aria-expanded]="tocOpen"
+    aria-label="Abrir índice"
+    title="Índice"
+  >
+    <i class="pi" [ngClass]="tocOpen ? 'pi-times' : 'pi-list'"></i>
+  </button>
+
+  <div class="toc-backdrop" [class.visible]="tocOpen" (click)="closeToc()"></div>
+
+  <nav id="privacy-toc" class="table-of-contents" [class.open]="tocOpen" aria-label="Índice de contenidos">
+    <div class="toc-inner">
+      <div class="toc-header">
+        <h3>Índice</h3>
+        <button class="toc-close-btn" (click)="closeToc()" aria-label="Cerrar índice">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+      <ul>
+        <li><a (click)="scrollToSection('intro')">1. Introducción</a></li>
+        <li><a (click)="scrollToSection('info')">2. Qué información recopilamos</a></li>
+        <li><a (click)="scrollToSection('uso')">3. Cómo usamos tu información</a></li>
+        <li><a (click)="scrollToSection('base-legal')">4. Base legal del tratamiento</a></li>
+        <li><a (click)="scrollToSection('compartir')">5. Con quién compartimos tus datos</a></li>
+        <li><a (click)="scrollToSection('seguridad')">6. Seguridad de los datos</a></li>
+        <li><a (click)="scrollToSection('retencion')">7. Retención de datos</a></li>
+        <li><a (click)="scrollToSection('derechos')">8. Tus derechos (Habeas Data)</a></li>
+        <li><a (click)="scrollToSection('cookies')">9. Uso de Cookies</a></li>
+        <li><a (click)="scrollToSection('cambios')">10. Cambios a esta política</a></li>
+        <li><a (click)="scrollToSection('contacto')">11. Información de Contacto</a></li>
+      </ul>
+    </div>
   </nav>
 
   <article class="privacy-content">

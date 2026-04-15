@@ -10,15 +10,26 @@ import { Router } from '@angular/router';
   styleUrl: './privacy-policy.component.css'
 })
 export class PrivacyPolicyComponent {
+  tocOpen = false;
+
   constructor(private router: Router) {}
 
   goBack(): void {
     this.router.navigate(['/home']);
   }
 
+  toggleToc(): void {
+    this.tocOpen = !this.tocOpen;
+  }
+
+  closeToc(): void {
+    this.tocOpen = false;
+  }
+
   scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);
     if (element) {
+      this.closeToc();
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
