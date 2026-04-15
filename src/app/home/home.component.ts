@@ -22,6 +22,16 @@ export class HomeComponent implements OnInit {
   userTemplates: Template[] = [];
   availableTemplates: TemplateDefinition[] = [];
 
+  private readonly USER_TEMPLATES_LIMIT = 4;
+
+  get visibleUserTemplates(): Template[] {
+    return this.userTemplates.slice(0, this.USER_TEMPLATES_LIMIT);
+  }
+
+  get hasMoreUserTemplates(): boolean {
+    return this.userTemplates.length > this.USER_TEMPLATES_LIMIT;
+  }
+
   constructor(
     private authService: AuthService,
     private router: Router,

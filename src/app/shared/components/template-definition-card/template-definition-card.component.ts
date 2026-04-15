@@ -1,36 +1,51 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TemplateDefinition } from '../../../core/models/template-definition.model';
+import {
+  TemplateDefinition,
+  TemplateType,
+  TemplateCategory,
+  TEMPLATE_CATEGORY_LABELS,
+} from '../../../core/models/template-definition.model';
+
+interface TypeConfig {
+  label: string;
+  colorClass: string;
+  piIcon: string;
+  borderColor: string;
+}
+
+const TYPE_CONFIG: Record<TemplateType, TypeConfig> = {
+  PDF:                  { label: 'PDF',      colorClass: 'badge--pdf',     piIcon: 'pi-file-pdf',   borderColor: '#dc2626' },
+  EXCEL:                { label: 'Excel',    colorClass: 'badge--excel',   piIcon: 'pi-file-excel', borderColor: '#16a34a' },
+  LISTADO_OPERACIONES:  { label: 'Plantilla',colorClass: 'badge--default', piIcon: 'pi-list',       borderColor: '#003f87' },
+  SAM:                  { label: 'Plantilla',colorClass: 'badge--default', piIcon: 'pi-chart-bar',  borderColor: '#003f87' },
+};
 
 @Component({
   selector: 'app-template-definition-card',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './template-definition-card.component.html',
-  styleUrl: './template-definition-card.component.css'
+  styleUrls: ['./template-definition-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TemplateDefinitionCardComponent {
   @Input() template!: TemplateDefinition;
   @Output() cardAction = new EventEmitter<TemplateDefinition>();
 
-  getIconForType(type: string): string {
-    const icons: Record<string, string> = {
-      'LISTADO_OPERACIONES': '📋',
-      'SAM': '📊',
-      'EXCEL': '📊', // Will be styled with CSS
-      'PDF': '📄'   // Will be styled with CSS
-    };
-    return icons[type] || '📄';
+  get typeConfig(): TypeConfig {
+    return TYPE_CONFIG[this.template.type] ?? TYPE_CONFIG['LISTADO_OPERACIONES'];
   }
 
-  getAccentColor(type: string): string {
-    const colors: Record<string, string> = {
-      'LISTADO_OPERACIONES': '#2563EB',
-      'SAM': '#7C3AED',
-      'EXCEL': '#217346',
-      'PDF': '#DC2626'
-    };
-    return colors[type] || '#2563EB';
+  get categoryLabel(): string | null {
+    if (!this.template.category) return null;
+    return TEMPLATE_CATEGORY_LABELS[this.template.category as TemplateCategory] ?? null;
   }
 
   onButtonClick(): void {
