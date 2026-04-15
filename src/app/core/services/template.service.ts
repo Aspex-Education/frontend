@@ -23,6 +23,10 @@ export class TemplateService {
     return this.http.get<Template[]>(this.apiUrl, { params });
   }
 
+  getById(id: string): Observable<Template> {
+    return this.http.get<Template>(`${this.apiUrl}/${id}`);
+  }
+
   getByUserId(userId: string): Observable<Template[]> {
     const params = new HttpParams().set('userId', userId);
     return this.http.get<Template[]>(this.apiUrl, { params });

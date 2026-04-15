@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
   onUserTemplateAction(event: UserTemplateAction): void {
     const { action, template } = event;
     if (action === 'view' || action === 'edit') {
-      this.router.navigate(['/templates', template.id]);
+      this.router.navigate(['/templates', template.id, action]); // Generará /templates/:id/view o /templates/:id/edit
     }
     if (action === 'delete') {
       console.warn('Delete not yet implemented for:', template.id);
