@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateService } from '../../core/services/template.service';
+import { PdfExportFacadeService } from '../../core/services/pdf-export-facade.service';
 import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, MachineType } from '../../core/models/template.model';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
 
@@ -58,7 +59,8 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
 
   constructor(
     private router: Router,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private pdfFacade: PdfExportFacadeService
   ) {}
 
   createEmptyOperation(): OperationItem {
@@ -136,6 +138,9 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
         this.isSaving = false;
         this.saveSuccess = true;
         this.isDirty = false;
+        
+        // Navigate immediately to home upon success
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.isSaving = false;
@@ -143,6 +148,11 @@ export class TemplateCreateListadoComponent implements CanComponentDeactivate {
         console.error(err);
       }
     });
+  }
+
+  exportToPdf(): void {
+    const name = this.productName.trim() || 'Plantilla Sin Nombre';
+    this.pdfFacade.exportListadoOperaciones(name, this.operations);
   }
 
   goBack(): void {

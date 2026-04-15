@@ -94,7 +94,7 @@
   </div>
 
   <!-- Export Button -->
-  <button class="export-btn" disabled title="Próximamente">
+  <button class="export-btn" (click)="exportToPdf()" [disabled]="operations.length === 0">
     Exportar a PDF
   </button>
 
