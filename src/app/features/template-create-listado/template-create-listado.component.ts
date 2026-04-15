@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateService } from '../../core/services/template.service';
 import { PdfExportFacadeService } from '../../core/services/pdf-export-facade.service';
-import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, MachineType, parsePayload, Template } from '../../core/models/template.model';
+import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, UpdateTemplateRequest, MachineType, parsePayload, Template } from '../../core/models/template.model';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
 
 @Component({
@@ -159,7 +159,7 @@ export class TemplateCreateListadoComponent implements OnInit, CanComponentDeact
     };
 
     // Construir request
-    const request: CreateTemplateRequest = {
+    const request: CreateTemplateRequest | UpdateTemplateRequest = {
       name: this.productName.trim(),
       description: finalDescription,
       type: 'LISTADO_OPERACIONES',

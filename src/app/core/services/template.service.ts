@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Template, CreateTemplateRequest } from '../models/template.model';
+import { Template, CreateTemplateRequest, UpdateTemplateRequest } from '../models/template.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class TemplateService {
     return this.http.post<Template>(this.apiUrl, request);
   }
 
-  update(id: string, request: Partial<CreateTemplateRequest>): Observable<Template> {
+  update(id: string, request: UpdateTemplateRequest): Observable<Template> {
     return this.http.put<Template>(`${this.apiUrl}/${id}`, request);
   }
 
