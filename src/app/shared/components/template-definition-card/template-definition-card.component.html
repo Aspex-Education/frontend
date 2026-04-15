@@ -1,5 +1,8 @@
 <article class="tdc-card" [class.tdc-card--has-image]="!!template.imagePreview"
   [style.--tdc-accent]="typeConfig.borderColor">
+  <div class="tdc-premium-overlay" *ngIf="template.accessLevel === 'PREMIUM'">
+    <i class="pi pi-star-fill"></i> Premium
+  </div>
 
   <div class="tdc-image-wrap" *ngIf="template.imagePreview">
     <img [src]="template.imagePreview" [alt]="template.name" class="tdc-image" loading="lazy" />
@@ -17,10 +20,6 @@
         {{ categoryLabel }}
       </span>
 
-      <span class="tdc-premium-badge" *ngIf="template.accessLevel === 'PREMIUM'">
-        <i class="pi pi-star-fill"></i>
-        Premium
-      </span>
     </div>
 
     <h3 class="tdc-title">{{ template.name }}</h3>
