@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plans',
@@ -9,10 +10,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './plans.component.css'
 })
 export class PlansComponent {
+  private router = inject(Router);
   selectedPlan: 'free' | 'pro' | null = null;
   whatsappNumberUrl = `https://wa.me/573000000000?text=`;
 
   selectPlan(plan: 'free' | 'pro' | null) {
+    if (plan === 'free') {
+      this.router.navigate(['/home']);
+      return;
+    }
     this.selectedPlan = plan;
     // Scroll to top when the view switches to ensure correct placement
     window.scrollTo({ top: 0, behavior: 'smooth' });

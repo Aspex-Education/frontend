@@ -1,5 +1,5 @@
 <div class="plans-wrapper">
-  
+
   <!-- Plan Selection View -->
   <ng-container *ngIf="!selectedPlan">
     <header class="header-section text-center">
@@ -88,11 +88,11 @@
         <div class="checkout-header">
           <h3>Resumen de tu selección</h3>
           <div class="checkout-summary">
-            <span class="selected-plan-name">{{ selectedPlan === 'pro' ? 'Taller Unipersonal' : 'Plan Gratuito' }}</span>
-            <span class="selected-plan-price">{{ selectedPlan === 'pro' ? '$29 / mes' : '$0' }}</span>
+            <span class="selected-plan-name">{{ selectedPlan === 'pro' ? 'Taller Unipersonal' : 'Plan Gratuito'
+              }}</span>
+            <span class="selected-plan-price">{{ selectedPlan === 'pro' ? '$15.000 Cop / mes' : '$0' }}</span>
           </div>
         </div>
-
         <div class="checkout-body">
           <ng-container *ngIf="selectedPlan === 'pro'">
             <div class="payment-instructions">
@@ -101,14 +101,22 @@
                 <i class="pi pi-wallet method-icon"></i>
                 <div class="method-details">
                   <h4>Transferencia Nequi</h4>
-                  <p>300 000 0000</p>
+                  <p>3107507397 Om** Or***</p>
                 </div>
               </div>
               <div class="method-card">
                 <i class="pi pi-building-columns method-icon"></i>
                 <div class="method-details">
-                  <h4>Transferencia Bancaria (Bre-B / Llaves)</h4>
-                  <p>Banco de Bogotá - Ahorros: 123456789</p>
+                  <h4>Transferencia Bancaria</h4>
+                  <p>Bancolombia - Ahorros: 64079864283</p>
+                </div>
+              </div>
+              <div class="method-card">
+                <i class="pi pi-building-columns method-icon"></i>
+                <div class="method-details">
+                  <h4>Llaves Bre-B</h4>
+                  <p>0091983429</p>
+                  <img src="assets/company/bre-b.jpeg" alt="Logo Bre-B" class="bre-b-logo" />
                 </div>
               </div>
             </div>

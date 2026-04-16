@@ -203,6 +203,20 @@
 .method-details h4 { font-size: 0.875rem; color: #424752; margin: 0 0 0.25rem 0; }
 .method-details p { font-size: 1.125rem; font-weight: 700; color: #1a1c1d; margin: 0; }
 
+.bre-b-logo {
+  max-width: 90px;
+  height: auto;
+  border-radius: 4px;
+  margin-top: 0.75rem;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .bre-b-logo {
+    max-width: 140px;
+  }
+}
+
 .steps-container { margin: 2rem 0; }
 .step-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
 .step-number {
