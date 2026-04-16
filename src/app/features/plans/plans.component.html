@@ -1,0 +1,174 @@
+<div class="plans-wrapper">
+  
+  <!-- Plan Selection View -->
+  <ng-container *ngIf="!selectedPlan">
+    <header class="header-section text-center">
+      <h1 class="title">Evoluciona tu técnica</h1>
+      <p class="subtitle">Accede a las herramientas profesionales que definen la industria textil contemporánea.</p>
+    </header>
+
+    <div class="pricing-grid">
+      <!-- Free Plan -->
+      <div class="plan-card">
+        <span class="plan-eyebrow">Acceso Base</span>
+        <h2 class="plan-title font-bold">Gratuito</h2>
+        <div class="plan-price">
+          <span class="price-amount">$0</span>
+        </div>
+
+        <ul class="features-list">
+          <li class="feature-item">
+            <i class="pi pi-check-circle text-primary"></i>
+            <span>Acceso a plantillas gratuitas</span>
+          </li>
+          <li class="feature-item">
+            <i class="pi pi-check-circle text-primary"></i>
+            <span>Visualizador de catálogos</span>
+          </li>
+          <li class="feature-item disabled-feature">
+            <i class="pi pi-ban text-muted"></i>
+            <span>PDFs Técnicos Premium</span>
+          </li>
+        </ul>
+
+        <button class="btn btn-outline" (click)="selectPlan('free')">Comenzar ahora</button>
+      </div>
+
+      <!-- Pro Plan -->
+      <div class="plan-card card-pro">
+        <div class="badge-recommended">Recomendado</div>
+        <span class="plan-eyebrow">Escala Profesional</span>
+        <h2 class="plan-title font-bold">Taller Unipersonal</h2>
+        <div class="plan-price">
+          <span class="price-amount">$29</span>
+          <span class="price-period">/ mes</span>
+        </div>
+
+        <ul class="features-list">
+          <li class="feature-item font-bold">
+            <i class="pi pi-verified text-secondary"></i>
+            <span>Plantillas Premium Ilimitadas</span>
+          </li>
+          <li class="feature-item font-bold">
+            <i class="pi pi-verified text-secondary"></i>
+            <span>PDFs Técnicos de Alta Resolución</span>
+          </li>
+          <li class="feature-item font-bold">
+            <i class="pi pi-verified text-secondary"></i>
+            <span>Plantillas Excel de Producción</span>
+          </li>
+          <li class="feature-item font-bold">
+            <i class="pi pi-verified text-secondary"></i>
+            <span>Certificaciones por Proyectos</span>
+          </li>
+          <li class="feature-item font-bold">
+            <i class="pi pi-verified text-secondary"></i>
+            <span>Soporte prioritario</span>
+          </li>
+        </ul>
+
+        <button class="btn btn-primary" (click)="selectPlan('pro')">Subscribirse al Taller</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Checkout View (in-place) -->
+  <ng-container *ngIf="selectedPlan">
+    <div class="checkout-wrapper">
+      <button class="btn-back" (click)="selectPlan(null)">
+        <i class="pi pi-arrow-left"></i> Volver a los planes
+      </button>
+
+      <header class="header-section text-center" style="margin-bottom: 2rem;">
+        <h1 class="title" style="font-size: 2.5rem;">Activación de Cuenta</h1>
+        <p class="subtitle">Finaliza tu proceso para acceder a las herramientas.</p>
+      </header>
+
+      <div class="checkout-card">
+        <div class="checkout-header">
+          <h3>Resumen de tu selección</h3>
+          <div class="checkout-summary">
+            <span class="selected-plan-name">{{ selectedPlan === 'pro' ? 'Taller Unipersonal' : 'Plan Gratuito' }}</span>
+            <span class="selected-plan-price">{{ selectedPlan === 'pro' ? '$29 / mes' : '$0' }}</span>
+          </div>
+        </div>
+
+        <div class="checkout-body">
+          <ng-container *ngIf="selectedPlan === 'pro'">
+            <div class="payment-instructions">
+              <h3 class="section-title">Información de Pago</h3>
+              <div class="method-card">
+                <i class="pi pi-wallet method-icon"></i>
+                <div class="method-details">
+                  <h4>Transferencia Nequi</h4>
+                  <p>300 000 0000</p>
+                </div>
+              </div>
+              <div class="method-card">
+                <i class="pi pi-building-columns method-icon"></i>
+                <div class="method-details">
+                  <h4>Transferencia Bancaria (Bre-B / Llaves)</h4>
+                  <p>Banco de Bogotá - Ahorros: 123456789</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="steps-container">
+            <h3 class="section-title">¿Qué sigue?</h3>
+            <ng-container *ngIf="selectedPlan === 'pro'; else freeSteps">
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Realiza el pago</h4>
+                  <p>Transfiere el monto exacto a cualquiera de las cuentas indicadas usando tu app.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Captura tu comprobante</h4>
+                  <p>Toma un pantallazo o descarga el recibo con la transacción exitosa.</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #freeSteps>
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Envía tus datos</h4>
+                  <p>Tu cuenta no tiene costo, pero necesitamos tu confirmación por chat.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Espera la activación</h4>
+                  <p>Nuestro equipo de soporte habilitará tu acceso y te lo notificará.</p>
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Envía por WhatsApp</h4>
+                <p>Toca el botón debajo para abrir un chat directo con nuestro equipo.</p>
+              </div>
+            </div>
+          </div>
+
+          <a [href]="getWhatsappLink()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+            <i class="pi pi-whatsapp"></i>
+            {{ selectedPlan === 'pro' ? 'Enviar comprobante' : 'Mandar mensaje de activación' }}
+          </a>
+
+          <div class="sla-info">
+            <i class="pi pi-clock"></i> Activación manual en menos de 24 horas
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

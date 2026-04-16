@@ -12,6 +12,8 @@ import { UserTemplatesComponent } from './features/user-templates/user-templates
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 import { PrivacyPolicyComponent } from './legal/privacy-policy.component';
 import { PriceEngineComponent } from './features/price-engine/price-engine.component';
+import { PlansComponent } from './features/plans/plans.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent, canActivate: [GuestGuard] },
@@ -29,7 +31,8 @@ export const routes: Routes = [
       { path: 'templates/:type/guide', component: TemplateViewComponent },
       { path: 'templates/:id/view', component: TemplateViewComponent },
       { path: 'about', component: HomeComponent },
-      { path: 'privacy', component: PrivacyPolicyComponent }
+      { path: 'privacy', component: PrivacyPolicyComponent },
+      { path: 'plans', component: PlansComponent }
     ]
   },
   { path: 'landing', component: PriceEngineComponent },
