@@ -5,29 +5,22 @@
     <!-- Top Centered Header -->
     <div class="pe-header-centered">
       <h1 class="pe-main-title">
-        Termómetro de precios Confección
+        ¿Cuánto cobro por mi confección?
       </h1>
       <p class="pe-main-desc">
-        Tenemos una lista de productos para que te guíes. Ojo, solo es una referencia, te sugerimos tú sacar tus propios precios.
+        Tenemos una lista de productos para que te guíes. Ojo, solo es una referencia, te sugerimos tú sacar tus propios
+        precios.
       </p>
     </div>
 
     <!-- Select / Autocomplete (Now full top width) -->
     <div class="pe-select-container pe-select-lg">
-      <div 
-        (click)="toggleDropdown($event)"
-        class="pe-search-box">
-        
-        <input 
-          [formControl]="searchControl"
-          (click)="$event.stopPropagation(); toggleDropdown($event)"
-          class="pe-search-input" 
-          placeholder="Buscar..." 
-          type="text" 
-        />
-        
-        <button 
-          class="pe-icon-btn">
+      <div (click)="toggleDropdown($event)" class="pe-search-box">
+
+        <input [formControl]="searchControl" (click)="$event.stopPropagation(); toggleDropdown($event)"
+          class="pe-search-input" placeholder="Buscar..." type="text" />
+
+        <button class="pe-icon-btn">
           <i class="pi pi-chevron-down pe-icon-search"></i>
         </button>
       </div>
@@ -35,16 +28,14 @@
       <!-- Dropdown Options -->
       <div *ngIf="dropdownOpen()" class="pe-dropdown">
         <ul class="pe-dropdown-list">
-            <li *ngFor="let result of filteredResults()" 
-                (click)="selectItem(result)"
-                class="pe-dropdown-item">
-              <span class="pe-dropdown-text">{{ result.name }}</span>
-              <i *ngIf="selectedItem()?.id === result.id" class="pi pi-check pe-dropdown-check"></i>
-            </li>
-            <li *ngIf="filteredResults().length === 0" class="pe-dropdown-empty">
-              <i class="pi pi-box pe-empty-icon"></i>
-              <p class="pe-empty-text">No se encontraron prendas.</p>
-            </li>
+          <li *ngFor="let result of filteredResults()" (click)="selectItem(result)" class="pe-dropdown-item">
+            <span class="pe-dropdown-text">{{ result.name }}</span>
+            <i *ngIf="selectedItem()?.id === result.id" class="pi pi-check pe-dropdown-check"></i>
+          </li>
+          <li *ngIf="filteredResults().length === 0" class="pe-dropdown-empty">
+            <i class="pi pi-box pe-empty-icon"></i>
+            <p class="pe-empty-text">No se encontraron prendas.</p>
+          </li>
         </ul>
       </div>
     </div>
@@ -57,43 +48,45 @@
     <!-- Layout Grilla Principal (Price + Promo Ad) -->
     <ng-container *ngIf="selectedItem() as item">
       <div class="pe-content-grid">
-        
+
         <!-- Main Price Card (Left) -->
         <div class="pe-card-price">
           <div class="pe-price-header">
             <div class="pe-price-title-group">
-              <span class="pe-subtitle">Sugerencia confección</span>
-              <h3 class="pe-big-price">${{ item.baseRate | number:'1.2-2' }}</h3>
+              <span class="pe-subtitle">Rango sugerido para confección</span>
+              <h3 class="pe-big-price">${{ item.minPrice | number:'1.0-0' }} - ${{ item.maxPrice | number:'1.0-0' }}
+              </h3>
             </div>
-            
-            <span class="pe-badge" [ngClass]="getDifficultyClass(item.difficulty)">
-              <i class="pi pi-bolt pe-badge-icon"></i>
-              {{ item.difficulty }}
+
+            <span class="pe-badge badge-default">
+              <i class="pi pi-calendar pe-badge-icon"></i>
+              Actualizado: {{ item.lastUpdate }}
             </span>
           </div>
 
           <hr class="pe-divider" />
 
-          <div class="pe-metrics-row">
-            <div class="pe-metric-item">
-              <span class="pe-metric-label">Tiempo Est.</span>
-              <div class="pe-metric-value">
-                <i class="pi pi-clock pe-metric-icon"></i>
-                {{ item.minutes }} min
-              </div>
+          <p class="pe-price-info">
+            Este rango sugerido es una referencia para guiar tus precios. Recuerda que factores como la complejidad
+            adicional, acabados y cantidad pueden influir en el costo final.
+          </p>
+
+          <div class="pe-warning-box">
+            <div class="pe-warning-header">
+              <i class="pi pi-exclamation-triangle"></i>
+              Importante
             </div>
-            <div class="pe-metric-item">
-                <span class="pe-metric-label">Insumos</span>
-              <div class="pe-metric-value">
-                <i class="pi pi-box pe-metric-icon"></i>
-                {{ item.insumosCount }} items
-              </div>
-            </div>
+            <p class="pe-warning-text">
+              Estos precios son aproximados y basados en nuestros propios talleres, te sugerimos registrarte en la plataforma y comenzar a hacer tus propias plantillas y tus cálculos para evitar dar precios erróneos y organizar mejor tu negocio.
+            </p>
           </div>
           
-          <p class="pe-price-info">
-            Este precio o tiempo sugerido es un estimado algorítmico pensado en tiempos base de confección, insumos estándar y escalonamiento productivo base.
-          </p>
+          <app-action-button 
+            label="Comenzar ahora" 
+            variant="primary" 
+            [fullWidth]="true"
+            (clicked)="navigateToRegister()">
+          </app-action-button>
         </div>
 
         <!-- Sidebar Promo Card (Right) -->

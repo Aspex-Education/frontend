@@ -3,29 +3,28 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { PromoCardComponent } from '../../shared/components/promo-card/promo-card.component';
+import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
 
 export interface LaborPrice {
   id: string;
   name: string;
-  baseRate: number;
-  difficulty: 'Bajo' | 'Medio' | 'Alto';
-  minutes: number;
-  insumosCount: number;
-  keyOperations: string[];
+  minPrice: number;
+  maxPrice: number;
   lastUpdate: string;
 }
 
 @Component({
   selector: 'app-price-engine',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DecimalPipe, HttpClientModule, RouterLink, PromoCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, DecimalPipe, HttpClientModule, RouterLink, PromoCardComponent, ActionButtonComponent],
   templateUrl: './price-engine.component.html',
   styleUrl: './price-engine.component.css'
 })
 export class PriceEngineComponent implements OnInit {
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   priceDatabase = signal<LaborPrice[]>([]);
   dropdownOpen = signal<boolean>(false);
@@ -82,12 +81,7 @@ export class PriceEngineComponent implements OnInit {
     }
   }
 
-  getDifficultyClass(diff: string) {
-    switch (diff) {
-      case 'Bajo': return 'badge-low';
-      case 'Medio': return 'badge-medium';
-      case 'Alto': return 'badge-high';
-      default: return 'badge-default';
-    }
+  navigateToRegister() {
+    this.router.navigate(['/auth/register']);
   }
 }
