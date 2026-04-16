@@ -1,0 +1,121 @@
+[
+  {
+    "id": "1",
+    "name": "Jean básico",
+    "baseRate": 8000,
+    "difficulty": "Alto",
+    "minutes": 180,
+    "insumosCount": 8,
+    "keyOperations": [
+      "Cierre de costados",
+      "Pretina anatómica",
+      "Presillas",
+      "Ruedo"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "2",
+    "name": "Camisa Formal",
+    "baseRate": 5000,
+    "difficulty": "Medio",
+    "minutes": 120,
+    "insumosCount": 6,
+    "keyOperations": [
+      "Cuello fusionado",
+      "Puños",
+      "Pegado de botones",
+      "Ojales"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "3",
+    "name": "Camiseta Jersey",
+    "baseRate": 3500,
+    "difficulty": "Bajo",
+    "minutes": 45,
+    "insumosCount": 3,
+    "keyOperations": [
+      "Cerrado de hombros",
+      "Pegado de cuello",
+      "Ruedo"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "4",
+    "name": "Chaqueta Acolchada",
+    "baseRate": 8000,
+    "difficulty": "Alto",
+    "minutes": 300,
+    "insumosCount": 12,
+    "keyOperations": [
+      "Acolchado",
+      "Cierre frontal",
+      "Forro",
+      "Bolsillos con ribete"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "5",
+    "name": "Pantalón de drill",
+    "baseRate": 8000,
+    "difficulty": "Bajo",
+    "minutes": 60,
+    "insumosCount": 4,
+    "keyOperations": [
+      "Cerrado",
+      "Pretina elástica",
+      "Ruedo",
+      "Cordón"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "6",
+    "name": "Vestido de Noche",
+    "baseRate": 40000,
+    "difficulty": "Alto",
+    "minutes": 400,
+    "insumosCount": 15,
+    "keyOperations": [
+      "Corte al sesgo",
+      "Forro",
+      "Cierre invisible",
+      "Dobladillo a mano"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "7",
+    "name": "Falda Plisada",
+    "baseRate": 28000,
+    "difficulty": "Medio",
+    "minutes": 90,
+    "insumosCount": 5,
+    "keyOperations": [
+      "Pegado de prense",
+      "Pretina",
+      "Cierre",
+      "Ruedo"
+    ],
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "8",
+    "name": "Blusa de Seda",
+    "baseRate": 40000,
+    "difficulty": "Alto",
+    "minutes": 150,
+    "insumosCount": 4,
+    "keyOperations": [
+      "Costura francesa",
+      "Cuello",
+      "Ojales",
+      "Ruedo pañuelo"
+    ],
+    "lastUpdate": "Abril 2026"
+  }
+]

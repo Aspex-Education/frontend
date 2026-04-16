@@ -1,0 +1,127 @@
+<main class="pe-wrapper">
+  <!-- Central adaptable container -->
+  <div class="pe-container">
+
+    <!-- Top Centered Header -->
+    <div class="pe-header-centered">
+      <h1 class="pe-main-title">
+        Termómetro de precios Confección
+      </h1>
+      <p class="pe-main-desc">
+        Tenemos una lista de productos para que te guíes. Ojo, solo es una referencia, te sugerimos tú sacar tus propios precios.
+      </p>
+    </div>
+
+    <!-- Select / Autocomplete (Now full top width) -->
+    <div class="pe-select-container pe-select-lg">
+      <div 
+        (click)="toggleDropdown($event)"
+        class="pe-search-box">
+        
+        <input 
+          [formControl]="searchControl"
+          (click)="$event.stopPropagation(); toggleDropdown($event)"
+          class="pe-search-input" 
+          placeholder="Buscar..." 
+          type="text" 
+        />
+        
+        <button 
+          class="pe-icon-btn">
+          <i class="pi pi-chevron-down pe-icon-search"></i>
+        </button>
+      </div>
+
+      <!-- Dropdown Options -->
+      <div *ngIf="dropdownOpen()" class="pe-dropdown">
+        <ul class="pe-dropdown-list">
+            <li *ngFor="let result of filteredResults()" 
+                (click)="selectItem(result)"
+                class="pe-dropdown-item">
+              <span class="pe-dropdown-text">{{ result.name }}</span>
+              <i *ngIf="selectedItem()?.id === result.id" class="pi pi-check pe-dropdown-check"></i>
+            </li>
+            <li *ngIf="filteredResults().length === 0" class="pe-dropdown-empty">
+              <i class="pi pi-box pe-empty-icon"></i>
+              <p class="pe-empty-text">No se encontraron prendas.</p>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="!selectedItem() && priceDatabase().length === 0" class="pe-loading">
+      <i class="pi pi-spin pi-spinner pe-spin"></i>
+    </div>
+
+    <!-- Layout Grilla Principal (Price + Promo Ad) -->
+    <ng-container *ngIf="selectedItem() as item">
+      <div class="pe-content-grid">
+        
+        <!-- Main Price Card (Left) -->
+        <div class="pe-card-price">
+          <div class="pe-price-header">
+            <div class="pe-price-title-group">
+              <span class="pe-subtitle">Sugerencia confección</span>
+              <h3 class="pe-big-price">${{ item.baseRate | number:'1.2-2' }}</h3>
+            </div>
+            
+            <span class="pe-badge" [ngClass]="getDifficultyClass(item.difficulty)">
+              <i class="pi pi-bolt pe-badge-icon"></i>
+              {{ item.difficulty }}
+            </span>
+          </div>
+
+          <hr class="pe-divider" />
+
+          <div class="pe-metrics-row">
+            <div class="pe-metric-item">
+              <span class="pe-metric-label">Tiempo Est.</span>
+              <div class="pe-metric-value">
+                <i class="pi pi-clock pe-metric-icon"></i>
+                {{ item.minutes }} min
+              </div>
+            </div>
+            <div class="pe-metric-item">
+                <span class="pe-metric-label">Insumos</span>
+              <div class="pe-metric-value">
+                <i class="pi pi-box pe-metric-icon"></i>
+                {{ item.insumosCount }} items
+              </div>
+            </div>
+          </div>
+          
+          <p class="pe-price-info">
+            Este precio o tiempo sugerido es un estimado algorítmico pensado en tiempos base de confección, insumos estándar y escalonamiento productivo base.
+          </p>
+        </div>
+
+        <!-- Sidebar Promo Card (Right) -->
+        <div class="pe-sidebar-ad">
+          <app-promo-card></app-promo-card>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Full Width CTA Banner -->
+  <div class="pe-cta-wrapper">
+    <div class="pe-cta-banner">
+      <div class="pe-cta-image">
+        <img src="/assets/company/side-image.png" alt="Atelier de Confección">
+      </div>
+      <div class="pe-cta-content">
+        <h4 class="pe-cta-title">Toma el control de tu negocio</h4>
+        <p class="pe-cta-desc">
+          Es momento que tú también tomes las riendas de tu negocio y comiences a hacer tus plantillas.
+        </p>
+        <button class="pe-cta-btn" routerLink="/auth/register">
+          Regístrate aquí
+          <i class="pi pi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
