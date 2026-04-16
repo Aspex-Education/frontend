@@ -281,6 +281,7 @@ p {
 
 .pe-price-header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1.5rem;
@@ -301,10 +302,18 @@ p {
 }
 
 .pe-big-price {
-  font-size: 3rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #003f87;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .pe-big-price {
+    font-size: 3rem;
+    letter-spacing: -0.05em;
+  }
 }
 
 .pe-badge {

@@ -88,11 +88,11 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class PromoCardComponent {
-  @Input() tag: string = 'Createx 2026';
-  @Input() title: string = 'Artículo';
+  @Input() tag: string = 'Noticias';
+  @Input() title: string = 'Evento';
   @Input() imageUrl: string = 'https://files.visitbogota.co/sites/default/files/styles/max_650x650/public/2025-07/horizontal%20CREATEX_1.jpg?itok=3XbT3YL5';
   @Input() imgAlt: string = 'Guía de tejidos';
   @Input() description: string = 'Createx 2026 muestra cómo opera hoy la cadena textil en Colombia';
   @Input() linkUrl: string = 'https://www.saloncreatex.com/';
-  @Input() linkText: string = 'Leer artículo';
+  @Input() linkText: string = 'Obten información';
 }
