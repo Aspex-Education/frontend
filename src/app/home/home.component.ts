@@ -10,10 +10,11 @@ import { Template } from '../core/models/template.model';
 import { TemplateDefinitionCardComponent } from '../shared/components/template-definition-card/template-definition-card.component';
 import { UserTemplateCardComponent, UserTemplateAction } from '../shared/components/user-template-card';
 import { ConfirmModalComponent } from '../shared/components/confirm-modal/confirm-modal.component';
+import { PromoCardComponent } from '../shared/components/promo-card/promo-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent, ConfirmModalComponent],
+  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent, ConfirmModalComponent, PromoCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

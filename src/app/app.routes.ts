@@ -11,7 +11,7 @@ import { TemplateViewComponent } from './features/template-view/template-view.co
 import { UserTemplatesComponent } from './features/user-templates/user-templates.component';
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 import { PrivacyPolicyComponent } from './legal/privacy-policy.component';
-
+import { PriceEngineComponent } from './features/price-engine/price-engine.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent, canActivate: [GuestGuard] },
@@ -31,5 +31,7 @@ export const routes: Routes = [
       { path: 'about', component: HomeComponent },
       { path: 'privacy', component: PrivacyPolicyComponent }
     ]
-  }
+  },
+  { path: 'landing', component: PriceEngineComponent },
+
 ];
