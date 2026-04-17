@@ -1,7 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, switchMap, catchError, of } from 'rxjs';
-import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.models';
+import { LoginRequest, RegisterRequest, AuthResponse, User } from '../models/auth.models';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
 import { Router } from '@angular/router';
@@ -12,9 +12,12 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
   private apiUrl = `${environment.apiAuthUrl}/auth`;
+  private userApiUrl = `${environment.apiAuthUrl}/users`;
   private currentUserSignal = signal<AuthResponse | null>(null);
+  private userProfileSignal = signal<User | null>(null);
   
   public currentUser = computed(() => this.currentUserSignal());
+  public userProfile = computed(() => this.userProfileSignal());
   
   public currentUserId = computed(() => {
     const token = this.currentUserSignal()?.token;
@@ -96,5 +99,22 @@ export class AuthService {
 
   getToken(): string | null {
     return this.currentUserSignal()?.token || null;
+  }
+
+  getUserProfile(): Observable<User | null> {
+    const userId = this.currentUserId();
+    if (!userId) return of(null);
+
+    return this.http.get<User>(`${this.userApiUrl}/${userId}`).pipe(
+      tap(user => this.userProfileSignal.set(user)),
+      catchError(() => of(null))
+    );
+  }
+
+  hasPremiumAccess(): boolean {
+    const profile = this.userProfileSignal();
+    // Assuming 'PRO' or 'PREMIUM' subscription means access
+    // The user said "subir de suscripción mensual" so I'll check for a subscription field
+    return profile?.subscription === 'PRO' || profile?.role === 'ADMIN'; 
   }
 }

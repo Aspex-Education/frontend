@@ -1,6 +1,7 @@
 import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../auth/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateDefinitionService } from '../../core/services/template-definition.service';
 import { TemplateDefinition } from '../../core/models/template-definition.model';
@@ -26,6 +27,8 @@ export class TemplateDetailComponent implements OnInit {
     private router: Router,
     private templateDefinitionService: TemplateDefinitionService
   ) { }
+
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -99,9 +102,16 @@ export class TemplateDetailComponent implements OnInit {
 
   onAction(): void {
     if (!this.template) return;
+    // If template is premium and user doesn't have access, redirect to plans
+    if (this.template.accessLevel === 'PREMIUM' && !this.authService.hasPremiumAccess()) {
+      this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
+      return;
+    }
 
     if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
-      window.open(this.template.resourceUrl!, '_blank');
+      if (this.template.resourceUrl) {
+        window.open(this.template.resourceUrl, '_blank');
+      }
     } else {
       const type = this.template.type.toLowerCase();
       this.router.navigate(['/templates', type, 'create']);
@@ -109,6 +119,13 @@ export class TemplateDetailComponent implements OnInit {
   }
 
   onViewGuides(): void {
+    if (!this.template) return;
+
+    if (this.template.accessLevel === 'PREMIUM' && !this.authService.hasPremiumAccess()) {
+      this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
+      return;
+    }
+
     this.router.navigate(['/templates', this.template!.type.toLowerCase(), 'guide']);
   }
 

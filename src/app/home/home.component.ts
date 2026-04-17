@@ -49,6 +49,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadAvailableTemplates();
     this.loadUserTemplates();
+    this.loadUserProfile();
+  }
+
+  private loadUserProfile(): void {
+    this.authService.getUserProfile().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   private loadAvailableTemplates(): void {
@@ -76,6 +83,8 @@ export class HomeComponent implements OnInit {
   onTemplateAction(template: TemplateDefinition): void {
     this.router.navigate(['/templatesDefinition', template.id]);
   }
+
+  // Note: access control for premium templates is handled in the template detail view
 
   onUserTemplateAction(event: UserTemplateAction): void {
     const { action, template } = event;

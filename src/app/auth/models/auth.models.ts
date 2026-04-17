@@ -16,6 +16,14 @@ export interface AuthResponse {
   message: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  subscription?: string;
+}
+
 export interface ErrorResponse {
   message: string;
   status: number;
