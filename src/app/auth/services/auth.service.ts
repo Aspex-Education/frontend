@@ -113,8 +113,6 @@ export class AuthService {
 
   hasPremiumAccess(): boolean {
     const profile = this.userProfileSignal();
-    // Assuming 'PRO' or 'PREMIUM' subscription means access
-    // The user said "subir de suscripción mensual" so I'll check for a subscription field
-    return profile?.subscription === 'PRO' || profile?.role === 'ADMIN'; 
+return profile?.plan === 'TALLER_UNIPERSONAL'; 
   }
 }

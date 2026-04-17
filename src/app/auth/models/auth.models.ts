@@ -20,8 +20,9 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
-  subscription?: string;
+  createdAt: string;
+  plan?: string;
+  updatedAt: string
 }
 
 export interface ErrorResponse {
