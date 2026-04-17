@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
 import { RegisterRequest } from '../models/auth.models';
+import { InputTextFieldComponent } from '../../shared/components/input-text-field';
+import { ActionButtonComponent } from '../../shared/components/action-button';
 
 @Component({
     selector: 'app-register',
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, InputTextFieldComponent, ActionButtonComponent],
     templateUrl: './register.component.html',
     styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  private destroyRef = inject(DestroyRef);
+  
   registerForm: FormGroup;
   loading = false;
   errorMessage = '';
@@ -56,18 +61,18 @@ export class RegisterComponent {
       password: this.registerForm.value.password
     };
 
-    this.authService.register(registerRequest).subscribe({
-      next: (response) => {
-        this.successMessage = response.message || 'Registro exitoso. Redirigiendo al inicio de sesión...';
-        setTimeout(() => {
-          this.router.navigate(['/auth/login']);
-        }, 2000);
+    this.authService.registerAndLogin(registerRequest).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (loginResponse) => {
+        // Registration + login successful
+        this.successMessage = loginResponse.message || 'Registro exitoso. Redirigiendo...';
+        this.loading = false;
+        this.router.navigate(['/home']);
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Error en el registro. Intenta nuevamente.';
-        this.loading = false;
-      },
-      complete: () => {
+        // Either registration or automatic login failed
+        this.errorMessage = error.error?.message || 'Error en el registro o inicio de sesión automático. Intenta nuevamente.';
         this.loading = false;
       }
     });

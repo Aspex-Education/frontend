@@ -1,0 +1,20 @@
+<!-- Orquestador: renderiza el componente específico según el tipo -->
+@if (isLoading) {
+  <div class="loading-state" style="text-align: center; margin: 40px 0; color: #666;">
+    <p>Cargando plantilla...</p>
+  </div>
+} @else {
+  @switch (templateType) {
+  @case ('listado_operaciones') {
+    <app-template-create-listado />
+  }
+  @case ('sam') {
+    <app-template-create-sam />
+  }
+    @default {
+      <div class="error-container">
+        <p>Tipo de plantilla no válido</p>
+      </div>
+    }
+  }
+}

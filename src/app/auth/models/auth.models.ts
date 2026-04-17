@@ -1,5 +1,5 @@
 export interface LoginRequest {
-  name: string;
+  email: string;
   password: string;
 }
 
@@ -14,6 +14,15 @@ export interface AuthResponse {
   name: string;
   email: string;
   message: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  plan?: string;
+  updatedAt: string
 }
 
 export interface ErrorResponse {

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "name": "Jean básico",
+    "minPrice": 7000,
+    "maxPrice": 9000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "2",
+    "name": "Camisa Formal",
+    "minPrice": 4000,
+    "maxPrice": 6000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "3",
+    "name": "Camiseta Jersey",
+    "minPrice": 3000,
+    "maxPrice": 4000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "4",
+    "name": "Chaqueta Acolchada",
+    "minPrice": 7000,
+    "maxPrice": 10000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "5",
+    "name": "Pantalón de drill",
+    "minPrice": 7000,
+    "maxPrice": 9000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "6",
+    "name": "Vestido de Noche",
+    "minPrice": 3500,
+    "maxPrice": 5000,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "7",
+    "name": "Falda Plisada",
+    "minPrice": 2500,
+    "maxPrice": 3200,
+    "lastUpdate": "Abril 2026"
+  },
+  {
+    "id": "8",
+    "name": "Blusa de Seda",
+    "minPrice": 3500,
+    "maxPrice": 4500,
+    "lastUpdate": "Abril 2026"
+  }
+]

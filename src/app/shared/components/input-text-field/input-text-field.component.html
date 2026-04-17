@@ -1,0 +1,37 @@
+<div class="field-wrapper">
+  <!-- Label -->
+  <label [for]="inputId" class="field-label">{{ label }}</label>
+
+  <!-- Input container con ícono opcional -->
+  <div
+    class="input-container"
+    [class.has-icon]="icon"
+    [class.input-error]="hasError"
+    [class.input-disabled]="isDisabled"
+  >
+    <!-- Ícono izquierdo (PrimeIcons) -->
+    <span *ngIf="icon" class="input-icon">
+      <i [class]="icon"></i>
+    </span>
+
+    <!-- Input PrimeNG -->
+    <input
+      pInputText
+      [id]="inputId"
+      [type]="type"
+      [placeholder]="placeholder"
+      [disabled]="isDisabled"
+      [value]="value"
+      (input)="onInputChange($event)"
+      (blur)="onBlur()"
+      class="field-input"
+      autocomplete="off"
+    />
+  </div>
+
+  <!-- Mensaje de error -->
+  <small *ngIf="hasError" class="field-error">
+    <i class="pi pi-exclamation-circle"></i>
+    {{ errorMessage }}
+  </small>
+</div>

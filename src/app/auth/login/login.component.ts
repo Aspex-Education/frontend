@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest } from '../models/auth.models';
+import { InputTextFieldComponent } from '../../shared/components/input-text-field';
+import { ActionButtonComponent } from '../../shared/components/action-button';
 
 @Component({
     selector: 'app-login',
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, InputTextFieldComponent, ActionButtonComponent],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  private destroyRef = inject(DestroyRef);
+  
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
@@ -23,7 +28,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -49,13 +54,15 @@ export class LoginComponent {
     this.errorMessage = '';
 
     const loginRequest: LoginRequest = {
-      name: this.loginForm.value.name,
+      email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
 
-    this.authService.login(loginRequest).subscribe({
+    this.authService.login(loginRequest).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Error al iniciar sesión. Intenta nuevamente.';

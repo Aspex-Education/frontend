@@ -1,0 +1,53 @@
+.create-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.back-button:hover {
+  color: #333;
+}
+
+.placeholder-state {
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.placeholder-state h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.placeholder-state p {
+  font-size: 1.125rem;
+  color: #666;
+  margin: 8px 0;
+}
+
+.placeholder-state .subtitle {
+  font-size: 1rem;
+  color: #999;
+  font-style: italic;
+}

@@ -1,0 +1,35 @@
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <button class="hamburger" (click)="toggleMenu()" aria-label="Abrir menú" [attr.aria-expanded]="menuOpen">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+
+    <div class="nav-left">
+      <a routerLink="/home" class="logo-link">
+        <span class="nav-brand">Confex</span>
+      </a>
+    </div>
+
+    <div class="nav-center" [class.open]="menuOpen">
+      <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
+      <a routerLink="/plans" routerLinkActive="active" class="nav-link">Planes</a>
+      <a href="https://sites.google.com/view/aspex-puntadas-de-exito/inicio" class="nav-link" target="_blank"
+        rel="noopener noreferrer">Conoce más de nosotros</a>
+      <a routerLink="/privacy" routerLinkActive="active" class="nav-link">Políticas de datos</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="logout-btn" (click)="logout()" aria-label="Cerrar sesión">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M13 3h-2v10h2V3z" fill="currentColor"></path>
+          <path d="M17.657 6.343a8 8 0 11-11.314 0" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-backdrop" [class.visible]="menuOpen" (click)="toggleMenu()"></div>
+</nav>

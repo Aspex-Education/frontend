@@ -1,0 +1,55 @@
+<article
+  class="utc-card"
+  [style.--accent]="getAccentColor(template.type)"
+>
+  <div class="utc-header">
+    <div class="utc-icon-wrap">
+      <i class="pi" [ngClass]="getTypeIcon(template.type)"></i>
+    </div>
+    <span class="utc-type-badge">{{ getTypeLabel(template.type) }}</span>
+  </div>
+
+  <div class="utc-body">
+    <h3 class="utc-name">{{ template.name }}</h3>
+    <p class="utc-desc" *ngIf="template.description">{{ template.description }}</p>
+    <p class="utc-desc utc-desc--empty" *ngIf="!template.description">Sin descripción</p>
+  </div>
+
+  <div class="utc-meta">
+    <span class="utc-date">
+      <i class="pi pi-calendar"></i>
+      {{ template.createdAt | date: 'dd/MM/yyyy' }}
+    </span>
+  </div>
+
+  <div class="utc-actions">
+    <button
+      class="utc-btn utc-btn--view"
+      (click)="emit('view')"
+      title="Ver plantilla"
+      [id]="'utc-btn-view-' + template.id"
+    >
+      <i class="pi pi-eye"></i>
+      Ver
+    </button>
+
+    <button
+      class="utc-btn utc-btn--edit"
+      (click)="emit('edit')"
+      title="Editar plantilla"
+      [id]="'utc-btn-edit-' + template.id"
+    >
+      <i class="pi pi-pencil"></i>
+      Editar
+    </button>
+
+    <button
+      class="utc-btn utc-btn--delete"
+      (click)="emit('delete')"
+      title="Eliminar plantilla"
+      [id]="'utc-btn-delete-' + template.id"
+    >
+      <i class="pi pi-trash"></i>
+    </button>
+  </div>
+</article>

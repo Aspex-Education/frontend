@@ -1,0 +1,38 @@
+<article class="tdc-card" [class.tdc-card--has-image]="!!template.imagePreview"
+  [style.--tdc-accent]="typeConfig.borderColor">
+  <div class="tdc-premium-overlay" *ngIf="template.accessLevel === 'PREMIUM'">
+    <i class="pi pi-star-fill"></i> Premium
+  </div>
+
+  <div class="tdc-image-wrap" *ngIf="template.imagePreview">
+    <img [src]="template.imagePreview" [alt]="template.name" class="tdc-image" loading="lazy" />
+  </div>
+
+  <div class="tdc-body">
+
+    <div class="tdc-badges">
+      <span class="tdc-type-badge" [ngClass]="typeConfig.colorClass">
+        <i class="pi" [ngClass]="typeConfig.piIcon"></i>
+        {{ typeConfig.label }}
+      </span>
+
+      <span class="tdc-category-badge" *ngIf="categoryLabel">
+        {{ categoryLabel }}
+      </span>
+
+    </div>
+
+    <h3 class="tdc-title">{{ template.name }}</h3>
+
+    <p class="tdc-desc">{{ template.description }}</p>
+
+  </div>
+
+  <div class="tdc-footer">
+    <button class="tdc-btn" (click)="onButtonClick()" [id]="'tdc-btn-' + template.id">
+      Ver más
+      <i class="pi pi-arrow-right"></i>
+    </button>
+  </div>
+
+</article>
