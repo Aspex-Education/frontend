@@ -1,6 +1,7 @@
 import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../auth/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateDefinitionService } from '../../core/services/template-definition.service';
 import { TemplateDefinition } from '../../core/models/template-definition.model';
@@ -26,6 +27,8 @@ export class TemplateDetailComponent implements OnInit {
     private router: Router,
     private templateDefinitionService: TemplateDefinitionService
   ) { }
+
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -97,18 +100,31 @@ export class TemplateDetailComponent implements OnInit {
     return url; // Fallback si no es de youtube o no se pudo parsear
   }
 
-  onAction(): void {
+  async onAction(): Promise<void> {
     if (!this.template) return;
+    if (this.template.accessLevel === 'PREMIUM' && !(await this.authService.hasPremiumAccess())) {
+      this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
+      return;
+    }
 
     if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
-      window.open(this.template.resourceUrl!, '_blank');
+      if (this.template.resourceUrl) {
+        window.open(this.template.resourceUrl, '_blank');
+      }
     } else {
       const type = this.template.type.toLowerCase();
       this.router.navigate(['/templates', type, 'create']);
     }
   }
 
-  onViewGuides(): void {
+  async onViewGuides(): Promise<void> {
+    if (!this.template) return;
+
+    if (this.template.accessLevel === 'PREMIUM' && !(await this.authService.hasPremiumAccess())) {
+      this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
+      return;
+    }
+
     this.router.navigate(['/templates', this.template!.type.toLowerCase(), 'guide']);
   }
 

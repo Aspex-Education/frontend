@@ -41,7 +41,6 @@
         </app-action-button>
         <app-action-button 
           variant="primary"
-          *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))"
           [icon]="template.type === 'EXCEL' || template.type === 'PDF' ? 'pi pi-download' : 'pi pi-plus'"
           [label]="template.type === 'EXCEL' || template.type === 'PDF' ? 'Descargar' : 'Crear mi plantilla'"
           (clicked)="onAction()">
@@ -117,8 +116,7 @@
       </div>
 
       <!-- CTA Action Card (mobile-hidden, desktop-visible) -->
-      <div class="sidebar-card action-card"
-        *ngIf="!(template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF'))">
+      <div class="sidebar-card action-card">
         <p class="action-card-hint">¿Listo para comenzar?</p>
         <app-action-button 
           variant="primary" 
