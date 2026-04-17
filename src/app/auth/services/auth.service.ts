@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, switchMap, catchError, of } from 'rxjs';
+import { Observable, tap, switchMap, catchError, of, firstValueFrom } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse, User } from '../models/auth.models';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
@@ -15,6 +15,7 @@ export class AuthService {
   private userApiUrl = `${environment.apiAuthUrl}/users`;
   private currentUserSignal = signal<AuthResponse | null>(null);
   private userProfileSignal = signal<User | null>(null);
+  private userProfileLoadPromise: Promise<User | null> | null = null;
   
   public currentUser = computed(() => this.currentUserSignal());
   public userProfile = computed(() => this.userProfileSignal());
@@ -111,8 +112,29 @@ export class AuthService {
     );
   }
 
-  hasPremiumAccess(): boolean {
-    const profile = this.userProfileSignal();
-return profile?.plan === 'TALLER_UNIPERSONAL'; 
+  private loadUserProfileIfNeeded(): Promise<User | null> {
+    const currentProfile = this.userProfileSignal();
+    if (currentProfile) {
+      return Promise.resolve(currentProfile);
+    }
+
+    const userId = this.currentUserId();
+    if (!userId) {
+      return Promise.resolve(null);
+    }
+
+    if (!this.userProfileLoadPromise) {
+      this.userProfileLoadPromise = firstValueFrom(this.getUserProfile()).finally(() => {
+        this.userProfileLoadPromise = null;
+      });
+    }
+
+    return this.userProfileLoadPromise;
+  }
+
+  async hasPremiumAccess(): Promise<boolean> {
+    const profile = this.userProfileSignal() ?? await this.loadUserProfileIfNeeded();
+
+    return profile?.plan === 'TALLER_UNIPERSONAL';
   }
 }

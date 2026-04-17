@@ -100,10 +100,9 @@ export class TemplateDetailComponent implements OnInit {
     return url; // Fallback si no es de youtube o no se pudo parsear
   }
 
-  onAction(): void {
+  async onAction(): Promise<void> {
     if (!this.template) return;
-    // If template is premium and user doesn't have access, redirect to plans
-    if (this.template.accessLevel === 'PREMIUM' && !this.authService.hasPremiumAccess()) {
+    if (this.template.accessLevel === 'PREMIUM' && !(await this.authService.hasPremiumAccess())) {
       this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
       return;
     }
@@ -118,10 +117,10 @@ export class TemplateDetailComponent implements OnInit {
     }
   }
 
-  onViewGuides(): void {
+  async onViewGuides(): Promise<void> {
     if (!this.template) return;
 
-    if (this.template.accessLevel === 'PREMIUM' && !this.authService.hasPremiumAccess()) {
+    if (this.template.accessLevel === 'PREMIUM' && !(await this.authService.hasPremiumAccess())) {
       this.router.navigate(['/plans'], { queryParams: { premium: 'true' } });
       return;
     }
