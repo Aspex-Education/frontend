@@ -17,7 +17,7 @@ export class PlansComponent implements OnInit {
   private messageService = inject(MessageService);
   
   selectedPlan: 'free' | 'pro' | null = null;
-  whatsappNumberUrl = `https://wa.me/573000000000?text=`;
+  whatsappNumberUrl = `https://wa.me/573003323781?text=`;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
