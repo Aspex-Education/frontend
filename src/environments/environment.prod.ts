@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  // Production API base URL - replace with real hosted API endpoint
-  apiAuthUrl: 'https://api.example.com/api'
+  apiAuthUrl: 'https://fluffy-happiness-r55q69v9x9xcxvx5-8080.app.github.dev/api',
+  apiTemplateUrl: 'https://fluffy-happiness-r55q69v9x9xcxvx5-8081.app.github.dev/api'
 };
