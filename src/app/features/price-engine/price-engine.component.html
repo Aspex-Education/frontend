@@ -82,10 +82,10 @@
           </div>
           
           <app-action-button 
-            label="Comenzar ahora" 
+            [label]="isLoggedIn() ? 'Ir a crear mis plantillas' : 'Comenzar ahora'" 
             variant="primary" 
             [fullWidth]="true"
-            (clicked)="navigateToRegister()">
+            (clicked)="handleCtaAction()">
           </app-action-button>
         </div>
 
@@ -105,8 +105,8 @@
               <p class="pe-cta-desc">
                 Es momento que tú también tomes las riendas de tu negocio y comiences a hacer tus plantillas.
               </p>
-              <button class="pe-cta-btn" routerLink="/auth/register">
-                Regístrate aquí
+              <button class="pe-cta-btn" (click)="handleCtaAction()">
+                {{ isLoggedIn() ? 'Ir a crear mis plantillas' : 'Regístrate aquí' }}
                 <i class="pi pi-arrow-right"></i>
               </button>
             </div>

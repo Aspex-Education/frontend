@@ -42,7 +42,10 @@ export class PriceEngineComponent implements OnInit {
 
   selectedItem = signal<LaborPrice | null>(null);
 
+  isLoggedIn = signal<boolean>(false);
+
   ngOnInit() {
+    this.isLoggedIn.set(!!localStorage.getItem('token'));
     this.http.get<LaborPrice[]>('assets/data/prices.json').subscribe({
       next: (data) => {
         this.priceDatabase.set(data);
@@ -81,7 +84,11 @@ export class PriceEngineComponent implements OnInit {
     }
   }
 
-  navigateToRegister() {
-    this.router.navigate(['/auth/register']);
+  handleCtaAction() {
+    if (this.isLoggedIn()) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/auth/register']);
+    }
   }
 }

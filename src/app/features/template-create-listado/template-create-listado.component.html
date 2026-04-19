@@ -48,7 +48,7 @@
           <th style="width: 40px; text-align: center;">N°</th>
           <th style="width: 35%;">Descripción</th>
           <th>Máquina</th>
-          <th style="width: 50px;">Seg</th>
+          <th style="width: 80px;">Seg</th>
           <th style="width: 40px; text-align: center;"></th>
         </tr>
       </thead>
@@ -67,7 +67,8 @@
             </select>
           </td>
           <td>
-            <input type="number" [(ngModel)]="op.time_seconds" (ngModelChange)="markDirty()" min="0" placeholder="0">
+            <input class="seg-input" type="number" [(ngModel)]="op.time_seconds" (ngModelChange)="markDirty()" min="0"
+              placeholder="0">
           </td>
           <td>
             <button *ngIf="operations.length > 1" class="delete-btn" (click)="removeOperation(i)"
