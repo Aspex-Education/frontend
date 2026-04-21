@@ -15,7 +15,7 @@ import { PriceEngineComponent } from './features/price-engine/price-engine.compo
 import { PlansComponent } from './features/plans/plans.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent, canActivate: [GuestGuard] },
   { path: 'auth/register', component: RegisterComponent, canActivate: [GuestGuard] },
   {
