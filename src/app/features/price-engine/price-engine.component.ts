@@ -18,7 +18,7 @@ export interface LaborPrice {
 @Component({
   selector: 'app-price-engine',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DecimalPipe, HttpClientModule, RouterLink, PromoCardComponent, ActionButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule, DecimalPipe, HttpClientModule, PromoCardComponent, ActionButtonComponent],
   templateUrl: './price-engine.component.html',
   styleUrl: './price-engine.component.css'
 })

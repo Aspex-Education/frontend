@@ -8,6 +8,24 @@
       con herramientas para su negocio, su taller y su crecimiento profesional.
     </p>
   </section>
+  <section id="home-available-templates" class="home-available">
+    <div class="home-available-header">
+      <h2 class="home-section-title">Plantillas para ti</h2>
+      <div class="home-section-divider"></div>
+    </div>
+
+    <div *ngIf="availableTemplates.length === 0" class="home-empty-state home-empty-state--sm">
+      <div class="home-empty-icon">
+        <i class="pi pi-inbox"></i>
+      </div>
+      <p class="home-empty-desc">Aún no hay plantillas disponibles.</p>
+    </div>
+
+    <div class="home-templates-grid" *ngIf="availableTemplates.length > 0">
+      <app-template-definition-card *ngFor="let template of availableTemplates" [template]="template"
+        (cardAction)="onTemplateAction($event)" />
+    </div>
+  </section>
 
   <div class="home-bento">
 
@@ -32,11 +50,7 @@
       </div>
 
       <div class="home-view-more-wrap" *ngIf="hasMoreUserTemplates">
-        <button
-          id="home-view-more-templates-btn"
-          class="home-view-more-btn"
-          (click)="onViewAllUserTemplates()"
-        >
+        <button id="home-view-more-templates-btn" class="home-view-more-btn" (click)="onViewAllUserTemplates()">
           <i class="pi pi-th-large"></i>
           Ver todas mis plantillas
           <span class="home-view-more-count">({{ userTemplates.length }})</span>
@@ -49,35 +63,12 @@
     </aside>
   </div>
 
-  <section id="home-available-templates" class="home-available">
-    <div class="home-available-header">
-      <h2 class="home-section-title">Plantillas para ti</h2>
-      <div class="home-section-divider"></div>
-    </div>
-
-    <div *ngIf="availableTemplates.length === 0" class="home-empty-state home-empty-state--sm">
-      <div class="home-empty-icon">
-        <i class="pi pi-inbox"></i>
-      </div>
-      <p class="home-empty-desc">Aún no hay plantillas disponibles.</p>
-    </div>
-
-    <div class="home-templates-grid" *ngIf="availableTemplates.length > 0">
-      <app-template-definition-card *ngFor="let template of availableTemplates" [template]="template"
-        (cardAction)="onTemplateAction($event)" />
-    </div>
-  </section>
 
 </div>
 
 <!-- Modal global de eliminación de plantilla -->
-<app-confirm-modal
-  [(visible)]="isDeleteModalVisible"
-  header="Eliminar Plantilla"
+<app-confirm-modal [(visible)]="isDeleteModalVisible" header="Eliminar Plantilla"
   [message]="'¿Estás seguro de que quieres eliminar la plantilla \'' + (templateToDelete?.name || '') + '\'? Esta acción no se puede deshacer.'"
-  confirmLabel="Eliminar"
-  confirmVariant="danger"
-  [loading]="isDeletingTemplate"
-  (confirmed)="confirmDeleteTemplate()"
+  confirmLabel="Eliminar" confirmVariant="danger" [loading]="isDeletingTemplate" (confirmed)="confirmDeleteTemplate()"
   (cancelled)="cancelDeleteTemplate()">
 </app-confirm-modal>

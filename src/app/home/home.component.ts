@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   isDeletingTemplate = false;
   templateToDelete: Template | null = null;
 
-  private readonly USER_TEMPLATES_LIMIT = 4;
+  private readonly USER_TEMPLATES_LIMIT = 2;
 
   get visibleUserTemplates(): Template[] {
     return this.userTemplates.slice(0, this.USER_TEMPLATES_LIMIT);
@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
 
   confirmDeleteTemplate(): void {
     if (!this.templateToDelete) return;
-    
+
     this.isDeletingTemplate = true;
     this.templateService.softDelete(this.templateToDelete.id).pipe(
       takeUntilDestroyed(this.destroyRef)
