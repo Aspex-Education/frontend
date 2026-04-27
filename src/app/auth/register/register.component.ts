@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
+import { AnalyticsService, AnalyticsEvent } from '../../core/services/analytics.service';
 import { RegisterRequest } from '../models/auth.models';
 import { InputTextFieldComponent } from '../../shared/components/input-text-field';
 import { ActionButtonComponent } from '../../shared/components/action-button';
@@ -26,7 +27,8 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private analyticsService: AnalyticsService
   ) {
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -66,6 +68,8 @@ export class RegisterComponent {
     ).subscribe({
       next: (loginResponse) => {
         // Registration + login successful
+        this.analyticsService.trackEvent(AnalyticsEvent.SIGN_UP_SUCCESS, { method: 'email' });
+        this.analyticsService.trackEvent(AnalyticsEvent.LOGIN_SUCCESS, { method: 'email' });
         this.successMessage = loginResponse.message || 'Registro exitoso. Redirigiendo...';
         this.loading = false;
         this.router.navigate(['/home']);

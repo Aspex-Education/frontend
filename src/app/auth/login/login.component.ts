@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
+import { AnalyticsService, AnalyticsEvent } from '../../core/services/analytics.service';
 import { LoginRequest } from '../models/auth.models';
 import { InputTextFieldComponent } from '../../shared/components/input-text-field';
 import { ActionButtonComponent } from '../../shared/components/action-button';
@@ -25,7 +26,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private analyticsService: AnalyticsService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -62,6 +64,7 @@ export class LoginComponent {
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: (response) => {
+        this.analyticsService.trackEvent(AnalyticsEvent.LOGIN_SUCCESS, { method: 'email' });
         this.router.navigate(['/home']);
       },
       error: (error) => {
