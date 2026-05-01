@@ -1,11 +1,98 @@
 <div class="create-container">
-  <button class="back-button" (click)="goBack()">
-    ← Volver
-  </button>
+  <div class="header-actions">
+    <button class="back-button" (click)="goBack()">
+      ← Volver a mis plantillas
+    </button>
+    <div class="header-info" *ngIf="samData">
+      <h1>Estudio SAM: {{ samName }}</h1>
+      <span class="badge">Basado en: {{ samData.sourceTemplateName }}</span>
+    </div>
+  </div>
 
-  <div class="placeholder-state">
-    <h1>📊 Crear plantilla SAM</h1>
-    <p>Este formulario está en desarrollo.</p>
-    <p class="subtitle">Próximamente podrás crear tus propias plantillas de análisis SAM.</p>
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Calculando estudio SAM dinámico...</p>
+  </div>
+
+  <div *ngIf="!isLoading && samData" class="sam-form">
+    <div class="form-group main-name">
+      <label for="samName">Nombre del Estudio</label>
+      <input 
+        id="samName" 
+        type="text" 
+        [(ngModel)]="samName" 
+        (ngModelChange)="markDirty()"
+        placeholder="Ej: Estudio SAM - Camisa Polo"
+      >
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Descripción</th>
+            <th>Máquina</th>
+            <th>Tiempo (seg)</th>
+            <th class="editable-col">Rating (%)</th>
+            <th class="editable-col">Suplemento (%)</th>
+            <th>SAM Ind.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let op of operations; let i = index" [class.new-task]="op.operatorRating === 0">
+            <td>{{ op.order }}</td>
+            <td class="description-cell">
+              {{ op.description }}
+              <span *ngIf="op.operatorRating === 0" class="new-tag">NUEVA</span>
+            </td>
+            <td><span class="machine-badge">{{ op.machine }}</span></td>
+            <td>{{ op.timeSeconds }}s</td>
+            <td class="editable-col">
+              <input 
+                type="number" 
+                [(ngModel)]="op.operatorRating" 
+                (ngModelChange)="markDirty()"
+                min="0"
+                max="200"
+              >
+            </td>
+            <td class="editable-col">
+              <input 
+                type="number" 
+                [(ngModel)]="op.supplement" 
+                (ngModelChange)="markDirty()"
+                step="0.01"
+                min="0"
+                max="1"
+              >
+              <span class="percent-hint">{{ (op.supplement * 100).toFixed(0) }}%</span>
+            </td>
+            <td class="result-cell">{{ calculateIndividualSAM(op) }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="6">TOTAL SAM (Minutos)</td>
+            <td class="total-value">{{ totalSAM }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="actions-footer">
+      <p *ngIf="saveError" class="error-msg">{{ saveError }}</p>
+      <button 
+        class="save-button" 
+        (click)="save()" 
+        [disabled]="isSaving || !samName.trim()"
+      >
+        {{ isSaving ? 'Guardando...' : 'Guardar Cambios' }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && !samData && !saveError" class="empty-state">
+    <p>No se encontró información del estudio SAM.</p>
   </div>
 </div>
