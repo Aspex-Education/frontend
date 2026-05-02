@@ -5,16 +5,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../auth/services/auth.service';
 import { TemplateDefinitionService } from '../core/services/template-definition.service';
 import { TemplateService } from '../core/services/template.service';
-import { TemplateDefinition } from '../core/models/template-definition.model';
+import { TemplateDefinition, TemplateCategory, TEMPLATE_CATEGORY_LABELS } from '../core/models/template-definition.model';
 import { Template } from '../core/models/template.model';
 import { TemplateDefinitionCardComponent } from '../shared/components/template-definition-card/template-definition-card.component';
 import { UserTemplateCardComponent, UserTemplateAction } from '../shared/components/user-template-card';
+import { TemplateRowComponent } from '../shared/components/template-row/template-row.component';
 import { ConfirmModalComponent } from '../shared/components/confirm-modal/confirm-modal.component';
 import { PromoCardComponent } from '../shared/components/promo-card/promo-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent, ConfirmModalComponent, PromoCardComponent],
+  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent, ConfirmModalComponent, PromoCardComponent, TemplateRowComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   userTemplates: Template[] = [];
   availableTemplates: TemplateDefinition[] = [];
+  groupedTemplates: { category: TemplateCategory; label: string; templates: TemplateDefinition[] }[] = [];
 
   // Delete modal state
   isDeleteModalVisible = false;
@@ -62,9 +64,30 @@ export class HomeComponent implements OnInit {
     this.templateDefinitionService.getAll().pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (templates) => this.availableTemplates = templates,
+      next: (templates) => {
+        this.availableTemplates = templates;
+        this.groupTemplates(templates);
+      },
       error: (error) => console.error('Error al cargar plantillas:', error)
     });
+  }
+
+  private groupTemplates(templates: TemplateDefinition[]): void {
+    const categoriesOrder: TemplateCategory[] = [
+      'BUSSINESS_DATASHEET',
+      'TECHNICAL_DATASHEET',
+      'TIPS',
+      'PATTERN',
+      'LEGAL'
+    ];
+
+    this.groupedTemplates = categoriesOrder
+      .map(cat => ({
+        category: cat,
+        label: TEMPLATE_CATEGORY_LABELS[cat],
+        templates: templates.filter(t => t.category === cat)
+      }))
+      .filter(group => group.templates.length > 0);
   }
 
   private loadUserTemplates(): void {
