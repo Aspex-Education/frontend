@@ -15,7 +15,7 @@ import { PromoCardComponent } from '../shared/components/promo-card/promo-card.c
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, TemplateDefinitionCardComponent, UserTemplateCardComponent, ConfirmModalComponent, PromoCardComponent, TemplateRowComponent],
+  imports: [CommonModule, UserTemplateCardComponent, ConfirmModalComponent, PromoCardComponent, TemplateRowComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

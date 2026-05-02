@@ -1,7 +1,7 @@
-import { Component, computed, inject, OnInit, signal, HostListener } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, HostListener, DestroyRef } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterLink, Router } from '@angular/router';
 import { PromoCardComponent } from '../../shared/components/promo-card/promo-card.component';
@@ -25,6 +25,7 @@ export interface LaborPrice {
 export class PriceEngineComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   priceDatabase = signal<LaborPrice[]>([]);
   dropdownOpen = signal<boolean>(false);
@@ -46,7 +47,9 @@ export class PriceEngineComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn.set(!!localStorage.getItem('token'));
-    this.http.get<LaborPrice[]>('assets/data/prices.json').subscribe({
+    this.http.get<LaborPrice[]>('assets/data/prices.json').pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (data) => {
         this.priceDatabase.set(data);
         // Seleccionar el primero por defecto

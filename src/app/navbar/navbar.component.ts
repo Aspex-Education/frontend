@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../auth/services/auth.service';
 import { filter } from 'rxjs/operators';
 
@@ -16,7 +17,8 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService, private router: Router) {
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntilDestroyed()
     ).subscribe(() => {
       this.menuOpen = false;
     });
