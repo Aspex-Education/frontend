@@ -40,3 +40,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environments and Secrets
+.env
+.env.*
+! .env.example
+src/environments/environment.ts
+src/environments/environment.prod.ts
+src/environments/environment.firebase.ts
