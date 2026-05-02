@@ -292,6 +292,15 @@ p {
   flex-direction: column;
 }
 
+.pe-item-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a1c1d;
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+
 .pe-subtitle {
   font-size: 0.6875rem;
   font-weight: 800;
