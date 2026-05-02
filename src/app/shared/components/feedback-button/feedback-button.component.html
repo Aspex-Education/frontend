@@ -1,0 +1,54 @@
+<button class="feedback-fab" (click)="toggleModal()" aria-label="Enviar dudas o sugerencias">
+  <i class="pi pi-question-circle"></i>
+</button>
+
+<div class="modal-overlay" [class.active]="isOpen" (click)="closeModal()">
+  <div class="feedback-modal" (click)="$event.stopPropagation()">
+    <ng-container *ngIf="!submitted; else successTemplate">
+      <div class="modal-header">
+        <h2>¿Tienes alguna duda?</h2>
+        <button class="close-btn" (click)="closeModal()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+
+      <p style="color: #6b7280; margin-bottom: 24px; font-size: 14px;">
+        Déjanos tus dudas, sugerencias o comentarios para ayudarnos a mejorar.
+      </p>
+
+      <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+        <div class="form-group">
+          <label for="message">Mensaje</label>
+          <textarea 
+            id="message" 
+            rows="5" 
+            formControlName="message" 
+            placeholder="Escribe aquí tu mensaje..."
+            [maxlength]="500"
+          ></textarea>
+          <div *ngIf="feedbackForm.get('message')?.touched && feedbackForm.get('message')?.invalid" style="color: #ef4444; font-size: 12px; margin-top: 4px;">
+            Por favor, escribe un mensaje.
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="feedbackForm.invalid || isSending">
+            {{ isSending ? 'Enviando...' : 'Enviar mensaje' }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-template #successTemplate>
+      <div class="success-message">
+        <div class="success-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+        <h2>¡Gracias por tu mensaje!</h2>
+        <p>Tu opinión es muy valiosa para nosotros.</p>
+        <button class="btn btn-primary" style="margin-top: 24px; width: 100%;" (click)="closeModal()">Cerrar</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

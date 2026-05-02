@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AnalyticsService } from './core/services/analytics.service';
+import { FeedbackButtonComponent } from './shared/components/feedback-button/feedback-button.component';
+
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
+    imports: [RouterOutlet, FeedbackButtonComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
