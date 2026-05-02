@@ -63,11 +63,11 @@ export class HomeComponent implements OnInit {
     this.templateDefinitionService.getAll().pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (templates) => {
+      next: (templates: TemplateDefinition[]) => {
         this.availableTemplates = templates;
         this.groupTemplates(templates);
       },
-      error: (error) => console.error('Error al cargar plantillas:', error)
+      error: (error: any) => console.error('Error al cargar plantillas:', error)
     });
   }
 
@@ -96,8 +96,8 @@ export class HomeComponent implements OnInit {
       this.templateService.getByUserId(userId).pipe(
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({
-        next: (templates) => this.userTemplates = templates,
-        error: (error) => console.error('Error al cargar plantillas del usuario:', error)
+        next: (templates: Template[]) => this.userTemplates = templates,
+        error: (error: any) => console.error('Error al cargar plantillas del usuario:', error)
       });
     }
   }
@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
         this.isDeleteModalVisible = false;
         this.templateToDelete = null;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al realizar el soft-delete:', err);
         this.isDeletingTemplate = false;
       }

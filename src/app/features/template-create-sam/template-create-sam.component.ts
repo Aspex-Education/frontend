@@ -68,11 +68,11 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
     this.templateService.getByUserId(userId).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (templates) => {
+      next: (templates: Template[]) => {
         this.userListados = templates.filter(t => t.type === 'LISTADO_OPERACIONES');
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar listados:', err);
         this.isLoading = false;
       }
@@ -111,7 +111,7 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
         }
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar el listado base:', err);
         this.isLoading = false;
         this.saveError = 'No se pudo cargar el listado base seleccionado.';
@@ -147,7 +147,7 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
         this.operations = this.samData.operations;
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al cargar el estudio SAM:', err);
         this.isLoading = false;
         this.saveError = 'No se pudo cargar el estudio SAM.';
@@ -209,7 +209,7 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
         this.isDirty = false;
         this.router.navigate(['/my-templates']);
       },
-      error: (err) => {
+      error: (err: any) => {
         this.isSaving = false;
         this.saveError = `Error al ${id ? 'actualizar' : 'crear'} el estudio SAM.`;
         console.error(err);

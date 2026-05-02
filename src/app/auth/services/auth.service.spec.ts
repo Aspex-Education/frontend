@@ -1,8 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
 import { TokenStorageService } from './token-storage.service';
 import { environment } from '../../../environments/environment';
+import { AuthResponse } from '../models/auth.models';
+import { provideRouter } from '@angular/router';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -10,10 +13,15 @@ describe('AuthService', () => {
   let tokenStorage: TokenStorageService;
 
   beforeEach(() => {
-    sessionStorage.clear();
+    localStorage.clear();
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthService, TokenStorageService]
+      providers: [
+        AuthService,
+        TokenStorageService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([])
+      ]
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -28,7 +36,7 @@ describe('AuthService', () => {
 
   it('should perform login and store token', () => {
     const mockResp = { token: 'abc', name: 'Juan', email: 'juan@example.com', message: 'Login successful' };
-    service.login({ email: 'juan@example.com', password: 'secret' }).subscribe(resp => {
+    service.login({ email: 'juan@example.com', password: 'secret' }).subscribe((resp: AuthResponse) => {
       expect(resp.token).toBe('abc');
       const stored = tokenStorage.getUser();
       expect(stored?.token).toBe('abc');
@@ -42,7 +50,7 @@ describe('AuthService', () => {
 
   it('should perform register without storing token', () => {
     const mockResp = { token: undefined, name: 'Maria', email: 'maria@example.com', message: 'Registration successful' };
-    service.register({ name: 'Maria', email: 'maria@example.com', password: 'password123' }).subscribe(resp => {
+    service.register({ name: 'Maria', email: 'maria@example.com', password: 'password123' }).subscribe((resp: AuthResponse) => {
       expect(resp.message).toBe('Registration successful');
       // Register doesn't store token, login does
       expect(service.isLoggedIn()).toBe(false);
@@ -57,9 +65,17 @@ describe('AuthService', () => {
     const mockUser = { token: 'abc', name: 'Juan', email: 'juan@example.com', message: 'ok' };
     tokenStorage.saveUser(mockUser);
     
+    // We need a way to tell the service to reload from storage or mock the signal
+    // For now, let's just login to set the signal
+    service.login({ email: 'juan@example.com', password: 'abc' }).subscribe();
+    const req = httpMock.expectOne(`${environment.apiAuthUrl}/auth/login`);
+    req.flush(mockUser);
+
     expect(service.isLoggedIn()).toBe(true);
     
     service.logout();
+    const logoutReq = httpMock.expectOne(`${environment.apiAuthUrl}/auth/logout`);
+    logoutReq.flush({});
     
     expect(service.isLoggedIn()).toBe(false);
     expect(tokenStorage.getToken()).toBeNull();
@@ -67,7 +83,9 @@ describe('AuthService', () => {
 
   it('should return token when logged in', () => {
     const mockUser = { token: 'testtoken', name: 'Test', email: 'test@example.com', message: 'ok' };
-    tokenStorage.saveUser(mockUser);
+    service.login({ email: 'test@example.com', password: 'abc' }).subscribe();
+    const req = httpMock.expectOne(`${environment.apiAuthUrl}/auth/login`);
+    req.flush(mockUser);
     
     expect(service.getToken()).toBe('testtoken');
   });
