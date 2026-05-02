@@ -86,18 +86,14 @@ export class TemplateDetailComponent implements OnInit {
 
   getEmbedUrl(url: string | null): string {
     if (!url) return '';
-    // Si ya es un embed, dejarlo como está
     if (url.includes('/embed/')) return url;
-    
-    // Extraer ID de youtube (de v= o de youtu.be/)
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-
     if (match && match[2].length === 11) {
       return `https://www.youtube.com/embed/${match[2]}`;
     }
-    
-    return url; // Fallback si no es de youtube o no se pudo parsear
+
+    return url;
   }
 
   async onAction(): Promise<void> {

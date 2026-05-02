@@ -7,6 +7,7 @@ import { TemplateService } from '../../core/services/template.service';
 import { PdfExportFacadeService } from '../../core/services/pdf-export-facade.service';
 import { OperationItem, ListadoOperacionesPayload, CreateTemplateRequest, UpdateTemplateRequest, MachineType, parsePayload, Template } from '../../core/models/template.model';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
+import { MACHINE_OPTIONS } from '../../core/constants/machine-types.constants';
 
 @Component({
   selector: 'app-template-create-listado',
@@ -37,30 +38,7 @@ export class TemplateCreateListadoComponent implements OnInit, CanComponentDeact
   isDirty = false;
 
   // Machines list
-  readonly machines: { value: MachineType; label: string }[] = [
-    { value: 'plana', label: 'Plana' },
-    { value: 'collarin', label: 'Collarín' },
-    { value: 'triple-transporte', label: 'Triple transporte' },
-    { value: 'fileteadora', label: 'Fileteadora' },
-    { value: 'dos-agujas', label: 'Dos agujas' },
-    { value: 'de-poste', label: 'De poste' },
-    { value: 'plana-mecatronica', label: 'Plana mecatrónica' },
-    { value: 'fileteadora-mecatronica', label: 'Fileteadora mecatrónica' },
-    { value: 'collarin-mecatronica', label: 'Collarín mecatrónico' },
-    { value: 'plana-electronica', label: 'Plana electrónica' },
-    { value: 'fileteadora-electronica', label: 'Fileteadora electrónica' },
-    { value: 'collarin-electronica', label: 'Collarín electrónico' },
-    { value: 'ribeteadora', label: 'Ribeteadora' },
-    { value: 'presilladora', label: 'Presilladora' },
-    { value: 'cerradora', label: 'Cerradora' },
-    { value: 'empretinadora', label: 'Empretinadora' },
-    { value: 'botonadora', label: 'Botonadora' },
-    { value: 'estampadora', label: 'Bordadora / Estampadora' },
-    { value: 'maquina-20u', label: 'Máquina 20U' },
-    { value: 'zig-zag', label: 'Zig-zag' },
-    { value: 'multi-agujas', label: 'Multi agujas' },
-    { value: 'other', label: 'Otra...' },
-  ];
+  readonly machines = MACHINE_OPTIONS;
 
   constructor(
     private route: ActivatedRoute,

@@ -366,7 +366,14 @@
 }
 
 .home-available-header {
-  margin-bottom: 28px;
+  margin-bottom: 2rem;
+}
+
+.home-category-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .home-section-divider {

@@ -1,0 +1,123 @@
+.row-container {
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.row-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.view-all-link {
+  color: #6366f1;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.view-all-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  padding: 10px 0;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.cards-track {
+  display: flex;
+  gap: 1.25rem;
+  padding-right: 2rem;
+}
+
+.row-card {
+  flex: 0 0 auto;
+  width: 280px; /* Fixed width for cards in the row */
+  transition: transform 0.3s ease;
+}
+
+.row-card:hover {
+  transform: translateY(-4px);
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.carousel-wrapper:hover .nav-btn {
+  opacity: 1;
+}
+
+.nav-btn:hover {
+  background: #f8fafc;
+  scale: 1.1;
+}
+
+.nav-btn.prev {
+  left: -20px;
+}
+
+.nav-btn.next {
+  right: -20px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .row-title {
+    font-size: 1.25rem;
+  }
+  
+  .row-card {
+    width: 220px;
+  }
+  
+  .nav-btn {
+    display: none; /* Rely on touch scroll on mobile */
+  }
+
+  .scroll-container {
+    padding-left: 0.5rem;
+  }
+}

@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { AuthInterceptor } from './auth.interceptor';
 import { TokenStorageService } from './token-storage.service';
-import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { Router, provideRouter } from '@angular/router';
 
 describe('AuthInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -14,9 +15,12 @@ describe('AuthInterceptor', () => {
   beforeEach(() => {
     routerSpy = { navigate: jasmine.createSpy('navigate') };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        provideRouter([]),
         TokenStorageService,
+        AuthService,
         { provide: Router, useValue: routerSpy },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
       ]
@@ -37,14 +41,24 @@ describe('AuthInterceptor', () => {
     req.flush({});
   });
 
-  it('should handle 401 and navigate to login', () => {
+  it('should handle 401, try refresh, and navigate to login on refresh failure', () => {
     tokenStorage.saveUser({ token: 'ttt', name: 'n', email: 'e', message: 'm' });
     http.get('/forbidden').subscribe({
       next: () => {},
       error: () => {}
     });
+    
+    // Original request fails with 401
     const req = httpMock.expectOne('/forbidden');
-    req.flush({ message: 'Invalid credentials' }, { status: 401, statusText: 'Unauthorized' });
+    req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
+    
+    // Interceptor should trigger refresh (POST /auth/refresh)
+    const refreshReq = httpMock.expectOne(r => r.url.includes('/auth/refresh'));
+    expect(refreshReq.request.method).toBe('POST');
+    
+    // Refresh fails too
+    refreshReq.flush({ message: 'Refresh failed' }, { status: 401, statusText: 'Unauthorized' });
+    
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/login']);
   });
 });

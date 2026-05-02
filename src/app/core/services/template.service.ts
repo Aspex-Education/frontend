@@ -39,4 +39,8 @@ export class TemplateService {
     const params = new HttpParams().set('userId', userId);
     return this.http.get<Template[]>(this.apiUrl, { params });
   }
+
+  getSAMById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}/sam`);
+  }
 }

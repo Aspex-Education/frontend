@@ -102,6 +102,15 @@ Manages authentication state, API calls, and JWT token storage.
 - **Angular Forms** - Form Handling
 - **HttpClient** - HTTP Communication
 
+## Agentic Workflow (ASDD)
+
+This project uses **Agent-Specific Design and Development (ASDD)**. You can find instructions and specifications for AI agents in the `.github/agents` directory:
+
+- [Frontend Workflow](.github/agents/FRONTEND_WORKFLOW.md)
+- [Architecture Spec](.github/agents/ARCHITECTURE.spec.md)
+
+Always refer to these documents when using AI tools to generate code for this project.
+
 ## Code Scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use:

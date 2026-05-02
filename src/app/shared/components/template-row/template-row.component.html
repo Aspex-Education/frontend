@@ -1,0 +1,27 @@
+<div class="row-container">
+  <div class="row-header">
+    <h3 class="row-title">{{ title }}</h3>
+    <a class="view-all-link">Ver todo</a>
+  </div>
+
+  <div class="carousel-wrapper">
+    <button class="nav-btn prev" (click)="scrollLeft()" aria-label="Anterior">
+      <i class="pi pi-chevron-left"></i>
+    </button>
+
+    <div class="scroll-container" #scrollContainer>
+      <div class="cards-track">
+        <app-template-definition-card 
+          *ngFor="let template of templates" 
+          [template]="template"
+          (cardAction)="onCardAction($event)"
+          class="row-card"
+        />
+      </div>
+    </div>
+
+    <button class="nav-btn next" (click)="scrollRight()" aria-label="Siguiente">
+      <i class="pi pi-chevron-right"></i>
+    </button>
+  </div>
+</div>

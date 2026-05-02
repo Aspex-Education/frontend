@@ -1,0 +1,43 @@
+<div *ngIf="isLoading" class="loading-state">
+  <p>Calculando datos SAM...</p>
+</div>
+
+<div *ngIf="!isLoading && samData">
+  <div class="sam-header">
+    <span class="badge">Basado en: {{ samData.sourceTemplateName }}</span>
+  </div>
+
+  <h2 class="section-title">Estudio Técnico SAM</h2>
+
+  <div class="table-wrapper">
+    <table class="view-table">
+      <thead>
+        <tr>
+          <th style="width: 50px;">N°</th>
+          <th>Descripción</th>
+          <th>Máquina</th>
+          <th class="text-center">T. Base (s)</th>
+          <th class="text-center">Rating (%)</th>
+          <th class="text-center">Supl. (%)</th>
+          <th class="text-right">SAM Ind.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let op of samData.operations">
+          <td>{{ op.order }}</td>
+          <td>{{ op.description }}</td>
+          <td><span class="machine-tag">{{ op.machine | machineLabel }}</span></td>
+          <td class="text-center">{{ op.timeSeconds }}s</td>
+          <td class="text-center">{{ op.operatorRating }}%</td>
+          <td class="text-center">{{ (op.supplement * 100).toFixed(0) }}%</td>
+          <td class="text-right"><strong>{{ op.samIndividual }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="totals-section sam-totals">
+    <div class="total-label">TOTAL SAM</div>
+    <div class="total-value">{{ samData.totalSam }} min</div>
+  </div>
+</div>

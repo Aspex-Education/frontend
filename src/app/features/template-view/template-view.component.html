@@ -29,47 +29,30 @@
       </select>
     </div>
 
-    <div class="form-group" *ngIf="isSingleViewMode && parsedPayload">
-      <h1>{{ parsedPayload.product }}</h1>
-    </div>
     <!-- Alert Warning (Only for guides) -->
     <div class="alert-warning" *ngIf="selectedTemplate && !isSingleViewMode">
       <span class="alert-icon">⚠️</span>
       <span>Esta plantilla es solo de guía. Úsala como referencia y ajústala a tu taller.</span>
     </div>
 
-    <!-- Operations Table -->
-    <div *ngIf="selectedTemplate && parsedPayload">
-      <h2 class="section-title">Operaciones</h2>
+    <!-- Dynamic Content based on Type -->
+    <div *ngIf="selectedTemplate && templateType">
+      <ng-container [ngSwitch]="templateType">
+        <app-template-view-listado 
+          *ngSwitchCase="'listado_operaciones'" 
+          [template]="selectedTemplate"
+          [isSingleViewMode]="isSingleViewMode">
+        </app-template-view-listado>
 
-      <div class="table-wrapper">
-        <table class="view-table">
-          <thead>
-            <tr>
-              <th style="width: 50px;">N°</th>
-              <th>Descripción</th>
-              <th style="width: 180px;">Máquina</th>
-              <th style="width: 80px;">Seg</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let op of parsedPayload.operations">
-              <td>{{ op.order }}</td>
-              <td>{{ op.description }}</td>
-              <td>
-                <span *ngIf="op.machine !== 'other'">{{ getMachineLabel(op.machine) }}</span>
-                <span *ngIf="op.machine === 'other'">{{ op.machine_other || 'Otra' }}</span>
-              </td>
-              <td class="text-center">{{ op.time_seconds }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <app-template-view-sam 
+          *ngSwitchCase="'sam'" 
+          [template]="selectedTemplate">
+        </app-template-view-sam>
 
-      <!-- Totals -->
-      <div class="totals-section">
-        <div><strong>Total:</strong> {{ parsedPayload.total_time_seconds }} seg / {{ getTotalMinutes() }} min</div>
-      </div>
+        <div *ngSwitchDefault class="empty-state">
+          <p>Tipo de plantilla no soportado para previsualización.</p>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

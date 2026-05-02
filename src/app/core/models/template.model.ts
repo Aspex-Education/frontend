@@ -4,9 +4,11 @@ export type MachineType =
   | 'collarin-mecatronica' | 'plana-electronica' | 'fileteadora-electronica'
   | 'collarin-electronica' | 'ribeteadora' | 'presilladora' | 'cerradora'
   | 'empretinadora' | 'botonadora' | 'estampadora' | 'maquina-20u'
-  | 'zig-zag' | 'multi-agujas' | 'other';
+  | 'zig-zag' | 'multi-agujas' | 'preparacion' | 'manual-mesa' 
+  | 'plancha-vapor' | 'calidad-empaque' | 'other';
 
 export interface OperationItem {
+  id?: string;
   order: number;
   description: string;
   machine: MachineType;
@@ -46,6 +48,41 @@ export interface UpdateTemplateRequest extends CreateTemplateRequest {
 
 }
 
+export interface SAMOperation {
+  operationId: string;
+  order: number;
+  description: string;
+  machine: MachineType;
+  timeSeconds: number;
+  operatorRating: number;
+  supplement: number;
+  samIndividual: number;
+}
+
+export interface SAMFullResponse {
+  id: string;
+  name: string;
+  sourceTemplateId: string;
+  sourceTemplateName: string;
+  operations: SAMOperation[];
+  totalSam: number;
+}
+
+export interface SAMConfigItem {
+  operation_id: string;
+  operator_rating: number;
+  supplement: number;
+}
+
+export interface SAMPayload {
+  source_template_id: string;
+  sam_config: SAMConfigItem[];
+}
+
 export function parsePayload(jsonPayload: string): ListadoOperacionesPayload {
   return JSON.parse(jsonPayload) as ListadoOperacionesPayload;
+}
+
+export function parseSAMPayload(jsonPayload: string): SAMPayload {
+  return JSON.parse(jsonPayload) as SAMPayload;
 }
