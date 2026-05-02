@@ -4,9 +4,11 @@ export type MachineType =
   | 'collarin-mecatronica' | 'plana-electronica' | 'fileteadora-electronica'
   | 'collarin-electronica' | 'ribeteadora' | 'presilladora' | 'cerradora'
   | 'empretinadora' | 'botonadora' | 'estampadora' | 'maquina-20u'
-  | 'zig-zag' | 'multi-agujas' | 'other';
+  | 'zig-zag' | 'multi-agujas' | 'preparacion' | 'manual-mesa' 
+  | 'plancha-vapor' | 'calidad-empaque' | 'other';
 
 export interface OperationItem {
+  id?: string;
   order: number;
   description: string;
   machine: MachineType;

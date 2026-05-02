@@ -35,6 +35,127 @@
   margin: 0 0 0.5rem 0;
 }
 
+.metadata-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.base-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: white;
+}
+
+.empty-state-placeholder {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Selection State Styles */
+.selection-state {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.selection-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.selection-header h1 {
+  font-size: 2.5rem;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 1.125rem;
+}
+
+.empty-listados {
+  text-align: center;
+  padding: 4rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.create-listado-btn {
+  margin-top: 1.5rem;
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.listados-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.listado-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.listado-item:hover {
+  border-color: #2563eb;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  transform: translateY(-2px);
+}
+
+.listado-icon {
+  font-size: 2rem;
+  margin-right: 1.5rem;
+}
+
+.listado-details {
+  flex-grow: 1;
+}
+
+.listado-details h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: #1e293b;
+}
+
+.listado-details p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.listado-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+
 .badge {
   background: #f1f5f9;
   color: #475569;

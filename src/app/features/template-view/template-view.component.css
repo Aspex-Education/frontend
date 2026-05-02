@@ -86,56 +86,6 @@
   flex-shrink: 0;
 }
 
-/* Section Title */
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 32px 0 16px;
-  color: #333;
-}
-
-/* Table */
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.view-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-.view-table th {
-  background: #f3f4f6;
-  padding: 10px 8px;
-  text-align: left;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #d1d5db;
-}
-
-.view-table td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #e5e7eb;
-  vertical-align: middle;
-  color: #333;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* Totals Section */
-.totals-section {
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 20px 0;
-  text-align: right;
-  font-size: 1rem;
-}
-
 /* Responsive */
 @media (max-width: 640px) {
   .view-container {
@@ -145,19 +95,6 @@
   .page-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
-  }
-
-  .view-table {
-    font-size: 0.75rem;
-  }
-
-  .view-table th,
-  .view-table td {
-    padding: 8px 4px;
-  }
-
-  .totals-section {
-    font-size: 0.875rem;
   }
 
   .alert-warning {

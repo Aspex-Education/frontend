@@ -27,16 +27,15 @@ export class TemplateCreateComponent implements OnInit, CanComponentDeactivate {
     private route: ActivatedRoute,
     private router: Router,
     private templateService: TemplateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     const type = this.route.snapshot.paramMap.get('type');
-    
+
     const validTypes = ['listado_operaciones', 'sam'];
 
     if (id) {
-      // Edit mode: fetch the template to determine its type
       this.isLoading = true;
       this.templateService.getById(id).pipe(
         takeUntilDestroyed(this.destroyRef)
@@ -54,7 +53,6 @@ export class TemplateCreateComponent implements OnInit, CanComponentDeactivate {
         }
       });
     } else if (type) {
-      // Create mode
       this.templateType = type.toLowerCase();
       if (!validTypes.includes(this.templateType)) {
         this.router.navigate(['/home']);
@@ -65,7 +63,6 @@ export class TemplateCreateComponent implements OnInit, CanComponentDeactivate {
   }
 
   canDeactivate(): boolean {
-    // Delegar al componente hijo activo
     if (this.templateType === 'listado_operaciones' && this.listadoComponent) {
       return this.listadoComponent.canDeactivate();
     }

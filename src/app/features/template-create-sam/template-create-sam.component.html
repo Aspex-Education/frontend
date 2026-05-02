@@ -3,30 +3,40 @@
     <button class="back-button" (click)="goBack()">
       ← Volver a mis plantillas
     </button>
-    <div class="header-info" *ngIf="samData">
-      <h1>Estudio SAM: {{ samName }}</h1>
-      <span class="badge">Basado en: {{ samData.sourceTemplateName }}</span>
+    <div class="header-info">
+      <h1>{{ isEditMode ? 'Editar' : 'Crear' }} Estudio SAM</h1>
+      <span class="badge" *ngIf="samData">Basado en: {{ samData.sourceTemplateName }}</span>
     </div>
   </div>
 
   <div *ngIf="isLoading" class="loading-state">
     <div class="spinner"></div>
-    <p>Calculando estudio SAM dinámico...</p>
+    <p>Cargando información...</p>
   </div>
 
-  <div *ngIf="!isLoading && samData" class="sam-form">
-    <div class="form-group main-name">
-      <label for="samName">Nombre del Estudio</label>
-      <input 
-        id="samName" 
-        type="text" 
-        [(ngModel)]="samName" 
-        (ngModelChange)="markDirty()"
-        placeholder="Ej: Estudio SAM - Camisa Polo"
-      >
+  <div *ngIf="!isLoading" class="sam-form">
+    <!-- Formulario de Metadatos -->
+    <div class="metadata-grid">
+      <div class="form-group">
+        <label for="samName">Nombre del Estudio</label>
+        <input id="samName" type="text" [(ngModel)]="samName" (ngModelChange)="markDirty()"
+          placeholder="Ej: Estudio SAM - Camisa Polo">
+      </div>
+
+      <div class="form-group" *ngIf="!isEditMode">
+        <label for="baseTemplate">Listado Operacional Base</label>
+        <select id="baseTemplate" [(ngModel)]="selectedBaseId" (ngModelChange)="onSelectBase($event)"
+          class="base-select">
+          <option value="">Selecciona un listado...</option>
+          <option *ngFor="let listado of userListados" [value]="listado.id">
+            {{ listado.name }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="table-container">
+    <!-- Tabla de Operaciones -->
+    <div class="table-container" *ngIf="operations.length > 0">
       <table>
         <thead>
           <tr>
@@ -40,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let op of operations; let i = index" [class.new-task]="op.operatorRating === 0">
+          <tr *ngFor="let op of operations" [class.new-task]="op.operatorRating === 0">
             <td>{{ op.order }}</td>
             <td class="description-cell">
               {{ op.description }}
@@ -49,23 +59,11 @@
             <td><span class="machine-badge">{{ op.machine }}</span></td>
             <td>{{ op.timeSeconds }}s</td>
             <td class="editable-col">
-              <input 
-                type="number" 
-                [(ngModel)]="op.operatorRating" 
-                (ngModelChange)="markDirty()"
-                min="0"
-                max="200"
-              >
+              <input type="number" [(ngModel)]="op.operatorRating" (ngModelChange)="markDirty()" min="0" max="200">
             </td>
             <td class="editable-col">
-              <input 
-                type="number" 
-                [(ngModel)]="op.supplement" 
-                (ngModelChange)="markDirty()"
-                step="0.01"
-                min="0"
-                max="1"
-              >
+              <input type="number" [(ngModel)]="op.supplement" (ngModelChange)="markDirty()" step="0.01" min="0"
+                max="1">
               <span class="percent-hint">{{ (op.supplement * 100).toFixed(0) }}%</span>
             </td>
             <td class="result-cell">{{ calculateIndividualSAM(op) }}</td>
@@ -74,25 +72,21 @@
         <tfoot>
           <tr class="total-row">
             <td colspan="6">TOTAL SAM (Minutos)</td>
-            <td class="total-value">{{ totalSAM }}</td>
+            <td class="total-value">{{ totalSAM | number:'1.2-2' }}</td>
           </tr>
         </tfoot>
       </table>
     </div>
 
+    <div class="empty-state-placeholder" *ngIf="operations.length === 0 && !isEditMode">
+      <p>Selecciona un listado operacional base para comenzar el estudio.</p>
+    </div>
+
     <div class="actions-footer">
       <p *ngIf="saveError" class="error-msg">{{ saveError }}</p>
-      <button 
-        class="save-button" 
-        (click)="save()" 
-        [disabled]="isSaving || !samName.trim()"
-      >
-        {{ isSaving ? 'Guardando...' : 'Guardar Cambios' }}
+      <button class="save-button" (click)="save()" [disabled]="isSaving || !samName.trim() || operations.length === 0">
+        {{ isSaving ? 'Guardando...' : (isEditMode ? 'Actualizar Estudio' : 'Crear Estudio') }}
       </button>
     </div>
-  </div>
-
-  <div *ngIf="!isLoading && !samData && !saveError" class="empty-state">
-    <p>No se encontró información del estudio SAM.</p>
   </div>
 </div>

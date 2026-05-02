@@ -1,0 +1,35 @@
+<div *ngIf="parsedPayload">
+  <div class="form-group" *ngIf="isSingleViewMode">
+    <h1>{{ parsedPayload.product }}</h1>
+  </div>
+
+  <h2 class="section-title">Operaciones</h2>
+
+  <div class="table-wrapper">
+    <table class="view-table">
+      <thead>
+        <tr>
+          <th style="width: 50px;">N°</th>
+          <th>Descripción</th>
+          <th style="width: 180px;">Máquina</th>
+          <th style="width: 80px;">Seg</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let op of parsedPayload.operations">
+          <td>{{ op.order }}</td>
+          <td>{{ op.description }}</td>
+          <td>
+            <span *ngIf="op.machine !== 'other'">{{ op.machine | machineLabel }}</span>
+            <span *ngIf="op.machine === 'other'">{{ op.machine_other || 'Otra' }}</span>
+          </td>
+          <td class="text-center">{{ op.time_seconds }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="totals-section">
+    <div><strong>Total:</strong> {{ parsedPayload.total_time_seconds }} seg / {{ getTotalMinutes() }} min</div>
+  </div>
+</div>

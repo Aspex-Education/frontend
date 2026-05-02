@@ -4,14 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TemplateService } from '../../core/services/template.service';
-import { 
-  SAMOperation, 
-  SAMFullResponse, 
-  SAMConfigItem, 
-  SAMPayload, 
-  UpdateTemplateRequest 
+import {
+  SAMOperation,
+  SAMFullResponse,
+  SAMConfigItem,
+  SAMPayload,
+  UpdateTemplateRequest,
+  CreateTemplateRequest,
+  Template
 } from '../../core/models/template.model';
 import { CanComponentDeactivate } from '../../core/guards/unsaved-changes.guard';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-template-create-sam',
@@ -25,11 +28,13 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private templateService = inject(TemplateService);
+  private authService = inject(AuthService);
 
   // Data state
   samData: SAMFullResponse | null = null;
   operations: SAMOperation[] = [];
-  
+  userListados: Template[] = [];
+
   // Form fields
   samName = '';
   sourceTemplateId = '';
@@ -40,15 +45,78 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
   saveSuccess = false;
   saveError = '';
   isDirty = false;
+  isEditMode = false;
+  selectedBaseId = '';
+  selectedBaseName = '';
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.isEditMode = true;
       this.loadSAMData(id);
     } else {
-      // Si no hay ID, redirigir ya que un SAM siempre debe venir de una base
-      this.router.navigate(['/my-templates']);
+      this.isEditMode = false;
+      this.loadUserListados();
     }
+  }
+
+  loadUserListados(): void {
+    const userId = this.authService.currentUserId();
+    if (!userId) return;
+
+    this.isLoading = true;
+    this.templateService.getByUserId(userId).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (templates) => {
+        this.userListados = templates.filter(t => t.type === 'LISTADO_OPERACIONES');
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar listados:', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onSelectBase(baseId: string): void {
+    if (!baseId) {
+      this.operations = [];
+      this.sourceTemplateId = '';
+      return;
+    }
+
+    this.isLoading = true;
+    this.templateService.getById(baseId).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (template: Template) => {
+        this.sourceTemplateId = template.id;
+        this.selectedBaseName = template.name;
+        if (template.jsonPayload) {
+          const payload = JSON.parse(template.jsonPayload);
+          if (payload && payload.operations) {
+            this.operations = payload.operations.map((op: any) => ({
+              operationId: op.id || op.operation_id || op.order.toString(),
+              order: op.order,
+              description: op.description,
+              machine: op.machine,
+              timeSeconds: op.time_seconds,
+              operatorRating: 100, // Valor por defecto
+              supplement: 0.15,    // Valor por defecto (15%)
+              samIndividual: 0
+            }));
+            this.markDirty();
+          }
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar el listado base:', err);
+        this.isLoading = false;
+        this.saveError = 'No se pudo cargar el listado base seleccionado.';
+      }
+    });
   }
 
   loadSAMData(id: string): void {
@@ -56,11 +124,27 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
     this.templateService.getSAMById(id).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (response: SAMFullResponse) => {
-        this.samData = response;
-        this.samName = response.name;
-        this.sourceTemplateId = response.sourceTemplateId;
-        this.operations = response.operations;
+      next: (response: any) => {
+        this.samData = {
+          id: response.id,
+          name: response.name,
+          sourceTemplateId: response.source_template_id,
+          sourceTemplateName: response.source_template_name,
+          totalSam: response.total_sam,
+          operations: response.operations.map((op: any) => ({
+            operationId: op.id || op.operation_id,
+            order: op.order,
+            description: op.description,
+            machine: op.machine,
+            timeSeconds: op.time_seconds,
+            operatorRating: op.operator_rating,
+            supplement: op.supplement,
+            samIndividual: op.sam_individual
+          }))
+        };
+        this.samName = this.samData.name;
+        this.sourceTemplateId = this.samData.sourceTemplateId;
+        this.operations = this.samData.operations;
         this.isLoading = false;
       },
       error: (err) => {
@@ -76,12 +160,10 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
   }
 
   calculateIndividualSAM(op: SAMOperation): number {
-    // SAM = (Tiempo Basico * Calificación) + Suplementos
-    // En realidad suele ser: Tiempo * (Calificación/100) * (1 + Suplemento)
-    // Pero el backend ya nos da un valor, aquí lo recalculamos visualmente si cambia.
-    const ratingFactor = (op.operatorRating || 0) / 100;
+    if (!op.operatorRating) return 0;
+    const ratingFactor = op.operatorRating / 100;
     const supplementFactor = 1 + (op.supplement || 0);
-    const result = op.timeSeconds * ratingFactor * supplementFactor;
+    const result = op.timeSeconds / ratingFactor * supplementFactor;
     return Math.round(result * 100) / 100;
   }
 
@@ -90,11 +172,8 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
   }
 
   save(): void {
-    if (!this.samName.trim() || !this.samData) return;
+    if (!this.samName.trim() || !this.sourceTemplateId) return;
 
-    const id = this.samData.id;
-
-    // Construir la configuración simplificada para el backend
     const samConfig: SAMConfigItem[] = this.operations.map(op => ({
       operation_id: op.operationId,
       operator_rating: op.operatorRating,
@@ -108,6 +187,7 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
 
     const request: UpdateTemplateRequest = {
       name: this.samName.trim(),
+      description: `Estudio técnico SAM basado en el listado operacional ${this.samData?.sourceTemplateName || this.selectedBaseName}`,
       type: 'SAM',
       jsonPayload: JSON.stringify(payload)
     };
@@ -115,7 +195,12 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
     this.isSaving = true;
     this.saveError = '';
 
-    this.templateService.update(id, request).pipe(
+    const id = this.isEditMode && this.samData ? this.samData.id : null;
+    const requestObservable = id
+      ? this.templateService.update(id, request)
+      : this.templateService.create(request);
+
+    requestObservable.pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: () => {
@@ -126,7 +211,7 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
       },
       error: (err) => {
         this.isSaving = false;
-        this.saveError = 'Error al actualizar el estudio SAM.';
+        this.saveError = `Error al ${id ? 'actualizar' : 'crear'} el estudio SAM.`;
         console.error(err);
       }
     });
@@ -135,7 +220,9 @@ export class TemplateCreateSamComponent implements OnInit, CanComponentDeactivat
   goBack(): void {
     this.router.navigate(['/my-templates']);
   }
-
+  goCreateSAM(): void {
+    this.router.navigate(['/templates/sam/create']);
+  }
   canDeactivate(): boolean {
     return !this.isDirty || this.saveSuccess;
   }
