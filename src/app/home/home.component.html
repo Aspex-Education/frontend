@@ -21,14 +21,9 @@
       <p class="home-empty-desc">Aún no hay plantillas disponibles.</p>
     </div>
 
-    <!-- Grouped Templates by Category (Canva-inspired) -->
     <div class="home-category-rows" *ngIf="groupedTemplates.length > 0">
-      <app-template-row 
-        *ngFor="let group of groupedTemplates" 
-        [title]="group.label" 
-        [templates]="group.templates"
-        (templateAction)="onTemplateAction($event)"
-      />
+      <app-template-row *ngFor="let group of groupedTemplates" [title]="group.label" [templates]="group.templates"
+        (templateAction)="onTemplateAction($event)" />
     </div>
   </section>
 

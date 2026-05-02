@@ -3,11 +3,11 @@ export type AccessLevel = 'FREE' | 'PREMIUM';
 export type TemplateCategory = 'TIPS' | 'LEGAL' | 'PATTERN' | 'TECHNICAL_DATASHEET' | 'BUSSINESS_DATASHEET';
 
 export const TEMPLATE_CATEGORY_LABELS: Record<TemplateCategory, string> = {
-  TIPS: 'Tips',
-  LEGAL: 'Legal',
-  PATTERN: 'Patrón',
-  TECHNICAL_DATASHEET: 'Ficha Técnica',
-  BUSSINESS_DATASHEET: 'Ficha de Negocio',
+  TIPS: 'Consejos para tu taller',
+  LEGAL: 'Plantillas Legales',
+  PATTERN: 'Patrones y Diseños',
+  TECHNICAL_DATASHEET: 'Fichas Técnicas',
+  BUSSINESS_DATASHEET: 'Plantillas para tu Negocio',
 };
 
 export const TEMPLATE_CATEGORY_OPTIONS: { value: TemplateCategory; label: string }[] = [
