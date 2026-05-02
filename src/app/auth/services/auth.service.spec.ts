@@ -76,7 +76,3 @@ describe('AuthService', () => {
     expect(service.getToken()).toBeNull();
   });
 });
-
-    expect(service).toBeTruthy();
-  });
-});

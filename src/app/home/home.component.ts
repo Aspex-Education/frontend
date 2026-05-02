@@ -7,7 +7,6 @@ import { TemplateDefinitionService } from '../core/services/template-definition.
 import { TemplateService } from '../core/services/template.service';
 import { TemplateDefinition, TemplateCategory, TEMPLATE_CATEGORY_LABELS } from '../core/models/template-definition.model';
 import { Template } from '../core/models/template.model';
-import { TemplateDefinitionCardComponent } from '../shared/components/template-definition-card/template-definition-card.component';
 import { UserTemplateCardComponent, UserTemplateAction } from '../shared/components/user-template-card';
 import { TemplateRowComponent } from '../shared/components/template-row/template-row.component';
 import { ConfirmModalComponent } from '../shared/components/confirm-modal/confirm-modal.component';
