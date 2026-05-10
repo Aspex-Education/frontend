@@ -31,7 +31,15 @@ export class FirebaseAcademyRepository implements IVirtualAcademyRepository {
         courses.push({
           classNumber: data['classNumber'],
           name: data['name'],
-          url: data['url']
+          url: data['url'],
+          resourcesUrl: Array.isArray(data['resourcesUrl'])
+            ? data['resourcesUrl']
+                .map((resource: any) => ({
+                  name: String(resource?.name ?? ''),
+                  url: String(resource?.url ?? '')
+                }))
+                .filter(resource => resource.name && resource.url)
+            : []
         });
       });
       return courses;

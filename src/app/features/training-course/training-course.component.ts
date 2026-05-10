@@ -6,6 +6,7 @@ import { FirebaseAcademyRepository } from './services/firebase-academy.repositor
 import { CourseVideo } from './models/academy.models';
 import { UniversalPlayerComponent } from './components/universal-player.component';
 import { getUserEmailFromToken } from './utils/auth-helper';
+import { AnalyticsService } from '../../core/services/analytics.service';
 
 @Component({
   selector: 'app-training-course',
@@ -17,6 +18,7 @@ import { getUserEmailFromToken } from './utils/auth-helper';
 export class TrainingCourseComponent implements OnInit {
   private firebaseRepo = inject(FirebaseAcademyRepository);
   private messageService = inject(MessageService);
+  private analyticsService = inject(AnalyticsService);
 
   courses = signal<CourseVideo[]>([]);
   hasAccess = signal<boolean>(false);
@@ -24,6 +26,10 @@ export class TrainingCourseComponent implements OnInit {
   selectedCourse: CourseVideo | null = null;
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('training_course_view', {
+      page: 'training_course',
+      viewedAt: new Date().toISOString()
+    });
     this.checkAccessAndLoadCourses();
   }
 
@@ -67,9 +73,26 @@ export class TrainingCourseComponent implements OnInit {
 
   selectVideo(video: CourseVideo): void {
     this.selectedCourse = video;
+    this.analyticsService.trackEvent('training_course_select', {
+      course_class_number: video.classNumber,
+      course_name: video.name,
+      selectedAt: new Date().toISOString()
+    });
+  }
+
+  trackResourceClick(resource: { name: string; url: string }): void {
+    this.analyticsService.trackEvent('training_course_resource_click', {
+      resource_name: resource.name,
+      resource_url: resource.url,
+      clickedAt: new Date().toISOString()
+    });
   }
 
   trackByClassNumber(_index: number, item: CourseVideo): number {
     return item.classNumber;
+  }
+
+  trackByResource(_index: number, item: { name: string; url: string }): string {
+    return item.url;
   }
 }

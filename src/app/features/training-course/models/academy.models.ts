@@ -3,10 +3,16 @@ export interface UserPermission {
   name: string;
 }
 
+export interface CourseResource {
+  name: string;
+  url: string;
+}
+
 export interface CourseVideo {
   classNumber: number;
   name: string;
   url: string;
+  resourcesUrl?: CourseResource[];
 }
 
 export interface IVirtualAcademyRepository {

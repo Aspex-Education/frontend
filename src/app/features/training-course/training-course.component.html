@@ -30,6 +30,20 @@
         <div class="video-player">
           <ng-container *ngIf="selectedCourse; else placeholder">
             <app-universal-player [videoUrl]="selectedCourse ? selectedCourse.url : null"></app-universal-player>
+
+            <div class="course-resources" *ngIf="selectedCourse.resourcesUrl && selectedCourse.resourcesUrl?.length">
+              <h3>Recursos de la clase</h3>
+              <div class="resources-list">
+                <a *ngFor="let resource of selectedCourse.resourcesUrl; trackBy: trackByResource"
+                   class="resource-button"
+                   [href]="resource.url"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   (click)="trackResourceClick(resource)">
+                  {{ resource.name }}
+                </a>
+              </div>
+            </div>
           </ng-container>
 
           <ng-template #placeholder>
