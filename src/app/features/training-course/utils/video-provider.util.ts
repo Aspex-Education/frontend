@@ -1,4 +1,4 @@
-export type VideoProvider = 'youtube' | 'vimeo' | 'unknown';
+export type VideoProvider = 'youtube' | 'vimeo' | 'drive' | 'unknown';
 
 export interface VideoSource {
   provider: VideoProvider;
@@ -27,6 +27,15 @@ export function detectVideoSource(url: string): VideoSource | null {
     };
   }
 
+  const driveId = extractDriveId(normalized);
+  if (driveId) {
+    return {
+      provider: 'drive',
+      id: driveId,
+      url: normalized
+    };
+  }
+
   return null;
 }
 
@@ -51,5 +60,10 @@ function extractYouTubeId(url: string): string | null {
 
 function extractVimeoId(url: string): string | null {
   const match = url.match(/vimeo\.com\/(\d+)/);
+  return match ? match[1] : null;
+}
+
+function extractDriveId(url: string): string | null {
+  const match = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([A-Za-z0-9_-]+)/);
   return match ? match[1] : null;
 }
