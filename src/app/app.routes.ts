@@ -13,6 +13,8 @@ import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 import { PrivacyPolicyComponent } from './legal/privacy-policy.component';
 import { PriceEngineComponent } from './features/price-engine/price-engine.component';
 import { PlansComponent } from './features/plans/plans.component';
+import { TrainingCourseComponent } from './features/training-course/training-course.component';
+import { TrainingCourseGuard } from './features/training-course/guards/training-course.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -32,7 +34,8 @@ export const routes: Routes = [
       { path: 'templates/:id/view', component: TemplateViewComponent },
       { path: 'about', component: HomeComponent },
       { path: 'privacy', component: PrivacyPolicyComponent },
-      { path: 'plans', component: PlansComponent }
+      { path: 'plans', component: PlansComponent },
+      { path: 'capacitaciones', component: TrainingCourseComponent, canActivate: [TrainingCourseGuard] }
     ]
   },
   { path: 'landing', component: PriceEngineComponent },

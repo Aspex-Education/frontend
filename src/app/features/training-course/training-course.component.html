@@ -1,0 +1,60 @@
+<div class="training-course-container">
+  <h1>Módulo de Capacitación Ingeniería de procesos</h1>
+
+  <div *ngIf="loading(); else loaded">
+    <div class="loading">
+      <p>Cargando cursos...</p>
+    </div>
+  </div>
+
+  <ng-template #loaded>
+    <div *ngIf="!hasAccess(); else content">
+      <div class="access-denied">
+        <h2>Acceso Denegado</h2>
+        <p>No tienes acceso a los cursos de capacitación. Por favor, contacta a la asociación para obtener acceso.</p>
+      </div>
+    </div>
+
+    <ng-template #content>
+      <div class="courses-section">
+        <div class="courses-list">
+          <h2>Cursos Disponibles</h2>
+          <ul>
+            <li *ngFor="let course of courses(); trackBy: trackByClassNumber" (click)="selectVideo(course)" class="course-item">
+              <span class="course-number">Clase {{ course.classNumber }}</span>
+              <span class="course-name">{{ course.name }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="video-player">
+          <ng-container *ngIf="selectedCourse; else placeholder">
+            <app-universal-player [videoUrl]="selectedCourse ? selectedCourse.url : null"></app-universal-player>
+
+            <div class="course-resources" *ngIf="selectedCourse.resourcesUrl && selectedCourse.resourcesUrl?.length">
+              <h3>Recursos de la clase</h3>
+              <div class="resources-list">
+                <a *ngFor="let resource of selectedCourse.resourcesUrl; trackBy: trackByResource"
+                   class="resource-button"
+                   [href]="resource.url"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   (click)="trackResourceClick(resource)">
+                  {{ resource.name }}
+                </a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #placeholder>
+            <div class="placeholder">
+              <p>Selecciona un curso para ver el video</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
+
+<p-toast></p-toast>
