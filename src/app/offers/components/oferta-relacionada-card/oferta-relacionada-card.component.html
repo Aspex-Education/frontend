@@ -1,0 +1,7 @@
+<article class="related-card" *ngIf="offer">
+  <div class="related-card-body">
+    <h3>{{ offer.titulo }}</h3>
+    <p>{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</p>
+    <button type="button" class="secondary-button" (click)="onView()">Ver oferta</button>
+  </div>
+</article>

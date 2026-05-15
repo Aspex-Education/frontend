@@ -1,0 +1,52 @@
+<div class="offer-page">
+  <header class="offer-header">
+    <div class="logo-box">Confex Ofertas laborales</div>
+  </header>
+
+  <main *ngIf="!isLoading">
+    <ng-container *ngIf="offer; else noDisponible">
+      <section class="offer-card">
+        <div class="offer-card-header">
+          <span class="badge">Oferta laboral</span>
+          <h1>{{ offer.titulo }}</h1>
+          <div class="offer-city">{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</div>
+        </div>
+        <div class="offer-card-body">
+          <p>{{ offer.descripcion }}</p>
+        </div>
+        <div class="offer-actions">
+          <button type="button" class="primary-button" (click)="openWhatsapp()">Contactar por WhatsApp</button>
+          <button type="button" class="secondary-button" (click)="makePhoneCall()">Llamar</button>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <div class="section-title">
+          <h2>Más ofertas en tu ciudad</h2>
+        </div>
+        <div *ngIf="relatedOffers.length > 0; else noRelated" class="related-grid">
+          <ng-container *ngFor="let related of relatedOffers; let i = index">
+            <app-oferta-relacionada-card [offer]="related" (selectOffer)="viewRelatedOffer($event)"></app-oferta-relacionada-card>
+            <div *ngIf="i === 2 && false" class="ad-slot">
+              <div class="ad-placeholder">Próximamente anuncios</div>
+            </div>
+          </ng-container>
+        </div>
+        <ng-template #noRelated>
+          <p class="no-related">No hay otras ofertas activas en esta ciudad por ahora.</p>
+        </ng-template>
+      </section>
+    </ng-container>
+
+    <ng-template #noDisponible>
+      <app-oferta-no-disponible></app-oferta-no-disponible>
+    </ng-template>
+  </main>
+
+  <div *ngIf="isLoading" class="loading-state">Cargando oferta...</div>
+
+  <footer class="offer-footer">
+    <span>© 2025 Confex</span>
+    <a routerLink="/privacy">Política de privacidad</a>
+  </footer>
+</div>

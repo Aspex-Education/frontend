@@ -1,0 +1,101 @@
+.offer-form-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 16px;
+  background: #f7f9fc;
+}
+
+.offer-form-card {
+  width: 100%;
+  max-width: 760px;
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid #dbe4ef;
+  padding: 32px;
+}
+
+.offer-form-header h2 {
+  margin: 0 0 8px;
+}
+
+.offer-form-header p {
+  margin: 0 0 24px;
+  color: #62748c;
+}
+
+.field-group {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.field-row {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.field-group label {
+  color: #334155;
+  font-weight: 600;
+}
+
+.field-group input,
+.field-group textarea {
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.toggle-row {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 24px;
+  color: #334155;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 999px;
+  border: none;
+  padding: 14px 22px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primary-button {
+  background: #1c5ed6;
+  color: #fff;
+}
+
+.secondary-button {
+  background: transparent;
+  color: #1c5ed6;
+  border: 1px solid #1c5ed6;
+}
+
+.form-error {
+  margin-bottom: 16px;
+  color: #d92a2a;
+}
+
+.half-width {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -20,6 +20,10 @@ export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent, canActivate: [GuestGuard] },
   { path: 'auth/register', component: RegisterComponent, canActivate: [GuestGuard] },
+  { path: 'oferta/:id', loadComponent: () => import('./offers/components/oferta-publica/oferta-publica.component').then((m) => m.OfertaPublicaComponent) },
+  { path: 'admin/ofertas', loadComponent: () => import('./offers/components/admin-ofertas/admin-ofertas.component').then((m) => m.AdminOfertasComponent) },
+  { path: 'admin/ofertas/nueva', loadComponent: () => import('./offers/components/oferta-form/oferta-form.component').then((m) => m.OfertaFormComponent) },
+  { path: 'admin/ofertas/:id', loadComponent: () => import('./offers/components/oferta-form/oferta-form.component').then((m) => m.OfertaFormComponent) },
   {
     path: '',
     component: MainLayoutComponent,
