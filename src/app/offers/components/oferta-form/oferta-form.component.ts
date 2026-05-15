@@ -26,8 +26,7 @@ export class OfertaFormComponent implements OnInit {
     pais: ['', [Validators.required]],
     ciudad: ['', [Validators.required]],
     barrio: ['', [Validators.required]],
-    telefonoFijo: [''],
-    whatsapp: ['', [Validators.required]],
+    telefono: ['', [Validators.required]],
     activa: [true],
     destacada: [false]
   });
@@ -63,8 +62,7 @@ export class OfertaFormComponent implements OnInit {
       pais: result.pais,
       ciudad: result.ciudad,
       barrio: result.barrio,
-      telefonoFijo: result.telefonoFijo,
-      whatsapp: result.whatsapp,
+      telefono: result.telefono,
       activa: result.activa,
       destacada: result.destacada
     });

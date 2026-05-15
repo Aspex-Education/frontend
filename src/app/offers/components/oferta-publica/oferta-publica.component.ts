@@ -7,6 +7,7 @@ import { ANALYTICS_TRACKER, AnalyticsTracker } from '../../services/offers-analy
 import { OfferLaboral } from '../../models/offer.model';
 import { OfertaNoDisponibleComponent } from '../oferta-no-disponible/oferta-no-disponible.component';
 import { OfertaRelacionadaCardComponent } from '../oferta-relacionada-card/oferta-relacionada-card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-oferta-publica',
@@ -20,6 +21,8 @@ export class OfertaPublicaComponent implements OnInit {
   relatedOffers: OfferLaboral[] = [];
   isLoading = true;
 
+  private paramsSub!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,11 +31,17 @@ export class OfertaPublicaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadOffer();
+    console.log("Se inicia")
+    this.paramsSub = this.route.paramMap.subscribe(params => {
+      const offerId = params.get('id') ?? '';
+      this.loadOffer(offerId);
+    });
   }
-
-  private async loadOffer(): Promise<void> {
-    const offerId = this.route.snapshot.paramMap.get('id') ?? '';
+  ngOnDestroy(): void {
+    this.paramsSub?.unsubscribe();
+  }
+  
+  private async loadOffer(offerId: string): Promise<void> {
     if (!offerId) {
       this.offer = null;
       this.isLoading = false;
@@ -58,7 +67,7 @@ export class OfertaPublicaComponent implements OnInit {
   }
 
   openWhatsapp(): void {
-    if (!this.offer?.whatsapp) {
+    if (!this.offer?.telefono) {
       return;
     }
 
@@ -67,11 +76,11 @@ export class OfertaPublicaComponent implements OnInit {
       ciudad: this.offer.ciudad,
       titulo: this.offer.titulo
     });
-    window.open(`https://wa.me/${this.offer.whatsapp}`, '_blank');
+    window.open(`https://wa.me/${this.offer.telefono}`, '_blank');
   }
 
   makePhoneCall(): void {
-    if (!this.offer?.telefonoFijo) {
+    if (!this.offer?.telefono) {
       return;
     }
 
@@ -80,7 +89,7 @@ export class OfertaPublicaComponent implements OnInit {
       ciudad: this.offer.ciudad,
       titulo: this.offer.titulo
     });
-    window.location.href = `tel:${this.offer.telefonoFijo}`;
+    window.location.href = `tel:${this.offer.telefono}`;
   }
 
   viewRelatedOffer(offer: OfferLaboral): void {
@@ -89,6 +98,7 @@ export class OfertaPublicaComponent implements OnInit {
       ciudad: offer.ciudad,
       titulo: offer.titulo
     });
+    console.log("Llega offer", offer);
     this.router.navigate(['/oferta', offer.id]);
   }
 }

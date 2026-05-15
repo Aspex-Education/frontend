@@ -1,6 +1,6 @@
 <div class="offer-page">
   <header class="offer-header">
-    <div class="logo-box">Confex</div>
+    <div class="logo-box">Confex Ofertas laborales</div>
   </header>
 
   <main *ngIf="!isLoading">
@@ -16,7 +16,7 @@
         </div>
         <div class="offer-actions">
           <button type="button" class="primary-button" (click)="openWhatsapp()">Contactar por WhatsApp</button>
-          <button *ngIf="offer.telefonoFijo" type="button" class="secondary-button" (click)="makePhoneCall()">Llamar</button>
+          <button type="button" class="secondary-button" (click)="makePhoneCall()">Llamar</button>
         </div>
       </section>
 
@@ -27,7 +27,7 @@
         <div *ngIf="relatedOffers.length > 0; else noRelated" class="related-grid">
           <ng-container *ngFor="let related of relatedOffers; let i = index">
             <app-oferta-relacionada-card [offer]="related" (selectOffer)="viewRelatedOffer($event)"></app-oferta-relacionada-card>
-            <div *ngIf="i === 2" class="ad-slot">
+            <div *ngIf="i === 2 && false" class="ad-slot">
               <div class="ad-placeholder">Próximamente anuncios</div>
             </div>
           </ng-container>

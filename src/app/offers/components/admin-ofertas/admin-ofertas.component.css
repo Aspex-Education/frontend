@@ -42,6 +42,7 @@
   border: none;
   cursor: pointer;
   font-weight: 700;
+  margin-left: 12px;
 }
 
 .primary-button {
@@ -53,11 +54,13 @@
   background: transparent;
   color: #1c5ed6;
   border: 1px solid #1c5ed6;
+  max-width: 80px;
 }
 
 .danger-button {
   background: #e02424;
   color: #fff;
+  max-width: 70px;
 }
 
 .link-button {
@@ -111,4 +114,8 @@
 
 .error {
   color: #d92a2a;
+}
+
+.title-offer{
+  max-width: 250px;
 }

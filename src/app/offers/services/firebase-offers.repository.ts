@@ -80,8 +80,7 @@ export class FirebaseOffersRepository implements OffersRepository {
       pais: raw['pais'] || '',
       ciudad: raw['ciudad'] || '',
       barrio: raw['barrio'] || '',
-      telefonoFijo: raw['telefonoFijo'] || '',
-      whatsapp: raw['whatsapp'] || '',
+      telefono: raw['telefono'] || '',
       activa: !!raw['activa'],
       destacada: !!raw['destacada'],
       fechaCreacion: raw['fechaCreacion']

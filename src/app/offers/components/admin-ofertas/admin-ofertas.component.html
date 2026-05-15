@@ -41,7 +41,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let offer of offers">
-            <td>{{ offer.titulo }}</td>
+            <td class="title-offer">{{ offer.titulo }}</td>
             <td>{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</td>
             <td>{{ offer.activa ? 'Activa' : 'Inactiva' }}</td>
             <td>{{ getDateLabel(offer) }}</td>

@@ -13,8 +13,9 @@
 }
 
 .logo-box {
-  font-weight: 700;
+  font-weight: 1000;
   font-size: 1.25rem;
+  color: rgb(13, 13, 102);
 }
 
 main {

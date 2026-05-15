@@ -26,8 +26,7 @@ Entidad `OfertaLaboral`
 - pais: string
 - ciudad: string
 - barrio: string
-- telefonoFijo: string (opcional)
-- whatsapp: string    // sin prefijo +, ej. 573001234567
+- telefono: string    // número que funciona para WhatsApp y llamadas, ej. 573001234567
 - activa: boolean
 - destacada: boolean
 - fechaCreacion: timestamp
@@ -70,8 +69,8 @@ Servicios de infraestructura:
    - ubicación completa (barrio, ciudad, país)
    - descripción
    - botones:
-     - `Contactar por WhatsApp` → abre `https://wa.me/{whatsapp}` en pestaña nueva
-     - `Llamar` (opcional si telefonoFijo existe) → abre `tel:{telefonoFijo}`
+     - `Contactar por WhatsApp` → abre `https://wa.me/{telefono}` en pestaña nueva
+     - `Llamar` → abre `tel:{telefono}`
 3. Sección `Más ofertas en tu ciudad`
    - consulta ofertas donde:
      - `ciudad == oferta.ciudad`
@@ -128,8 +127,7 @@ Servicios de infraestructura:
     - país
     - ciudad
     - barrio
-    - teléfono fijo (opcional)
-    - whatsapp
+    - teléfono (WhatsApp)
     - activa
     - destacada
   - si la ruta es `/admin/ofertas/nueva`, crear nueva oferta

@@ -5,8 +5,7 @@ export interface OfferLaboral {
   pais: string;
   ciudad: string;
   barrio: string;
-  telefonoFijo: string;
-  whatsapp: string;
+  telefono: string;
   activa: boolean;
   destacada: boolean;
   fechaCreacion?: any;
@@ -18,8 +17,7 @@ export interface OfferLaboralInput {
   pais: string;
   ciudad: string;
   barrio: string;
-  telefonoFijo: string;
-  whatsapp: string;
+  telefono: string;
   activa: boolean;
   destacada: boolean;
 }
