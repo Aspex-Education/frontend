@@ -1,0 +1,50 @@
+<div class="offer-form-page">
+  <div class="offer-form-card">
+    <header class="offer-form-header">
+      <h2>{{ formTitle }}</h2>
+      <p>Completa todos los campos para crear o actualizar una oferta laboral.</p>
+    </header>
+
+    <form [formGroup]="offerForm" (ngSubmit)="submit()">
+      <div class="field-group">
+        <label for="titulo">Título</label>
+        <input id="titulo" formControlName="titulo" placeholder="Ej. Ejecutivo de ventas" />
+      </div>
+
+      <div class="field-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" rows="5" placeholder="Describe las responsabilidades y beneficios"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="ciudad">Ciudad</label>
+        <input id="ciudad" formControlName="ciudad" placeholder="Ej. Bogotá" />
+      </div>
+
+      <div class="field-row">
+        <div class="field-group half-width">
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" formControlName="telefono" placeholder="Ej. 1234567890" />
+        </div>
+        <div class="field-group half-width">
+          <label for="whatsapp">WhatsApp</label>
+          <input id="whatsapp" formControlName="whatsapp" placeholder="Ej. 573001234567" />
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <label><input type="checkbox" formControlName="activa" /> Activa</label>
+        <label><input type="checkbox" formControlName="destacada" /> Destacada</label>
+      </div>
+
+      <div *ngIf="errorMessage" class="form-error">{{ errorMessage }}</div>
+
+      <div class="form-actions">
+        <button type="button" class="secondary-button" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="primary-button" [disabled]="isSaving">
+          {{ offerId ? 'Guardar cambios' : 'Crear oferta' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

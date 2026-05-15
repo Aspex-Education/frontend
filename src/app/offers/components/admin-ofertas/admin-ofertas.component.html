@@ -1,0 +1,60 @@
+<div class="admin-offers-page">
+  <div *ngIf="!isAuthenticated" class="admin-login-card">
+    <h2>Acceso administrador</h2>
+    <p>Ingresa la contraseña para administrar ofertas.</p>
+    <form (ngSubmit)="login()">
+      <label for="admin-password">Contraseña</label>
+      <input id="admin-password" type="password" name="password" [(ngModel)]="loginPassword" autocomplete="off" required />
+      <button type="submit" class="primary-button">Entrar</button>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+  </div>
+
+  <section *ngIf="isAuthenticated" class="admin-panel">
+    <div class="admin-panel-header">
+      <div>
+        <h2>Panel de administración de ofertas</h2>
+        <p>Administra el estado, edición y eliminación de las ofertas laborales.</p>
+      </div>
+      <div class="actions">
+        <a routerLink="/admin/ofertas/nueva" class="primary-button">Nueva oferta</a>
+        <button class="secondary-button" type="button" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">Cargando ofertas...</div>
+
+    <div *ngIf="!isLoading && offers.length === 0" class="empty-state">
+      No hay ofertas registradas.
+    </div>
+
+    <div *ngIf="!isLoading && offers.length > 0" class="offers-table-wrapper">
+      <table class="offers-table">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Ciudad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th class="actions-column">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let offer of offers">
+            <td>{{ offer.titulo }}</td>
+            <td>{{ offer.ciudad }}</td>
+            <td>{{ offer.activa ? 'Activa' : 'Inactiva' }}</td>
+            <td>{{ getDateLabel(offer) }}</td>
+            <td class="actions-column">
+              <a [routerLink]="['/admin/ofertas', offer.id]" class="link-button">Editar</a>
+              <button type="button" class="secondary-button" (click)="toggleActive(offer)">
+                {{ offer.activa ? 'Desactivar' : 'Activar' }}
+              </button>
+              <button type="button" class="danger-button" (click)="deleteOffer(offer)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,114 @@
+.admin-offers-page {
+  min-height: 75vh;
+  padding: 28px 18px;
+  background: #f7f9fc;
+}
+
+.admin-login-card,
+.admin-panel {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.admin-login-card h2,
+.admin-panel-header h2 {
+  margin: 0 0 12px;
+}
+
+.admin-login-card form {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-login-card input {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primary-button {
+  background: #1c5ed6;
+  color: #fff;
+}
+
+.secondary-button {
+  background: transparent;
+  color: #1c5ed6;
+  border: 1px solid #1c5ed6;
+}
+
+.danger-button {
+  background: #e02424;
+  color: #fff;
+}
+
+.link-button {
+  background: transparent;
+  color: #1c5ed6;
+  text-decoration: underline;
+  border: none;
+  padding: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.offers-table-wrapper {
+  overflow-x: auto;
+}
+
+.offers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.offers-table th,
+.offers-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.offers-table th {
+  font-weight: 700;
+  color: #334155;
+}
+
+.actions-column {
+  min-width: 260px;
+}
+
+.empty-state,
+.loading-state,
+.error {
+  padding: 28px 0;
+  color: #475569;
+}
+
+.error {
+  color: #d92a2a;
+}
