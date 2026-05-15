@@ -71,7 +71,7 @@ export class OfertaPublicaComponent implements OnInit {
   }
 
   makePhoneCall(): void {
-    if (!this.offer?.telefono) {
+    if (!this.offer?.telefonoFijo) {
       return;
     }
 
@@ -80,7 +80,7 @@ export class OfertaPublicaComponent implements OnInit {
       ciudad: this.offer.ciudad,
       titulo: this.offer.titulo
     });
-    window.location.href = `tel:${this.offer.telefono}`;
+    window.location.href = `tel:${this.offer.telefonoFijo}`;
   }
 
   viewRelatedOffer(offer: OfferLaboral): void {

@@ -23,8 +23,10 @@ export class OfertaFormComponent implements OnInit {
   offerForm = this.fb.group({
     titulo: ['', [Validators.required]],
     descripcion: ['', [Validators.required]],
+    pais: ['', [Validators.required]],
     ciudad: ['', [Validators.required]],
-    telefono: ['', [Validators.required]],
+    barrio: ['', [Validators.required]],
+    telefonoFijo: [''],
     whatsapp: ['', [Validators.required]],
     activa: [true],
     destacada: [false]
@@ -58,8 +60,10 @@ export class OfertaFormComponent implements OnInit {
     this.offerForm.patchValue({
       titulo: result.titulo,
       descripcion: result.descripcion,
+      pais: result.pais,
       ciudad: result.ciudad,
-      telefono: result.telefono,
+      barrio: result.barrio,
+      telefonoFijo: result.telefonoFijo,
       whatsapp: result.whatsapp,
       activa: result.activa,
       destacada: result.destacada

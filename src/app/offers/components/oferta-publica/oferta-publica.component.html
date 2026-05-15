@@ -9,14 +9,14 @@
         <div class="offer-card-header">
           <span class="badge">Oferta laboral</span>
           <h1>{{ offer.titulo }}</h1>
-          <div class="offer-city">{{ offer.ciudad }}</div>
+          <div class="offer-city">{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</div>
         </div>
         <div class="offer-card-body">
           <p>{{ offer.descripcion }}</p>
         </div>
         <div class="offer-actions">
           <button type="button" class="primary-button" (click)="openWhatsapp()">Contactar por WhatsApp</button>
-          <button type="button" class="secondary-button" (click)="makePhoneCall()">Llamar</button>
+          <button *ngIf="offer.telefonoFijo" type="button" class="secondary-button" (click)="makePhoneCall()">Llamar</button>
         </div>
       </section>
 

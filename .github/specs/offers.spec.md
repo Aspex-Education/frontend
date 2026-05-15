@@ -23,8 +23,10 @@ Entidad `OfertaLaboral`
 - id: string
 - titulo: string
 - descripcion: string
+- pais: string
 - ciudad: string
-- telefono: string
+- barrio: string
+- telefonoFijo: string (opcional)
 - whatsapp: string    // sin prefijo +, ej. 573001234567
 - activa: boolean
 - destacada: boolean
@@ -65,11 +67,11 @@ Servicios de infraestructura:
    - sin menú ni navegación adicional
 2. Card principal de la oferta
    - título
-   - ciudad con ícono
+   - ubicación completa (barrio, ciudad, país)
    - descripción
    - botones:
      - `Contactar por WhatsApp` → abre `https://wa.me/{whatsapp}` en pestaña nueva
-     - `Llamar` → abre `tel:{telefono}`
+     - `Llamar` (opcional si telefonoFijo existe) → abre `tel:{telefonoFijo}`
 3. Sección `Más ofertas en tu ciudad`
    - consulta ofertas donde:
      - `ciudad == oferta.ciudad`
@@ -96,7 +98,9 @@ Servicios de infraestructura:
   - `clic_oferta_relacionada` → al hacer clic en "Ver oferta" de la lista relacionada
 - Parámetros comunes:
   - `oferta_id`
+  - `barrio`
   - `ciudad`
+  - `pais`
   - `titulo`
 
 > La implementación actual puede usar Firebase Analytics, pero la interfaz debe ser reemplazable por otro tracker en el futuro.
@@ -113,7 +117,7 @@ Servicios de infraestructura:
 ### Funcionalidades del panel
 - Listado de todas las ofertas con columnas:
   - título
-  - ciudad
+  - ubicación (barrio, ciudad, país)
   - estado (`activa` / `inactiva`)
   - fecha de creación
   - acciones: editar, eliminar, toggle activa/inactiva
@@ -121,8 +125,10 @@ Servicios de infraestructura:
   - campos:
     - título
     - descripción
+    - país
     - ciudad
-    - teléfono
+    - barrio
+    - teléfono fijo (opcional)
     - whatsapp
     - activa
     - destacada

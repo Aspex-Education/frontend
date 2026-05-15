@@ -33,7 +33,7 @@
         <thead>
           <tr>
             <th>Título</th>
-            <th>Ciudad</th>
+            <th>Ubicación</th>
             <th>Estado</th>
             <th>Fecha</th>
             <th class="actions-column">Acciones</th>
@@ -42,7 +42,7 @@
         <tbody>
           <tr *ngFor="let offer of offers">
             <td>{{ offer.titulo }}</td>
-            <td>{{ offer.ciudad }}</td>
+            <td>{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</td>
             <td>{{ offer.activa ? 'Activa' : 'Inactiva' }}</td>
             <td>{{ getDateLabel(offer) }}</td>
             <td class="actions-column">
