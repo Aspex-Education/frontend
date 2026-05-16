@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { OFFERS_REPOSITORY } from '../../services/offers-repository.token';
 import { OffersRepository } from '../../services/offers-repository';
 import { AdminAuthService } from '../../services/admin-auth.service';
+import { WhatsappShareService } from '../../services/whatsapp-share.service';
+import { FacebookShareService } from '../../services/facebook-share.service';
 import { OfferLaboral } from '../../models/offer.model';
 
 @Component({
@@ -23,8 +25,10 @@ export class AdminOfertasComponent implements OnInit {
 
   constructor(
     @Inject(OFFERS_REPOSITORY) private offersRepository: OffersRepository,
-    private authService: AdminAuthService
-  ) {}
+    private authService: AdminAuthService,
+    private whatsappShare: WhatsappShareService,
+    private facebookShare: FacebookShareService
+  ) { }
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -82,5 +86,14 @@ export class AdminOfertasComponent implements OnInit {
     }
 
     return new Date(offer.fechaCreacion).toLocaleDateString();
+  }
+
+  shareOnWhatsapp(offer: OfferLaboral): void {
+    const baseUrl = window.location.origin;
+    this.whatsappShare.shareOffer(offer, baseUrl);
+  }
+
+  shareOnFacebook(offer: OfferLaboral): void {
+    this.facebookShare.shareOffer(offer);
   }
 }

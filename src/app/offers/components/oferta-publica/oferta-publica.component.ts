@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OFFERS_REPOSITORY } from '../../services/offers-repository.token';
@@ -16,10 +16,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './oferta-publica.component.html',
   styleUrls: ['./oferta-publica.component.css']
 })
-export class OfertaPublicaComponent implements OnInit {
+export class OfertaPublicaComponent implements OnInit, OnDestroy {
   offer: OfferLaboral | null = null;
   relatedOffers: OfferLaboral[] = [];
   isLoading = true;
+  private hasTrackedScroll = false;
 
   private paramsSub!: Subscription;
 
@@ -42,6 +43,7 @@ export class OfertaPublicaComponent implements OnInit {
   }
   
   private async loadOffer(offerId: string): Promise<void> {
+    this.hasTrackedScroll = false;
     if (!offerId) {
       this.offer = null;
       this.isLoading = false;
@@ -100,5 +102,21 @@ export class OfertaPublicaComponent implements OnInit {
     });
     console.log("Llega offer", offer);
     this.router.navigate(['/oferta', offer.id]);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    if (this.hasTrackedScroll || !this.offer) return;
+    
+    // We consider "engaged" if the user scrolls down a bit (e.g., 100 pixels)
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    if (scrollPosition > 100) {
+      this.hasTrackedScroll = true;
+      this.analyticsTracker.trackEvent('scroll_oferta', {
+        oferta_id: this.offer.id,
+        ciudad: this.offer.ciudad,
+        titulo: this.offer.titulo
+      });
+    }
   }
 }

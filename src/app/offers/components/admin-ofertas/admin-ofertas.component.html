@@ -46,11 +46,21 @@
             <td>{{ offer.activa ? 'Activa' : 'Inactiva' }}</td>
             <td>{{ getDateLabel(offer) }}</td>
             <td class="actions-column">
-              <a [routerLink]="['/admin/ofertas', offer.id]" class="link-button">Editar</a>
-              <button type="button" class="secondary-button" (click)="toggleActive(offer)">
-                {{ offer.activa ? 'Desactivar' : 'Activar' }}
-              </button>
-              <button type="button" class="danger-button" (click)="deleteOffer(offer)">Eliminar</button>
+              <div class="action-group">
+                <a [routerLink]="['/admin/ofertas', offer.id]" class="link-button">Editar</a>
+                <button type="button" class="secondary-button" (click)="toggleActive(offer)">
+                  {{ offer.activa ? 'Desactivar' : 'Activar' }}
+                </button>
+                <button type="button" class="danger-button" (click)="deleteOffer(offer)">Eliminar</button>
+              </div>
+              <div class="share-group">
+                <button type="button" class="social-button wa-button" (click)="shareOnWhatsapp(offer)" title="Compartir en WhatsApp">
+                  WhatsApp
+                </button>
+                <button type="button" class="social-button fb-button" (click)="shareOnFacebook(offer)" title="Compartir en Facebook">
+                  Facebook
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
