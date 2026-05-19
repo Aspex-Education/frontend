@@ -33,6 +33,7 @@ export class UserTemplateCardComponent {
       'SAM': '#725400',
       'EXCEL': '#217346',
       'PDF': '#DC2626',
+      'WORD': '#2B579A',
     };
     return colors[type] || '#003f87';
   }
@@ -43,6 +44,7 @@ export class UserTemplateCardComponent {
       'SAM': 'SAM',
       'EXCEL': 'Excel',
       'PDF': 'PDF',
+      'WORD': 'Word',
     };
     return labels[type] || type;
   }
@@ -53,6 +55,7 @@ export class UserTemplateCardComponent {
       'SAM': 'pi-chart-bar',
       'EXCEL': 'pi-file-excel',
       'PDF': 'pi-file-pdf',
+      'WORD': 'pi-file-word',
     };
     return icons[type] || 'pi-file';
   }

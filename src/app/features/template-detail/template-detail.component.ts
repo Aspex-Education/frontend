@@ -59,7 +59,8 @@ export class TemplateDetailComponent implements OnInit {
       'LISTADO_OPERACIONES': '📋',
       'SAM': '📊',
       'EXCEL': '📊',
-      'PDF': '📄'
+      'PDF': '📄',
+      'WORD': '📝'
     };
     return icons[type] || '📄';
   }
@@ -69,7 +70,8 @@ export class TemplateDetailComponent implements OnInit {
       'LISTADO_OPERACIONES': '#2563EB',
       'SAM': '#7C3AED',
       'EXCEL': '#217346',
-      'PDF': '#DC2626'
+      'PDF': '#DC2626',
+      'WORD': '#2B579A'
     };
     return colors[type] || '#2563EB';
   }
@@ -79,7 +81,8 @@ export class TemplateDetailComponent implements OnInit {
       'LISTADO_OPERACIONES': 'linear-gradient(135deg, #003f87, #0056b3)',
       'SAM': 'linear-gradient(135deg, #5b21b6, #7c3aed)',
       'EXCEL': 'linear-gradient(135deg, #14532d, #166534)',
-      'PDF': 'linear-gradient(135deg, #991b1b, #dc2626)'
+      'PDF': 'linear-gradient(135deg, #991b1b, #dc2626)',
+      'WORD': 'linear-gradient(135deg, #1e3a8a, #2b579a)'
     };
     return gradients[type] || 'linear-gradient(135deg, #003f87, #0056b3)';
   }
@@ -103,7 +106,7 @@ export class TemplateDetailComponent implements OnInit {
       return;
     }
 
-    if (this.template.type === 'EXCEL' || this.template.type === 'PDF') {
+    if (this.template.type === 'EXCEL' || this.template.type === 'PDF' || this.template.type === 'WORD') {
       if (this.template.resourceUrl) {
         window.open(this.template.resourceUrl, '_blank');
       }

@@ -41,12 +41,12 @@
         </app-action-button>
         <app-action-button 
           variant="primary"
-          [icon]="template.type === 'EXCEL' || template.type === 'PDF' ? 'pi pi-download' : 'pi pi-plus'"
-          [label]="template.type === 'EXCEL' || template.type === 'PDF' ? 'Descargar' : 'Crear mi plantilla'"
+          [icon]="template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD' ? 'pi pi-download' : 'pi pi-plus'"
+          [label]="template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD' ? 'Descargar' : 'Crear mi plantilla'"
           (clicked)="onAction()">
         </app-action-button>
         <div class="premium-notice"
-          *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
+          *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD')">
           ✨ Disponible para usuarios Premium — próximamente
         </div>
       </div>
@@ -89,7 +89,10 @@
           <div class="type-icon" *ngIf="template.type === 'PDF'" [style.background]="getAccentColor(template.type)">
             <span class="icon-text icon-text--sm">PDF</span>
           </div>
-          <div class="type-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF'">
+          <div class="type-icon" *ngIf="template.type === 'WORD'" [style.background]="getAccentColor(template.type)">
+            <span class="icon-text icon-text--sm">WORD</span>
+          </div>
+          <div class="type-emoji" *ngIf="template.type !== 'EXCEL' && template.type !== 'PDF' && template.type !== 'WORD'">
             {{ getIconForType(template.type) }}
           </div>
         </div>
@@ -121,8 +124,8 @@
         <app-action-button 
           variant="primary" 
           [fullWidth]="true"
-          [icon]="template.type === 'EXCEL' || template.type === 'PDF' ? 'pi pi-download' : 'pi pi-plus'"
-          [label]="template.type === 'EXCEL' || template.type === 'PDF' ? 'Descargar plantilla' : 'Crear mi plantilla'"
+          [icon]="template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD' ? 'pi pi-download' : 'pi pi-plus'"
+          [label]="template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD' ? 'Descargar plantilla' : 'Crear mi plantilla'"
           (clicked)="onAction()">
         </app-action-button>
         <app-action-button 
@@ -138,7 +141,7 @@
 
       <!-- Premium Sidebar Notice -->
       <div class="sidebar-card premium-card"
-        *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF')">
+        *ngIf="template.accessLevel === 'PREMIUM' && (template.type === 'EXCEL' || template.type === 'PDF' || template.type === 'WORD')">
         <span class="premium-star">★</span>
         <p class="premium-card-text">Disponible para usuarios <strong>Premium</strong> — próximamente.</p>
       </div>

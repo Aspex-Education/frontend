@@ -23,6 +23,7 @@ interface TypeConfig {
 const TYPE_CONFIG: Record<TemplateType, TypeConfig> = {
   PDF:                  { label: 'PDF',      colorClass: 'badge--pdf',     piIcon: 'pi-file-pdf',   borderColor: '#dc2626' },
   EXCEL:                { label: 'Excel',    colorClass: 'badge--excel',   piIcon: 'pi-file-excel', borderColor: '#16a34a' },
+  WORD:                 { label: 'Word',     colorClass: 'badge--word',    piIcon: 'pi-file-word',  borderColor: '#2b579a' },
   LISTADO_OPERACIONES:  { label: 'Plantilla',colorClass: 'badge--default', piIcon: 'pi-list',       borderColor: '#003f87' },
   SAM:                  { label: 'Plantilla',colorClass: 'badge--default', piIcon: 'pi-chart-bar',  borderColor: '#003f87' },
 };

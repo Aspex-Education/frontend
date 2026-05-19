@@ -1,4 +1,4 @@
-export type TemplateType = 'SAM' | 'LISTADO_OPERACIONES' | 'EXCEL' | 'PDF';
+export type TemplateType = 'SAM' | 'LISTADO_OPERACIONES' | 'EXCEL' | 'PDF' | 'WORD';
 export type AccessLevel = 'FREE' | 'PREMIUM';
 export type TemplateCategory = 'TIPS' | 'LEGAL' | 'PATTERN' | 'TECHNICAL_DATASHEET' | 'BUSSINESS_DATASHEET';
 
