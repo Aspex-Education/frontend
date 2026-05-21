@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, HostListener, OnDestroy, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OFFERS_REPOSITORY } from '../../services/offers-repository.token';
@@ -7,7 +7,8 @@ import { ANALYTICS_TRACKER, AnalyticsTracker } from '../../services/offers-analy
 import { OfferLaboral } from '../../models/offer.model';
 import { OfertaNoDisponibleComponent } from '../oferta-no-disponible/oferta-no-disponible.component';
 import { OfertaRelacionadaCardComponent } from '../oferta-relacionada-card/oferta-relacionada-card.component';
-import { Subscription } from 'rxjs';
+import { SeoService } from '../../../shared/services/seo.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-oferta-publica',
@@ -22,24 +23,28 @@ export class OfertaPublicaComponent implements OnInit, OnDestroy {
   isLoading = true;
   private hasTrackedScroll = false;
 
-  private paramsSub!: Subscription;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     @Inject(OFFERS_REPOSITORY) private offersRepository: OffersRepository,
-    @Inject(ANALYTICS_TRACKER) private analyticsTracker: AnalyticsTracker
+    @Inject(ANALYTICS_TRACKER) private analyticsTracker: AnalyticsTracker,
+    private seoService: SeoService
   ) {}
 
   ngOnInit(): void {
     console.log("Se inicia")
-    this.paramsSub = this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(params => {
       const offerId = params.get('id') ?? '';
       this.loadOffer(offerId);
     });
   }
+
   ngOnDestroy(): void {
-    this.paramsSub?.unsubscribe();
+    this.seoService.reset();
   }
   
   private async loadOffer(offerId: string): Promise<void> {
@@ -58,6 +63,18 @@ export class OfertaPublicaComponent implements OnInit, OnDestroy {
     }
 
     this.offer = offer;
+
+    const title = `${offer.titulo} — ${offer.ciudad}, ${offer.barrio} | Confex`;
+    const description = (offer.descripcion || '').slice(0, 150) + ' | Confex';
+    this.seoService.update({
+      title,
+      description,
+      ogTitle: title,
+      ogDescription: `${offer.ciudad} · ${offer.barrio} · Oferta laboral en confección Colombia`,
+      ogUrl: `https://confex-dev.netlify.app/oferta/${offer.id}`,
+      ogImage: undefined
+    });
+
     this.analyticsTracker.trackEvent('oferta_vista', {
       oferta_id: offer.id,
       ciudad: offer.ciudad,
