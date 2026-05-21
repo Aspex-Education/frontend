@@ -25,7 +25,7 @@ async function run() {
     });
 
     const db = admin.firestore();
-    const querySnapshot = await db.collection('ofertas')
+    const querySnapshot = await db.collection('ofertas_laborales')
       .where('activa', '==', true)
       .get();
 
