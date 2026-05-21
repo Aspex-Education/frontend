@@ -28,7 +28,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/google066555050eeb7de5.html"
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",
