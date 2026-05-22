@@ -23,6 +23,26 @@ export class AdminOfertasComponent implements OnInit {
   isAuthenticated = false;
   isLoading = false;
 
+  searchQuery = '';
+  sortField: 'titulo' | 'fecha' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  get filteredOffers(): OfferLaboral[] {
+    const query = this.searchQuery.toLowerCase().trim();
+    let result = this.offers;
+    
+    if (query) {
+      result = result.filter(offer =>
+        (offer.titulo || '').toLowerCase().includes(query) ||
+        (offer.ciudad || '').toLowerCase().includes(query) ||
+        (offer.barrio || '').toLowerCase().includes(query) ||
+        (offer.descripcion || '').toLowerCase().includes(query)
+      );
+    }
+    
+    return this.sortOffers(result);
+  }
+
   constructor(
     @Inject(OFFERS_REPOSITORY) private offersRepository: OffersRepository,
     private authService: AdminAuthService,
@@ -95,5 +115,53 @@ export class AdminOfertasComponent implements OnInit {
 
   shareOnFacebook(offer: OfferLaboral): void {
     this.facebookShare.shareOffer(offer);
+  }
+
+  toggleSort(field: 'titulo' | 'fecha'): void {
+    if (this.sortField === field) {
+      if (this.sortDirection === 'asc') {
+        this.sortDirection = 'desc';
+      } else {
+        this.sortField = null;
+        this.sortDirection = 'asc';
+      }
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+  }
+
+  sortOffers(offersList: OfferLaboral[]): OfferLaboral[] {
+    if (!this.sortField) {
+      return offersList;
+    }
+
+    return [...offersList].sort((a, b) => {
+      let comparison = 0;
+      if (this.sortField === 'titulo') {
+        const titleA = (a.titulo || '').toLowerCase();
+        const titleB = (b.titulo || '').toLowerCase();
+        comparison = titleA.localeCompare(titleB, 'es', { sensitivity: 'base' });
+      } else if (this.sortField === 'fecha') {
+        const dateA = this.getRawDate(a).getTime();
+        const dateB = this.getRawDate(b).getTime();
+        comparison = dateA - dateB;
+      }
+
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  getRawDate(offer: OfferLaboral): Date {
+    if (!offer.fechaCreacion) {
+      return new Date(0);
+    }
+
+    if (typeof offer.fechaCreacion === 'object' && 'toDate' in offer.fechaCreacion) {
+      return offer.fechaCreacion.toDate();
+    }
+
+    const dateVal = new Date(offer.fechaCreacion);
+    return isNaN(dateVal.getTime()) ? new Date(0) : dateVal;
   }
 }

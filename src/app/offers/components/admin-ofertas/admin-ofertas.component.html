@@ -24,26 +24,78 @@
 
     <div *ngIf="isLoading" class="loading-state">Cargando ofertas...</div>
 
-    <div *ngIf="!isLoading && offers.length === 0" class="empty-state">
-      No hay ofertas registradas.
+    <!-- Search Bar -->
+    <div *ngIf="!isLoading && offers.length > 0" class="search-bar-container">
+      <div class="search-input-wrapper">
+        <i class="pi pi-search search-icon"></i>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          placeholder="Buscar ofertas por título, ciudad, barrio o descripción..." 
+          class="search-input"
+        />
+        <button 
+          *ngIf="searchQuery" 
+          type="button" 
+          class="clear-search-btn" 
+          (click)="searchQuery = ''"
+          title="Limpiar búsqueda"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
     </div>
 
-    <div *ngIf="!isLoading && offers.length > 0" class="offers-table-wrapper">
+    <!-- Empty States -->
+    <div *ngIf="!isLoading && offers.length === 0" class="empty-state">
+      <i class="pi pi-briefcase empty-state-icon"></i>
+      <p>No hay ofertas registradas.</p>
+    </div>
+
+    <div *ngIf="!isLoading && offers.length > 0 && filteredOffers.length === 0" class="empty-state">
+      <i class="pi pi-search empty-state-icon"></i>
+      <p>No se encontraron ofertas que coincidan con tu búsqueda.</p>
+    </div>
+
+    <!-- Offers Table -->
+    <div *ngIf="!isLoading && filteredOffers.length > 0" class="offers-table-wrapper">
       <table class="offers-table">
         <thead>
           <tr>
-            <th>Título</th>
+            <th class="sortable-header" (click)="toggleSort('titulo')">
+              <div class="th-content">
+                <span>Título</span>
+                <i class="sort-icon" [ngClass]="{
+                  'pi pi-sort-alt': sortField !== 'titulo',
+                  'pi pi-sort-amount-up': sortField === 'titulo' && sortDirection === 'asc',
+                  'pi pi-sort-amount-down': sortField === 'titulo' && sortDirection === 'desc'
+                }"></i>
+              </div>
+            </th>
             <th>Ubicación</th>
             <th>Estado</th>
-            <th>Fecha</th>
+            <th class="sortable-header" (click)="toggleSort('fecha')">
+              <div class="th-content">
+                <span>Fecha</span>
+                <i class="sort-icon" [ngClass]="{
+                  'pi pi-sort-alt': sortField !== 'fecha',
+                  'pi pi-sort-amount-up': sortField === 'fecha' && sortDirection === 'asc',
+                  'pi pi-sort-amount-down': sortField === 'fecha' && sortDirection === 'desc'
+                }"></i>
+              </div>
+            </th>
             <th class="actions-column">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let offer of offers">
+          <tr *ngFor="let offer of filteredOffers">
             <td class="title-offer">{{ offer.titulo }}</td>
             <td>{{ offer.barrio }}, {{ offer.ciudad }} - {{ offer.pais }}</td>
-            <td>{{ offer.activa ? 'Activa' : 'Inactiva' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="offer.activa ? 'status-active' : 'status-inactive'">
+                {{ offer.activa ? 'Activa' : 'Inactiva' }}
+              </span>
+            </td>
             <td>{{ getDateLabel(offer) }}</td>
             <td class="actions-column">
               <div class="action-group">
@@ -55,10 +107,10 @@
               </div>
               <div class="share-group">
                 <button type="button" class="social-button wa-button" (click)="shareOnWhatsapp(offer)" title="Compartir en WhatsApp">
-                  WhatsApp
+                  <i class="pi pi-whatsapp"></i> WhatsApp
                 </button>
                 <button type="button" class="social-button fb-button" (click)="shareOnFacebook(offer)" title="Compartir en Facebook">
-                  Facebook
+                  <i class="pi pi-facebook"></i> Facebook
                 </button>
               </div>
             </td>
